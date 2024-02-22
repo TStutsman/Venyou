@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "65a73aaa-dbd0-418a-bf02-cb2ca71a77ed",
-		"name": "AirBNB_Basic",
+		"_postman_id": "b593d197-373d-4d7f-a032-26f4a9c9a609",
+		"name": "Meetup_Basic",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15571502"
 	},
@@ -93,31 +93,11 @@
 		},
 		{
 			"name": "Log In a User",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
 			"request": {
 				"method": "POST",
 				"header": [
 					{
-						"key": "XSRF-TOKEN",
+						"key": "XSRF-Token",
 						"value": "{{xsrftoken}}",
 						"type": "text"
 					}
@@ -147,15 +127,6 @@
 			"name": "Sign Up a User",
 			"event": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
 					"listen": "test",
 					"script": {
 						"exec": [
@@ -169,7 +140,7 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "XSRF-TOKEN",
+						"key": "XSRF-Token",
 						"value": "{{xsrftoken}}",
 						"type": "text"
 					}
@@ -196,7 +167,7 @@
 			"response": []
 		},
 		{
-			"name": "Get all Spots",
+			"name": "Get all Groups",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -239,19 +210,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots",
+					"raw": "{{url}}/groups",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots"
+						"groups"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get all Spots owned by the Current User",
+			"name": "Get all Groups joined or organized by the Current User",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -294,12 +265,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/current",
+					"raw": "{{url}}/groups/current",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
+						"groups",
 						"current"
 					]
 				}
@@ -307,7 +278,7 @@
 			"response": []
 		},
 		{
-			"name": "Get details of a Spot from an id",
+			"name": "Get details of a Group from an id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -350,17 +321,17 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/:spotId",
+					"raw": "{{url}}/groups/:groupId",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
-						":spotId"
+						"groups",
+						":groupId"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -369,7 +340,7 @@
 			"response": []
 		},
 		{
-			"name": "Create a Spot",
+			"name": "Create a Group",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -409,19 +380,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots",
+					"raw": "{{url}}/groups",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots"
+						"groups"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Add an Image to a Spot based on the Spot's id",
+			"name": "Add an Image to a Group based on the Group's id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -461,18 +432,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/:spotId/images",
+					"raw": "{{url}}/groups/:groupId/images",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
-						":spotId",
+						"groups",
+						":groupId",
 						"images"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -481,7 +452,7 @@
 			"response": []
 		},
 		{
-			"name": "Edit a Spot",
+			"name": "Edit a Group",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -521,17 +492,17 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/:spotId",
+					"raw": "{{url}}/groups/:groupId",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
-						":spotId"
+						"groups",
+						":groupId"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -540,7 +511,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete a Spot",
+			"name": "Delete a Group",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -580,17 +551,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/:spotId",
+					"raw": "{{url}}//groups/:groupId",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
-						":spotId"
+						"",
+						"groups",
+						":groupId"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -599,7 +571,7 @@
 			"response": []
 		},
 		{
-			"name": "Get all Reviews of the Current User",
+			"name": "Get All Venues for a Group specified by its id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -642,20 +614,146 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/reviews/current",
+					"raw": "{{url}}/groups/:groupId/venues",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"reviews",
-						"current"
+						"groups",
+						":groupId",
+						"venues"
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": ""
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get all Reviews by a Spot's id",
+			"name": "Create a new Venue for a Group specified by its id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/groups/:groupId/venues",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"groups",
+						":groupId",
+						"venues"
+					],
+					"variable": [
+						{
+							"key": "groupId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Venue specified by its id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/venues/:venueId",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"venues",
+						":venueId"
+					],
+					"variable": [
+						{
+							"key": "venueId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Events",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -698,18 +796,73 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/:spotId/reviews",
+					"raw": "{{url}}/events",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
-						":spotId",
-						"reviews"
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Events of a Group specified by its id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/groups/:groupId/events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"groups",
+						":groupId",
+						"events"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -718,7 +871,69 @@
 			"response": []
 		},
 		{
-			"name": "Create a Review for a Spot based on the Spot's id",
+			"name": "Get details of an Event specified by its id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/events/:eventId",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"events",
+						":eventId"
+					],
+					"variable": [
+						{
+							"key": "eventId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create an Event for a Group specified by its id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -758,18 +973,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/:spotId/reviews",
+					"raw": "{{url}}/groups/:groupId/events",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
-						":spotId",
-						"reviews"
+						"groups",
+						":groupId",
+						"events"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -778,7 +993,7 @@
 			"response": []
 		},
 		{
-			"name": "Add an Image to a Review based on the Review's id",
+			"name": "Add an Image to an Event based on the Event's id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -818,18 +1033,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/reviews/:reviewId/images",
+					"raw": "{{url}}/events/:eventId/images",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"reviews",
-						":reviewId",
+						"events",
+						":eventId",
 						"images"
 					],
 					"variable": [
 						{
-							"key": "reviewId",
+							"key": "eventId",
 							"value": ""
 						}
 					]
@@ -838,7 +1053,7 @@
 			"response": []
 		},
 		{
-			"name": "Edit a Review",
+			"name": "Edit an Event specified by its id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -878,17 +1093,17 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/reviews/:reviewId",
+					"raw": "{{url}}/events/:eventId",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"reviews",
-						":reviewId"
+						"events",
+						":eventId"
 					],
 					"variable": [
 						{
-							"key": "reviewId",
+							"key": "eventId",
 							"value": ""
 						}
 					]
@@ -897,7 +1112,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete a Review",
+			"name": "Delete an Event specified by its id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -937,17 +1152,17 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/reviews/:reviewId",
+					"raw": "{{url}}/events/:eventId",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"reviews",
-						":reviewId"
+						"events",
+						":eventId"
 					],
 					"variable": [
 						{
-							"key": "reviewId",
+							"key": "eventId",
 							"value": ""
 						}
 					]
@@ -956,7 +1171,7 @@
 			"response": []
 		},
 		{
-			"name": "Get all of the Current User's Bookings",
+			"name": "Get all Members of a Group specified by its id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -999,74 +1214,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/bookings/current",
+					"raw": "{{url}}/groups/:groupId/members",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"bookings",
-						"current"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all Bookings for a Spot based on the Spot's id",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "XSRF-TOKEN",
-						"value": "{{xsrftoken}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/spots/:spotId/bookings",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"spots",
-						":spotId",
-						"bookings"
+						"groups",
+						":groupId",
+						"members"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -1075,7 +1234,7 @@
 			"response": []
 		},
 		{
-			"name": "Create a Booking from a Spot based on the Spot's id",
+			"name": "Request a Membership for a Group based on the Group's id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1115,18 +1274,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots/:spotId/bookings",
+					"raw": "{{url}}/groups/:groupId/membership",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots",
-						":spotId",
-						"bookings"
+						"groups",
+						":groupId",
+						"membership"
 					],
 					"variable": [
 						{
-							"key": "spotId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -1135,7 +1294,7 @@
 			"response": []
 		},
 		{
-			"name": "Edit a Booking",
+			"name": "Change the status of a membership for a group specified by id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1175,17 +1334,18 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/bookings/:bookingId",
+					"raw": "{{url}}/groups/:groupId/membership",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"bookings",
-						":bookingId"
+						"groups",
+						":groupId",
+						"membership"
 					],
 					"variable": [
 						{
-							"key": "bookingId",
+							"key": "groupId",
 							"value": ""
 						}
 					]
@@ -1194,7 +1354,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete a Booking",
+			"name": "Delete membership to a group specified by id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1234,201 +1394,24 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/bookings/:bookingId",
+					"raw": "{{url}}/groups/:groupId/membership/:memberId",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"bookings",
-						":bookingId"
+						"groups",
+						":groupId",
+						"membership",
+						":memberId"
 					],
 					"variable": [
 						{
-							"key": "bookingId",
+							"key": "groupId",
 							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete a Spot Image",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "XSRF-TOKEN",
-						"value": "{{xsrftoken}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/spot-images/:imageId",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"spot-images",
-						":imageId"
-					],
-					"variable": [
-						{
-							"key": "imageId",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete a Review Image",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "XSRF-TOKEN",
-						"value": "{{xsrftoken}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/review-images/:imageId",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"review-images",
-						":imageId"
-					],
-					"variable": [
-						{
-							"key": "imageId",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Spots - Page/Size Params",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "XSRF-TOKEN",
-						"value": "{{xsrftoken}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/spots?page=1&size=3",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"spots"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "1"
 						},
 						{
-							"key": "size",
-							"value": "3"
+							"key": "memberId",
+							"value": ""
 						}
 					]
 				}
@@ -1436,7 +1419,7 @@
 			"response": []
 		},
 		{
-			"name": "Add Query Filters to Get All Spots",
+			"name": "Get all Attendees of an Event specified by its id",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1479,12 +1462,378 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/spots",
+					"raw": "{{url}}/events/:eventId/attendees",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"spots"
+						"events",
+						":eventId",
+						"attendees"
+					],
+					"variable": [
+						{
+							"key": "eventId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request to Attend an Event based on the Event's id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/events/:eventId/attendance",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"events",
+						":eventId",
+						"attendance"
+					],
+					"variable": [
+						{
+							"key": "eventId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change the status of an attendance for an event specified by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/events/:eventId/attendance",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"events",
+						":eventId",
+						"attendance"
+					],
+					"variable": [
+						{
+							"key": "eventId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete attendance to an event specified by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/events/:eventId/attendance/:userId",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"events",
+						":eventId",
+						"attendance",
+						":userId"
+					],
+					"variable": [
+						{
+							"key": "eventId",
+							"value": ""
+						},
+						{
+							"key": "userId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an Image for a Group",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/group-images/:imageId",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"group-images",
+						":imageId"
+					],
+					"variable": [
+						{
+							"key": "imageId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an Image for an Event",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/event-images/:imageId",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"event-images",
+						":imageId"
+					],
+					"variable": [
+						{
+							"key": "imageId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Query Filters to Get All Events",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "XSRF-TOKEN",
+						"value": "{{xsrftoken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/events",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"events"
 					],
 					"query": [
 						{
@@ -1500,39 +1849,21 @@
 							"disabled": true
 						},
 						{
-							"key": "minLat",
+							"key": "name",
 							"value": "",
-							"description": "decimal, optional",
+							"description": "string, optional",
 							"disabled": true
 						},
 						{
-							"key": "maxLat",
+							"key": "type",
 							"value": "",
-							"description": "decimal, optional",
+							"description": "string, optional",
 							"disabled": true
 						},
 						{
-							"key": "minLng",
+							"key": "startDate",
 							"value": "",
-							"description": "decimal, optional",
-							"disabled": true
-						},
-						{
-							"key": "maxLng",
-							"value": "",
-							"description": "decimal, optional",
-							"disabled": true
-						},
-						{
-							"key": "minPrice",
-							"value": "",
-							"description": "decimal, optional, minimum: 0",
-							"disabled": true
-						},
-						{
-							"key": "maxPrice",
-							"value": "",
-							"description": "decimal, optional, minimum: 0",
+							"description": "string, optional",
 							"disabled": true
 						}
 					]

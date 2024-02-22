@@ -1,11 +1,11 @@
-# AirBnB Clone
+# Meetup Clone
 
 ## Database Schema Design
 
-![airbnb-database-schema]
+![meetup-database-schema]
 
-[airbnb-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/airbnb-db-schema.png
-[airbnb-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/airbnb-db-diagram-info.txt
+[meetup-database-schema]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-schema.png
+[meetup-db-diagram-info]: https://appacademy-open-assets.s3.us-west-1.amazonaws.com/Modular-Curriculum/content/week-12/meetup-db-diagram-info.txt
 
 ## API Documentation
 
@@ -120,7 +120,7 @@ information.
         "lastName": "Smith",
         "email": "john.smith@gmail.com",
         "username": "JohnSmith"
-      }
+      } 
     }
     ```
 
@@ -241,16 +241,16 @@ user's information.
     }
     ```
 
-## SPOTS
+## GROUPS
 
-### Get all Spots
+### Get all Groups
 
-Returns all the spots.
+Returns all the groups.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /api/spots
+  * URL: /api/groups
   * Body: none
 
 * Successful Response
@@ -261,36 +261,33 @@ Returns all the spots.
 
     ```json
     {
-      "Spots": [
+      "Groups": [
         {
           "id": 1,
-          "ownerId": 1,
-          "address": "123 Disney Lane",
-          "city": "San Francisco",
-          "state": "California",
-          "country": "United States of America",
-          "lat": 37.7645358,
-          "lng": -122.4730327,
-          "name": "App Academy",
-          "description": "Place where web developers are created",
-          "price": 123,
+          "organizerId": 1,
+          "name": "Evening Tennis on the Water",
+          "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+          "type": "In person",
+          "private": true,
+          "city": "New York",
+          "state": "NY",
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36",
-          "avgRating": 4.5,
-          "previewImage": "image url"
+          "numMembers": 10,
+          "previewImage": "image url",
         }
       ]
     }
     ```
 
-### Get all Spots owned by the Current User
+### Get all Groups joined or organized by the Current User
 
-Returns all the spots owned (created) by the current user.
+Returns all the groups.
 
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /api/spots/current
+  * URL: /api/groups/current
   * Body: none
 
 * Successful Response
@@ -301,36 +298,33 @@ Returns all the spots owned (created) by the current user.
 
     ```json
     {
-      "Spots": [
+      "Groups": [
         {
           "id": 1,
-          "ownerId": 1,
-          "address": "123 Disney Lane",
-          "city": "San Francisco",
-          "state": "California",
-          "country": "United States of America",
-          "lat": 37.7645358,
-          "lng": -122.4730327,
-          "name": "App Academy",
-          "description": "Place where web developers are created",
-          "price": 123,
+          "organizerId": 1,
+          "name": "Evening Tennis on the Water",
+          "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+          "type": "In person",
+          "private": true,
+          "city": "New York",
+          "state": "NY",
           "createdAt": "2021-11-19 20:39:36",
           "updatedAt": "2021-11-19 20:39:36",
-          "avgRating": 4.5,
-          "previewImage": "image url"
+          "numMembers": 10,
+          "previewImage": "image url",
         }
       ]
     }
     ```
 
-### Get details of a Spot from an id
+### Get details of a Group from an id
 
-Returns the details of a spot specified by its id.
+Returns the details of a group specified by its id.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /api/spots/:spotId
+  * URL: /api/groups/:groupId
   * Body: none
 
 * Successful Response
@@ -342,21 +336,17 @@ Returns the details of a spot specified by its id.
     ```json
     {
       "id": 1,
-      "ownerId": 1,
-      "address": "123 Disney Lane",
-      "city": "San Francisco",
-      "state": "California",
-      "country": "United States of America",
-      "lat": 37.7645358,
-      "lng": -122.4730327,
-      "name": "App Academy",
-      "description": "Place where web developers are created",
-      "price": 123,
+      "organizerId": 1,
+      "name": "Evening Tennis on the Water",
+      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "type": "In person",
+      "private": true,
+      "city": "New York",
+      "state": "NY",
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36" ,
-      "numReviews": 5,
-      "avgStarRating": 4.5,
-      "SpotImages": [
+      "updatedAt": "2021-11-19 20:39:36",
+      "numMembers": 10,
+      "GroupImages": [
         {
           "id": 1,
           "url": "image url",
@@ -368,15 +358,26 @@ Returns the details of a spot specified by its id.
           "preview": false
         }
       ],
-      "Owner": {
+      "Organizer": {
         "id": 1,
         "firstName": "John",
         "lastName": "Smith"
-      }
+      },
+      "Venues": [
+        {
+          "id": 1,
+          "groupId": 1,
+          "address": "123 Disney Lane",
+          "city": "New York",
+          "state": "NY",
+          "lat": 37.7645358,
+          "lng": -122.4730327
+        }
+      ]
     }
     ```
 
-* Error response: Couldn't find a Spot with the specified id
+* Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -384,33 +385,30 @@ Returns the details of a spot specified by its id.
 
     ```json
     {
-      "message": "Spot couldn't be found"
+      "message": "Group couldn't be found",
     }
     ```
 
-### Create a Spot
+### Create a Group
 
-Creates and returns a new spot.
+Creates and returns a new group.
 
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: /api/spots
+  * URL: /api/groups
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "address": "123 Disney Lane",
-      "city": "San Francisco",
-      "state": "California",
-      "country": "United States of America",
-      "lat": 37.7645358,
-      "lng": -122.4730327,
-      "name": "App Academy",
-      "description": "Place where web developers are created",
-      "price": 123
+      "name": "Evening Tennis on the Water",
+      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "type": "In person",
+      "private": true,
+      "city": "New York",
+      "state": "NY",
     }
     ```
 
@@ -423,16 +421,13 @@ Creates and returns a new spot.
     ```json
     {
       "id": 1,
-      "ownerId": 1,
-      "address": "123 Disney Lane",
-      "city": "San Francisco",
-      "state": "California",
-      "country": "United States of America",
-      "lat": 37.7645358,
-      "lng": -122.4730327,
-      "name": "App Academy",
-      "description": "Place where web developers are created",
-      "price": 123,
+      "organizerId": 1,
+      "name": "Evening Tennis on the Water",
+      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "type": "In person",
+      "private": true,
+      "city": "New York",
+      "state": "NY",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-19 20:39:36"
     }
@@ -448,28 +443,25 @@ Creates and returns a new spot.
     {
       "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
       "errors": {
-        "address": "Street address is required",
+        "name": "Name must be 60 characters or less",
+        "about": "About must be 50 characters or more",
+        "type": "Type must be 'Online' or 'In person'",
+        "private": "Private must be a boolean",
         "city": "City is required",
         "state": "State is required",
-        "country": "Country is required",
-        "lat": "Latitude must be within -90 and 90",
-        "lng": "Longitude must be within -180 and 180",
-        "name": "Name must be less than 50 characters",
-        "description": "Description is required",
-        "price": "Price per day must be a positive number"
       }
     }
     ```
 
-### Add an Image to a Spot based on the Spot's id
+### Add an Image to a Group based on the Group's id
 
-Create and return a new image for a spot specified by id.
+Create and return a new image for a group specified by id.
 
 * Require Authentication: true
-* Require proper authorization: Spot must belong to the current user
+* Require proper authorization: Current User must be the organizer for the group
 * Request
   * Method: POST
-  * URL: /api/spots/:spotId/images
+  * URL: /api/groups/:groupId/images
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -495,7 +487,7 @@ Create and return a new image for a spot specified by id.
     }
     ```
 
-* Error response: Couldn't find a Spot with the specified id
+* Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -503,34 +495,31 @@ Create and return a new image for a spot specified by id.
 
     ```json
     {
-      "message": "Spot couldn't be found"
+      "message": "Group couldn't be found"
     }
     ```
 
-### Edit a Spot
+### Edit a Group
 
-Updates and returns an existing spot.
+Updates and returns an existing group.
 
 * Require Authentication: true
-* Require proper authorization: Spot must belong to the current user
+* Require proper authorization: Group must belong to the current user
 * Request
   * Method: PUT
-  * URL: /api/spots/:spotId
+  * URL: /api/groups/:groupId
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "address": "123 Disney Lane",
-      "city": "San Francisco",
-      "state": "California",
-      "country": "United States of America",
-      "lat": 37.7645358,
-      "lng": -122.4730327,
-      "name": "App Academy",
-      "description": "Place where web developers are created",
-      "price": 123
+      "name": "Evening Tennis on the Water",
+      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "type": "In person",
+      "private": true,
+      "city": "New York",
+      "state": "NY",
     }
     ```
 
@@ -543,18 +532,187 @@ Updates and returns an existing spot.
     ```json
     {
       "id": 1,
-      "ownerId": 1,
-      "address": "123 Disney Lane",
-      "city": "San Francisco",
-      "state": "California",
-      "country": "United States of America",
-      "lat": 37.7645358,
-      "lng": -122.4730327,
-      "name": "App Academy",
-      "description": "Place where web developers are created",
-      "price": 123,
+      "organizerId": 1,
+      "name": "Evening Tennis on the Water",
+      "about": "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
+      "type": "In person",
+      "private": true,
+      "city": "New York",
+      "state": "NY",
       "createdAt": "2021-11-19 20:39:36",
       "updatedAt": "2021-11-20 10:06:40"
+    }
+    ```
+
+* Error Response: Body validation errors
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
+      "errors": {
+        "name": "Name must be 60 characters or less",
+        "about": "About must be 50 characters or more",
+        "type": "Type must be 'Online' or 'In person'",
+        "private": "Private must be a boolean",
+        "city": "City is required",
+        "state": "State is required",
+      }
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found"
+    }
+    ```
+
+### Delete a Group
+
+Deletes an existing group.
+
+* Require Authentication: true
+* Require proper authorization: Group must belong to the current user
+* Request
+  * Method: DELETE
+  * URL: /api/groups/:groupId
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Successfully deleted"
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found"
+    }
+    ```
+
+## VENUES
+
+### Get All Venues for a Group specified by its id
+
+Returns all venues for a group specified by its id
+
+* Require Authentication: true
+* Require Authentication: Current User must be the organizer of the group or a member of
+  the group with a status of "co-host"
+* Request
+  * Method: GET
+  * URL: /api/groups/:groupId/venues
+  * Headers:
+    * Content-Type: application/json
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+  ```json
+  {
+    "Venues": [
+      {
+        "id": 1,
+        "groupId": 1,
+        "address": "123 Disney Lane",
+        "city": "New York",
+        "state": "NY",
+        "lat": 37.7645358,
+        "lng": -122.4730327,
+      }
+    ]
+  }
+  
+  ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found"
+    }
+    ```
+
+### Create a new Venue for a Group specified by its id
+
+Creates and returns a new venue for a group specified by its id
+
+* Require Authentication: true
+* Require Authentication: Current User must be the organizer of the group or a member of
+  the group with a status of "co-host"
+* Request
+  * Method: POST
+  * URL: /api/groups/:groupId/venues
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+  ```json
+  {
+    "address": "123 Disney Lane",
+    "city": "New York",
+    "state": "NY",
+    "lat": 37.7645358,
+    "lng": -122.4730327,
+  }
+  ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+  ```json
+  {
+    "id": 1,
+    "groupId": 1,
+    "address": "123 Disney Lane",
+    "city": "New York",
+    "state": "NY",
+    "lat": 37.7645358,
+    "lng": -122.4730327,
+  }
+  ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found"
     }
     ```
 
@@ -571,38 +729,35 @@ Updates and returns an existing spot.
         "address": "Street address is required",
         "city": "City is required",
         "state": "State is required",
-        "country": "Country is required",
         "lat": "Latitude must be within -90 and 90",
         "lng": "Longitude must be within -180 and 180",
-        "name": "Name must be less than 50 characters",
-        "description": "Description is required",
-        "price": "Price per day must be a positive number"
       }
     }
     ```
 
-* Error response: Couldn't find a Spot with the specified id
-  * Status Code: 404
+### Edit a Venue specified by its id
+
+Edit a new venue specified by its id
+
+* Require Authentication: true
+* Require Authentication: Current User must be the organizer of the group or a member of
+  the group with a status of "co-host"
+* Request
+  * Method: PUT
+  * URL: /api/venues/:venueId
   * Headers:
     * Content-Type: application/json
   * Body:
 
-    ```json
-    {
-      "message": "Spot couldn't be found"
-    }
-    ```
-
-### Delete a Spot
-
-Deletes an existing spot.
-
-* Require Authentication: true
-* Require proper authorization: Spot must belong to the current user
-* Request
-  * Method: DELETE
-  * URL: /api/spots/:spotId
-  * Body: none
+  ```json
+  {
+    "address": "123 Disney Lane",
+    "city": "New York",
+    "state": "NY",
+    "lat": 37.7645358,
+    "lng": -122.4730327,
+  }
+  ```
 
 * Successful Response
   * Status Code: 200
@@ -610,13 +765,19 @@ Deletes an existing spot.
     * Content-Type: application/json
   * Body:
 
-    ```json
-    {
-      "message": "Successfully deleted"
-    }
-    ```
+  ```json
+  {
+    "id": 1,
+    "groupId": 1,
+    "address": "123 Disney Lane",
+    "city": "New York",
+    "state": "NY",
+    "lat": 37.7645358,
+    "lng": -122.4730327,
+  }
+  ```
 
-* Error response: Couldn't find a Spot with the specified id
+* Error response: Couldn't find a Venue with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -624,76 +785,39 @@ Deletes an existing spot.
 
     ```json
     {
-      "message": "Spot couldn't be found"
+      "message": "Venue couldn't be found"
     }
     ```
 
-## REVIEWS
-
-### Get all Reviews of the Current User
-
-Returns all the reviews written by the current user.
-
-* Require Authentication: true
-* Request
-  * Method: GET
-  * URL: /api/reviews/current
-  * Body: none
-
-* Successful Response
-  * Status Code: 200
+* Error Response: Body validation errors
+  * Status Code: 400
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "Reviews": [
-        {
-          "id": 1,
-          "userId": 1,
-          "spotId": 1,
-          "review": "This was an awesome spot!",
-          "stars": 5,
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36" ,
-          "User": {
-            "id": 1,
-            "firstName": "John",
-            "lastName": "Smith"
-          },
-          "Spot": {
-            "id": 1,
-            "ownerId": 1,
-            "address": "123 Disney Lane",
-            "city": "San Francisco",
-            "state": "California",
-            "country": "United States of America",
-            "lat": 37.7645358,
-            "lng": -122.4730327,
-            "name": "App Academy",
-            "price": 123,
-            "previewImage": "image url"
-          },
-          "ReviewImages": [
-            {
-              "id": 1,
-              "url": "image url"
-            }
-          ]
-        }
-      ]
+      "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
+      "errors": {
+        "address": "Street address is required",
+        "city": "City is required",
+        "state": "State is required",
+        "lat": "Latitude must be within -90 and 90",
+        "lng": "Longitude must be within -180 and 180",
+      }
     }
     ```
 
-### Get all Reviews by a Spot's id
+## EVENTS
 
-Returns all the reviews that belong to a spot specified by id.
+### Get all Events
+
+Returns all the events.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /api/spots/:spotId/reviews
+  * URL: /api/events
   * Body: none
 
 * Successful Response
@@ -704,32 +828,115 @@ Returns all the reviews that belong to a spot specified by id.
 
     ```json
     {
-      "Reviews": [
+      "Events": [
         {
           "id": 1,
-          "userId": 1,
-          "spotId": 1,
-          "review": "This was an awesome spot!",
-          "stars": 5,
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36" ,
-          "User": {
+          "groupId": 1,
+          "venueId": null,
+          "name": "Tennis Group First Meet and Greet",
+          "type": "Online",
+          "startDate": "2021-11-19 20:00:00",
+          "endDate": "2021-11-19 22:00:00",
+          "numAttending": 8,
+          "previewImage": "image url",
+          "Group": {
             "id": 1,
-            "firstName": "John",
-            "lastName": "Smith"
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
           },
-          "ReviewImages": [
-            {
-              "id": 1,
-              "url": "image url"
-            }
-          ],
-        }
+          "Venue": null,
+        },
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": 1,
+          "name": "Tennis Singles",
+          "type": "In Person",
+          "startDate": "2021-11-20 20:00:00",
+          "endDate": "2021-11-19 22:00:00",
+          "numAttending": 4,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": {
+            "id": 1,
+            "city": "New York",
+            "state": "NY",
+          },
+        },
       ]
     }
     ```
 
-* Error response: Couldn't find a Spot with the specified id
+### Get all Events of a Group specified by its id
+
+Returns all the events of a group specified by its id
+
+* Require Authentication: false
+* Request
+  * Method: GET
+  * URL: /api/groups/:groupId/events
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Events": [
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": null,
+          "name": "Tennis Group First Meet and Greet",
+          "type": "Online",
+          "startDate": "2021-11-19 20:00:00",
+          "endDate": "2021-11-19 22:00:00",
+          "numAttending": 8,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": null,
+        },
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": 1,
+          "name": "Tennis Singles",
+          "type": "In Person",
+          "startDate": "2021-11-20 20:00:00",
+          "endDate": "2021-11-19 22:00:00",
+          "numAttending": 4,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": {
+            "id": 1,
+            "city": "New York",
+            "state": "NY",
+          },
+        },
+      ]
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -737,31 +944,22 @@ Returns all the reviews that belong to a spot specified by id.
 
     ```json
     {
-      "message": "Spot couldn't be found"
+      "message": "Group couldn't be found"
     }
     ```
 
-### Create a Review for a Spot based on the Spot's id
+### Get details of an Event specified by its id
 
-Create and return a new review for a spot specified by id.
+Returns the details of an event specified by its id.
 
-* Require Authentication: true
+* Require Authentication: false
 * Request
-  * Method: POST
-  * URL: /api/spots/:spotId/reviews
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "review": "This was an awesome spot!",
-      "stars": 5,
-    }
-    ```
+  * Method: GET
+  * URL: /api/events/:eventId
+  * Body: none
 
 * Successful Response
-  * Status Code: 201
+  * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -769,12 +967,103 @@ Create and return a new review for a spot specified by id.
     ```json
     {
       "id": 1,
-      "userId": 1,
-      "spotId": 1,
-      "review": "This was an awesome spot!",
-      "stars": 5,
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36"
+      "groupId": 1,
+      "venueId": 1,
+      "name": "Tennis Group First Meet and Greet",
+      "description": "First meet and greet event for the evening tennis on the water group! Join us online for happy times!",
+      "type": "Online",
+      "capacity": 10,
+      "price": 18.50,
+      "startDate": "2021-11-19 20:00:00",
+      "endDate": "2021-11-19 22:00:00",
+      "numAttending": 8,
+      "Group": {
+        "id": 1,
+        "name": "Evening Tennis on the Water",
+        "private": true,
+        "city": "New York",
+        "state": "NY"
+      },
+      "Venue": {
+        "id": 1,
+        "address": "123 Disney Lane",
+        "city": "New York",
+        "state": "NY",
+        "lat": 37.7645358,
+        "lng": -122.4730327,
+      },
+      "EventImages": [
+        {
+          "id": 1,
+          "url": "image url",
+          "preview": true
+        },
+        {
+          "id": 2,
+          "url": "image url",
+          "preview": false
+        }
+      ],
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
+### Create an Event for a Group specified by its id
+
+Creates and returns a new event for a group specified by its id
+
+* Require Authentication: true
+* Require Authorization: Current User must be the organizer of the group or a member of
+  the group with a status of "co-host"
+* Request
+  * Method: POST
+  * URL: /api/groups/:groupId/events
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "venueId": 1,
+      "name": "Tennis Group First Meet and Greet",
+      "type": "Online",
+      "capacity": 10,
+      "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
+      "startDate": "2021-11-19 20:00:00",
+      "endDate": "2021-11-19 22:00:00",
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "groupId": 1,
+      "venueId": 1,
+      "name": "Tennis Group First Meet and Greet",
+      "type": "Online",
+      "capacity": 10,
+      "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
+      "startDate": "2021-11-19 20:00:00",
+      "endDate": "2021-11-19 22:00:00",
     }
     ```
 
@@ -788,13 +1077,18 @@ Create and return a new review for a spot specified by id.
     {
       "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
       "errors": {
-        "review": "Review text is required",
-        "stars": "Stars must be an integer from 1 to 5",
+        "name": "Name must be at least 5 characters",
+        "type": "Type must be Online or In person",
+        "capacity": "Capacity must be an integer",
+        "price": "Price is invalid",
+        "description": "Description is required",
+        "startDate": "Start date must be in the future",
+        "endDate": "End date is less than start date",
       }
     }
     ```
 
-* Error response: Couldn't find a Spot with the specified id
+* Error response: Couldn't find a Venue with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -802,38 +1096,39 @@ Create and return a new review for a spot specified by id.
 
     ```json
     {
-      "message": "Spot couldn't be found"
+      "message": "Venue couldn't be found"
     }
     ```
 
-* Error response: Review from the current user already exists for the Spot
-  * Status Code: 500
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "message": "User already has a review for this spot"
+      "message": "Group couldn't be found"
     }
     ```
 
-### Add an Image to a Review based on the Review's id
+### Add an Image to an Event based on the Event's id
 
-Create and return a new image for a review specified by id.
+Create and return a new image for an event specified by id.
 
 * Require Authentication: true
-* Require proper authorization: Review must belong to the current user
+* Require proper authorization: Current User must be an attendee, host, or co-host of the event
 * Request
   * Method: POST
-  * URL: /api/reviews/:reviewId/images
+  * URL: /api/events/:eventId/images
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "url": "image url"
+      "url": "image url",
+      "preview": false
     }
     ```
 
@@ -846,11 +1141,12 @@ Create and return a new image for a review specified by id.
     ```json
     {
       "id": 1,
-      "url": "image url"
+      "url": "image url",
+      "preview": false
     }
     ```
 
-* Error response: Couldn't find a Review with the specified id
+* Error response: Couldn't find an Event with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -858,40 +1154,34 @@ Create and return a new image for a review specified by id.
 
     ```json
     {
-      "message": "Review couldn't be found"
+      "message": "Event couldn't be found"
     }
     ```
 
-* Error response: Cannot add any more images because there is a maximum of 10
-  images per resource
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+### Edit an Event specified by its id
 
-    ```json
-    {
-      "message": "Maximum number of images for this resource was reached"
-    }
-    ```
-
-### Edit a Review
-
-Update and return an existing review.
+Edit and returns an event specified by its id
 
 * Require Authentication: true
-* Require proper authorization: Review must belong to the current user
+* Require Authorization: Current User must be the organizer of the group or a member of
+  the group with a status of "co-host"
 * Request
   * Method: PUT
-  * URL: /api/reviews/:reviewId
+  * URL: /api/events/:eventId
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "review": "This was an awesome spot!",
-      "stars": 5,
+      "venueId": 1,
+      "name": "Tennis Group First Meet and Greet",
+      "type": "Online",
+      "capacity": 10,
+      "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
+      "startDate": "2021-11-19 20:00:00",
+      "endDate": "2021-11-19 22:00:00",
     }
     ```
 
@@ -904,12 +1194,15 @@ Update and return an existing review.
     ```json
     {
       "id": 1,
-      "userId": 1,
-      "spotId": 1,
-      "review": "This was an awesome spot!",
-      "stars": 5,
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40"
+      "groupId": 1,
+      "venueId": 1,
+      "name": "Tennis Group First Meet and Greet",
+      "type": "Online",
+      "capacity": 10,
+      "price": 18.50,
+      "description": "The first meet and greet for our group! Come say hello!",
+      "startDate": "2021-11-19 20:00:00",
+      "endDate": "2021-11-19 22:00:00",
     }
     ```
 
@@ -923,13 +1216,18 @@ Update and return an existing review.
     {
       "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
       "errors": {
-        "review": "Review text is required",
-        "stars": "Stars must be an integer from 1 to 5",
+        "name": "Name must be at least 5 characters",
+        "type": "Type must be Online or In person",
+        "capacity": "Capacity must be an integer",
+        "price": "Price is invalid",
+        "description": "Description is required",
+        "startDate": "Start date must be in the future",
+        "endDate": "End date is less than start date",
       }
     }
     ```
 
-* Error response: Couldn't find a Review with the specified id
+* Error response: Couldn't find a Venue with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -937,19 +1235,32 @@ Update and return an existing review.
 
     ```json
     {
-      "message": "Review couldn't be found"
+      "message": "Venue couldn't be found"
     }
     ```
 
-### Delete a Review
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
 
-Delete an existing review.
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
+### Delete an Event specified by its id
+
+Delete an event specified by its id
 
 * Require Authentication: true
-* Require proper authorization: Review must belong to the current user
+* Require Authorization: Current User must be the organizer of the group or a member of
+  the group with a status of "co-host"
 * Request
   * Method: DELETE
-  * URL: /api/reviews/:reviewId
+  * URL: /api/events/:eventId
   * Body: none
 
 * Successful Response
@@ -964,7 +1275,7 @@ Delete an existing review.
     }
     ```
 
-* Error response: Couldn't find a Review with the specified id
+* Error response: Couldn't find an Event with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -972,23 +1283,24 @@ Delete an existing review.
 
     ```json
     {
-      "message": "Review couldn't be found"
+      "message": "Event couldn't be found"
     }
     ```
 
-## BOOKINGS
+## MEMBERSHIPS
 
-### Get all of the Current User's Bookings
+### Get all Members of a Group specified by its id
 
-Return all the bookings that the current user has made.
+Returns the members of a group specified by its id.
 
-* Require Authentication: true
+* Require Authentication: false
 * Request
   * Method: GET
-  * URL: /api/bookings/current
+  * URL: /api/groups/:groupId/members
   * Body: none
 
-* Successful Response
+* Successful Response: If you ARE the organizer or a co-host of the group. Shows
+  all members and their statuses.
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
@@ -996,89 +1308,66 @@ Return all the bookings that the current user has made.
 
     ```json
     {
-      "Bookings": [
+      "Members": [
         {
-          "id": 1,
-          "spotId": 1,
-          "Spot": {
-            "id": 1,
-            "ownerId": 1,
-            "address": "123 Disney Lane",
-            "city": "San Francisco",
-            "state": "California",
-            "country": "United States of America",
-            "lat": 37.7645358,
-            "lng": -122.4730327,
-            "name": "App Academy",
-            "price": 123,
-            "previewImage": "image url"
+          "id": 2,
+          "firstName": "Clark",
+          "lastName": "Adams",
+          "Membership": {
+            "status": "co-host"
           },
-          "userId": 2,
-          "startDate": "2021-11-19",
-          "endDate": "2021-11-20",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36"
-        }
-      ]
-    }
-    ```
-
-### Get all Bookings for a Spot based on the Spot's id
-
-Return all the bookings for a spot specified by id.
-
-* Require Authentication: true
-* Request
-  * Method: GET
-  * URL: /api/spots/:spotId/bookings
-  * Body: none
-
-* Successful Response: If you ARE NOT the owner of the spot.
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "Bookings": [
+        },
         {
-          "spotId": 1,
-          "startDate": "2021-11-19",
-          "endDate": "2021-11-20"
-        }
-      ]
-    }
-    ```
-
-* Successful Response: If you ARE the owner of the spot.
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "Bookings": [
-        {
-          "User": {
-            "id": 2,
-            "firstName": "John",
-            "lastName": "Smith"
+          "id": 3,
+          "firstName": "John",
+          "lastName": "Smith",
+          "Membership": {
+            "status": "member"
           },
-          "id": 1,
-          "spotId": 1,
-          "userId": 2,
-          "startDate": "2021-11-19",
-          "endDate": "2021-11-20",
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36"
-        }
+        },
+        {
+          "id": 4,
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "Membership": {
+            "status": "pending"
+          },
+        },
       ]
     }
     ```
 
-* Error response: Couldn't find a Spot with the specified id
+* Successful Response: If you ARE NOT the organizer of the group. Shows only
+  members that don't have a status of "pending".
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Members": [
+        {
+          "id": 2,
+          "firstName": "Clark",
+          "lastName": "Adams",
+          "Membership": {
+            "status": "co-host"
+          },
+        },
+        {
+          "id": 3,
+          "firstName": "John",
+          "lastName": "Smith",
+          "Membership": {
+            "status": "member"
+          },
+        },
+      ]
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1086,196 +1375,20 @@ Return all the bookings for a spot specified by id.
 
     ```json
     {
-      "message": "Spot couldn't be found"
+      "message": "Group couldn't be found"
     }
     ```
 
-### Create a Booking from a Spot based on the Spot's id
+### Request a Membership for a Group based on the Group's id
 
-Create and return a new booking from a spot specified by id.
+Request a new membership for a group specified by id.
 
 * Require Authentication: true
-* Require proper authorization: Spot must NOT belong to the current user
 * Request
   * Method: POST
-  * URL: /api/spots/:spotId/bookings
+  * URL: /api/groups/:groupId/membership
   * Headers:
     * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "startDate": "2021-11-19",
-      "endDate": "2021-11-20"
-    }
-    ```
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "id": 1,
-      "spotId": 1,
-      "userId": 2,
-      "startDate": "2021-11-19",
-      "endDate": "2021-11-20",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36"
-    }
-    ```
-
-* Error response: Body validation errors
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
-      "errors": {
-        "startDate": "startDate cannot be in the past",
-        "endDate": "endDate cannot be on or before startDate"
-      }
-    }
-    ```
-
-* Error response: Couldn't find a Spot with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Spot couldn't be found"
-    }
-    ```
-
-* Error response: Booking conflict
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Sorry, this spot is already booked for the specified dates",
-      "errors": {
-        "startDate": "Start date conflicts with an existing booking",
-        "endDate": "End date conflicts with an existing booking"
-      }
-    }
-    ```
-
-### Edit a Booking
-
-Update and return an existing booking.
-
-* Require Authentication: true
-* Require proper authorization: Booking must belong to the current user
-* Request
-  * Method: PUT
-  * URL: /api/bookings/:bookingId
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "startDate": "2021-11-19",
-      "endDate": "2021-11-20"
-    }
-    ```
-
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "id": 1,
-      "spotId": 1,
-      "userId": 2,
-      "startDate": "2021-11-19",
-      "endDate": "2021-11-20",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40"
-    }
-    ```
-
-* Error response: Body validation errors
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
-      "errors": {
-        "startDate": "startDate cannot be in the past",
-        "endDate": "endDate cannot be on or before startDate"
-      }
-    }
-    ```
-
-* Error response: Couldn't find a Booking with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Booking couldn't be found"
-    }
-    ```
-
-* Error response: Can't edit a booking that's past the end date
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Past bookings can't be modified"
-    }
-    ```
-
-* Error response: Booking conflict
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-
-    ```json
-    {
-      "message": "Sorry, this spot is already booked for the specified dates",
-      "errors": {
-        "startDate": "Start date conflicts with an existing booking",
-        "endDate": "End date conflicts with an existing booking"
-      }
-    }
-    ```
-
-### Delete a Booking
-
-Delete an existing booking.
-
-* Require Authentication: true
-* Require proper authorization: Booking must belong to the current user or the
-  Spot must belong to the current user
-* Request
-  * Method: DELETE
-  * URL: /api/bookings/:bookingId
   * Body: none
 
 * Successful Response
@@ -1286,11 +1399,12 @@ Delete an existing booking.
 
     ```json
     {
-      "message": "Successfully deleted"
+      "memberId": 2,
+      "status": "pending"
     }
     ```
 
-* Error response: Couldn't find a Booking with the specified id
+* Error response: Couldn't find a Group with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1298,33 +1412,506 @@ Delete an existing booking.
 
     ```json
     {
-      "message": "Booking couldn't be found"
+      "message": "Group couldn't be found"
     }
     ```
 
-* Error response: Bookings that have been started can't be deleted
-  * Status Code: 403
+* Error response: Current User already has a pending membership
+  for the group
+  * Status Code: 400
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "message": "Bookings that have been started can't be deleted"
+      "message": "Membership has already been requested"
+    }
+    ```
+
+* Error response: Current User is already an accepted member of the group
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User is already a member of the group"
+    }
+    ```
+
+### Change the status of a membership for a group specified by id
+
+Change the status of a membership for a group specified by id.
+
+* Require Authentication: true
+* Require proper authorization:
+  * To change the status from "pending" to "member":
+    * Current User must already be the organizer or have a membership to the
+      group with the status of "co-host"
+  * To change the status from "member" to "co-host":
+    * Current User must already be the organizer
+* Request
+  * Method: PUT
+  * URL: /api/groups/:groupId/membership
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "memberId": 2,
+      "status": "member"
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "groupId": 1,
+      "memberId": 2,
+      "status": "member"
+    }
+    ```
+
+* Error response: If changing the membership status to "pending".
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
+      "errors": {
+        "status" : "Cannot change a membership status to pending"
+      }
+    }
+    ```
+
+* Error response: Couldn't find a User with the specified memberId
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User couldn't be found"
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found"
+    }
+    ```
+
+* Error response: If membership does not exist
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Membership between the user and the group does not exist"
+    }
+    ```
+
+### Delete membership to a group specified by id
+
+Delete a membership to a group specified by id.
+
+* Require Authentication: true
+* Require proper authorization: Current User must be the host of the group, or
+  the user whose membership is being deleted
+* Request
+  * Method: DELETE
+  * URL: /api/groups/:groupId/membership/:memberId
+  * Headers:
+    * Content-Type: application/json
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Successfully deleted membership from group"
+    }
+    ```
+
+* Error response: Couldn't find a User with the specified memberId
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User couldn't be found"
+    }
+    ```
+
+* Error response: Couldn't find a Group with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Group couldn't be found"
+    }
+    ```
+
+* Error response: Membership does not exist for this User
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Membership does not exist for this User"
+    }
+    ```
+
+## ATTENDEES
+
+### Get all Attendees of an Event specified by its id
+
+Returns the attendees of an event specified by its id.
+
+* Require Authentication: false
+* Request
+  * Method: GET
+  * URL: /api/events/:eventId/attendees
+  * Body: none
+
+* Successful Response: If you ARE the organizer of the group or a member of the
+  group with a status of "co-host". Shows all attendees including those with a
+  status of "pending".
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Attendees": [
+        {
+          "id": 2,
+          "firstName": "Clark",
+          "lastName": "Adams",
+          "Attendance": {
+            "status": "attending"
+          },
+        },
+        {
+          "id": 3,
+          "firstName": "John",
+          "lastName": "Smith",
+          "Attendance": {
+            "status": "waitlist"
+          },
+        },
+        {
+          "id": 4,
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "Attendance": {
+            "status": "pending"
+          },
+        },
+      ]
+    }
+    ```
+
+* Successful Response: If you ARE NOT the organizer of the group or a member of
+  the group with a status of "co-host". Shows all members that don't have a
+  status of "pending".
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Attendees": [
+        {
+          "id": 2,
+          "firstName": "Clark",
+          "lastName": "Adams",
+          "Attendance": {
+            "status": "attending"
+          },
+        },
+        {
+          "id": 3,
+          "firstName": "John",
+          "lastName": "Smith",
+          "Attendance": {
+            "status": "waitlist"
+          },
+        },
+      ]
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
+### Request to Attend an Event based on the Event's id
+
+Request attendance for an event specified by id.
+
+* Require Authentication: true
+* Require Authorization: Current User must be a member of the group
+* Request
+  * Method: POST
+  * URL: /api/events/:eventId/attendance
+  * Headers:
+    * Content-Type: application/json
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "userId": 2,
+      "status": "pending"
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
+* Error response: Current User already has a pending attendance
+  for the event
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Attendance has already been requested"
+    }
+    ```
+
+* Error response: Current User is already an accepted attendee of the event
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User is already an attendee of the event"
+    }
+    ```
+
+### Change the status of an attendance for an event specified by id
+
+Change the status of an attendance for an event specified by id.
+
+* Require Authentication: true
+* Require proper authorization: Current User must already be the organizer or
+  have a membership to the group with the status of "co-host"
+* Request
+  * Method: PUT
+  * URL: /api/events/:eventId/attendance
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "userId": 2,
+      "status": "attending"
+    }
+    ```
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "eventId": 1,
+      "userId": 2,
+      "status": "attending"
+    }
+    ```
+
+* Error response: Couldn't find a User with the specified userId
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User couldn't be found"
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
+* Error response: If changing the attendance status to "pending".
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
+      "errors": {
+        "status" : "Cannot change an attendance status to pending"
+      }
+    }
+    ```
+
+* Error response: If attendance does not exist
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Attendance between the user and the event does not exist"
+    }
+    ```
+
+### Delete attendance to an event specified by id
+
+Delete an attendance to an event specified by id.
+
+* Require Authentication: true
+* Require proper authorization: Current User must be the host of the group, or
+  the user whose attendance is being deleted
+* Request
+  * Method: DELETE
+  * URL: /api/events/:eventId/attendance/:userId
+  * Headers:
+    * Content-Type: application/json
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Successfully deleted attendance from event"
+    }
+    ```
+
+* Error response: Couldn't find a User with the specified userId
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "User couldn't be found"
+    }
+    ```
+
+* Error response: Couldn't find an Event with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Event couldn't be found"
+    }
+    ```
+
+* Error response: Attendance does not exist for this User
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Attendance does not exist for this User"
     }
     ```
 
 ## IMAGES
 
-### Delete a Spot Image
+### Delete an Image for a Group
 
-Delete an existing image for a Spot.
+Delete an existing image for a Group.
 
 * Require Authentication: true
-* Require proper authorization: Spot must belong to the current user
+* Require proper authorization: Current user must be the organizer or "co-host"
+  of the Group
 * Request
   * Method: DELETE
-  * URL: /api/spot-images/:imageId
+  * URL: /api/group-images/:imageId
   * Body: none
 
 * Successful Response
@@ -1339,7 +1926,7 @@ Delete an existing image for a Spot.
     }
     ```
 
-* Error response: Couldn't find a Spot Image with the specified id
+* Error response: Couldn't find an Image with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1347,19 +1934,20 @@ Delete an existing image for a Spot.
 
     ```json
     {
-      "message": "Spot Image couldn't be found"
+      "message": "Group Image couldn't be found"
     }
     ```
 
-### Delete a Review Image
+### Delete an Image for an Event
 
-Delete an existing image for a Review.
+Delete an existing image for an Event.
 
 * Require Authentication: true
-* Require proper authorization: Review must belong to the current user
+* Require proper authorization: Current user must be the organizer or "co-host"
+  of the Group that the Event belongs to
 * Request
   * Method: DELETE
-  * URL: /api/review-images/:imageId
+  * URL: /api/event-images/:imageId
   * Body: none
 
 * Successful Response
@@ -1374,7 +1962,7 @@ Delete an existing image for a Review.
     }
     ```
 
-* Error response: Couldn't find a Review Image with the specified id
+* Error response: Couldn't find an Image with the specified id
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
@@ -1382,27 +1970,24 @@ Delete an existing image for a Review.
 
     ```json
     {
-      "message": "Review Image couldn't be found"
+      "message": "Event Image couldn't be found"
     }
     ```
 
-## Add Query Filters to Get All Spots
+### Add Query Filters to Get All Events
 
-Return spots filtered by query parameters.
+Return events filtered by query parameters.
 
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /api/spots
+  * URL: /api/events
   * Query Parameters
     * page: integer, minimum: 1, maximum: 10, default: 1
     * size: integer, minimum: 1, maximum: 20, default: 20
-    * minLat: decimal, optional
-    * maxLat: decimal, optional
-    * minLng: decimal, optional
-    * maxLng: decimal, optional
-    * minPrice: decimal, optional, minimum: 0
-    * maxPrice: decimal, optional, minimum: 0
+    * name: string, optional
+    * type: string, optional
+    * startDate: string, optional
   * Body: none
 
 * Successful Response
@@ -1413,27 +1998,48 @@ Return spots filtered by query parameters.
 
     ```json
     {
-      "Spots": [
+      "Events": [
         {
           "id": 1,
-          "ownerId": 1,
-          "address": "123 Disney Lane",
-          "city": "San Francisco",
-          "state": "California",
-          "country": "United States of America",
-          "lat": 37.7645358,
-          "lng": -122.4730327,
-          "name": "App Academy",
-          "description": "Place where web developers are created",
-          "price": 123,
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "avgRating": 4.5,
-          "previewImage": "image url"
-        }
-      ],
-      "page": 2,
-      "size": 25
+          "groupId": 1,
+          "venueId": null,
+          "name": "Tennis Group First Meet and Greet",
+          "type": "Online",
+          "startDate": "2021-11-19 20:00:00",
+          "endDate": "2021-11-19 22:00:00",
+          "numAttending": 8,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": null,
+        },
+        {
+          "id": 1,
+          "groupId": 1,
+          "venueId": 1,
+          "name": "Tennis Singles",
+          "type": "In Person",
+          "startDate": "2021-11-20 20:00:00",
+          "endDate": "2021-11-19 22:00:00",
+          "numAttending": 4,
+          "previewImage": "image url",
+          "Group": {
+            "id": 1,
+            "name": "Evening Tennis on the Water",
+            "city": "New York",
+            "state": "NY"
+          },
+          "Venue": {
+            "id": 1,
+            "city": "New York",
+            "state": "NY",
+          },
+        },
+      ]
     }
     ```
 
@@ -1449,12 +2055,9 @@ Return spots filtered by query parameters.
       "errors": {
         "page": "Page must be greater than or equal to 1",
         "size": "Size must be greater than or equal to 1",
-        "maxLat": "Maximum latitude is invalid",
-        "minLat": "Minimum latitude is invalid",
-        "minLng": "Maximum longitude is invalid",
-        "maxLng": "Minimum longitude is invalid",
-        "minPrice": "Minimum price must be greater than or equal to 0",
-        "maxPrice": "Maximum price must be greater than or equal to 0"
+        "name": "Name must be a string",
+        "type": "Type must be 'Online' or 'In Person'",
+        "startDate": "Start date must be a valid datetime",
       }
     }
     ```
