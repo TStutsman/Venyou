@@ -1,4 +1,4 @@
-# Meetup Clone
+# Venyou
 
 ## Database Schema Design
 
