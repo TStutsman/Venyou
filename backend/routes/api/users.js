@@ -6,7 +6,7 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hashSync(password);
 

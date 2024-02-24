@@ -7,6 +7,20 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+    const { user: unsafe } = req;
+
+    if(!unsafe) return res.json({ user: null });
+
+    const user = {
+        id: unsafe.id,
+        username: unsafe.username,
+        email: unsafe.email
+    }
+
+    res.json(user);
+});
+
 router.post('/', async (req, res, next) => {
     const { credential, password } = req.body;
 
