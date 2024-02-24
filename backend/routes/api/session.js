@@ -17,8 +17,10 @@ router.get('/', async (req, res) => {
 
     const user = {
         id: unsafe.id,
-        username: unsafe.username,
-        email: unsafe.email
+        firstName: unsafe.firstName,
+        lastName: unsafe.lastName,
+        email: unsafe.email,
+        username: unsafe.username
     }
 
     res.json(user);
@@ -37,12 +39,12 @@ router.post('/', validateLogin, async (req, res, next) => {
 
     const where = credential.includes('@') ? { email : credential } : { username : credential };
 
-    const _user = await User.unscoped().findOne({
+    const unsafe = await User.unscoped().findOne({
         where,
-        attributes: ['id', 'username', 'email', 'hashedPassword']
+        attributes: ['id', 'username', 'email', 'firstName', 'lastName', 'hashedPassword']
     });
 
-    if(!_user || !bcrypt.compareSync(password, _user.hashedPassword.toString())) {
+    if(!unsafe || !bcrypt.compareSync(password, unsafe.hashedPassword.toString())) {
         const err = new Error('Login failed');
         err.title = 'Login failed';
         err.errors = { credentials: 'The provided credentials were invalid.' };
@@ -51,9 +53,11 @@ router.post('/', validateLogin, async (req, res, next) => {
     }
 
     const user = {
-        id: _user.id,
-        username: _user.username,
-        email: _user.email
+        id: unsafe.id,
+        firstName: unsafe.firstName,
+        lastName: unsafe.lastName,
+        email: unsafe.email,
+        username: unsafe.username
     }
     
     await setTokenCookie(res, user);
