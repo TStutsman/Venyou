@@ -1,25 +1,41 @@
 'use strict';
 
+const { EventImage } =  require('../models');
+
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
+
+const eventImages = [
+  {
+    eventId: 1,
+    url: 'fake url',
+    preview: true
+  },
+  {
+    eventId: 2,
+    url: 'fake url2',
+    preview: false
+  },
+  {
+    eventId: 3,
+    url: 'fake url3',
+    preview: false
+  }
+];
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
+    await EventImage.bulkCreate(eventImages, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    options.tableName = 'EventImages';
+    const { Op } =  Sequelize;
+    await queryInterface.bulkDelete(options, {
+      eventId: { [Op.in]: [1, 2, 3] }
+    }, {});
   }
 };
