@@ -28,7 +28,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Group.init({
     organizerId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: {
+          tableName: 'Users'
+        }
+      }
     },
     name: {
       type: DataTypes.STRING,

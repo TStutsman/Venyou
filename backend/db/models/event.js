@@ -32,12 +32,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     venueId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: {
           tableName: 'Venues'
         }
-      }
+      },
+      // TODO: needs additional tweaks and testing
+      // validate: {
+      //   nullIfOnline(value) {
+      //     if(value === null && this.type !== 'Online') {
+      //       throw new Error('Venue can only be null when Online');
+      //     }
+      //   }
+      // }
     },
     groupId: {
       type: DataTypes.INTEGER,
@@ -58,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     capacity: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
+    price: DataTypes.DECIMAL,
     startDate: {
       type: DataTypes.DATE,
       allowNull: false
