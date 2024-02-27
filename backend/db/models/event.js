@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Event.belongsTo(models.Venue);
+
+      Event.hasMany(models.EventImage, {
+        foreignKey: 'eventId',
+        onDelete: 'CASCADE',
+        hooks: 'true'
+      })
     }
   }
   Event.init({
