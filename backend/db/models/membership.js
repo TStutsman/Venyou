@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Membership extends Model {
     
     static associate(models) {
-      // define association here
+      // Membership.belongsTo(models.Group);
+      // Membership.belongsTo(models.User);
     }
   }
   Membership.init({
@@ -20,9 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: {
-          tableName: 'Users'
-        }
+        model: 'Users'
       },
       onDelete: 'CASCADE'
     },
@@ -30,9 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: {
-          tableName: 'Groups'
-        }
+        model: 'Groups'
       },
       onDelete: 'CASCADE'
     },

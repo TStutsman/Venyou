@@ -32,27 +32,27 @@ const setTokenCookie = (res, user) => {
 };
 
 const restoreUser = (req, res, next) => {
-const { token } = req.cookies;
+    const { token } = req.cookies;
 
-const verified = jwt.verify(token, secret, null, async (err, payload) => {
-    if (err) {
-        return next();
-    }
-
-    const { id } = payload.data;
-    const user = await User.findByPk(id, {
-        attributes: {
-            include: ['email', 'createdAt', 'updatedAt']
+    const verified = jwt.verify(token, secret, null, async (err, payload) => {
+        if (err) {
+            return next();
         }
+
+        const { id } = payload.data;
+        const user = await User.findByPk(id, {
+            attributes: {
+                include: ['email', 'createdAt', 'updatedAt']
+            }
+        });
+
+        if(!user) res.clearCookie('token');
+        else req.user = user;
+
+        return next();
     });
 
-    if(!user) res.clearCookie('token');
-    else req.user = user;
-
-    return next();
-});
-
-return verified;
+    return verified;
 };
 
 const requireAuth = function (req, _res, next) {

@@ -5,7 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
     static associate(models) {
-      Group.belongsTo(models.User);
+      // Group.belongsTo(models.User);
 
       Group.hasMany(models.Event, {
         foreignKey: 'groupId',
@@ -31,9 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: {
-          tableName: 'Users'
-        }
+        model: 'Users'
       }
     },
     name: {
