@@ -1,6 +1,8 @@
 'use strict';
 
-let options = {};
+let options = {
+  tableName: 'Users'
+};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
@@ -8,18 +10,18 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.addColumn('Users', 'firstName', {
+    await queryInterface.addColumn(options, 'firstName', {
       type: Sequelize.STRING,
     });
 
-    await queryInterface.addColumn('Users', 'lastName', {
+    await queryInterface.addColumn(options, 'lastName', {
       type: Sequelize.STRING,
     });
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeColumn('Users', 'lastName');
+    await queryInterface.removeColumn(options, 'lastName');
 
-    await queryInterface.removeColumn('Users', 'firstName');
+    await queryInterface.removeColumn(options, 'firstName');
   }
 };
