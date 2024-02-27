@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         through: models.Attendance,
         foreignKey: 'eventId',
         otherKey: 'userId'
-      })
+      });
+
+      Event.belongsTo(models.Venue);
     }
   }
   Event.init({
@@ -26,7 +28,15 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    // venueId: DataTypes.INTEGER, <-- uncomment when added
+    venueId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: {
+          tableName: 'Venues'
+        }
+      }
+    },
     groupId: {
       type: DataTypes.INTEGER,
       allowNull: false,
