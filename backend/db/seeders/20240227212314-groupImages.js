@@ -1,41 +1,41 @@
 'use strict';
 
-const { Attendance } =  require('../models');
+const { GroupImage } =  require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
-const attendances = [
+const groupImages = [
   {
-    eventId: 1,
-    userId: 5,
-    status: "waitlist"
+    groupId: 1,
+    url: 'fake url',
+    preview: true
   },
   {
-    eventId: 2,
-    userId: 7,
-    status: "attending"
+    groupId: 2,
+    url: 'fake url2',
+    preview: false
   },
   {
-    eventId: 3,
-    userId: 7,
-    status: "pending"
+    groupId: 3,
+    url: 'fake url3',
+    preview: false
   }
 ];
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Attendance.bulkCreate(attendances, { validate: true });
+    await GroupImage.bulkCreate(groupImages, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Attendances';
+    options.tableName = 'GroupImages';
     const { Op } =  Sequelize;
     await queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: [5, 7] }
+      groupId: { [Op.in]: [1, 2, 3] }
     }, {});
   }
 };
