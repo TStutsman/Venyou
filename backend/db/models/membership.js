@@ -6,8 +6,12 @@ module.exports = (sequelize, DataTypes) => {
   class Membership extends Model {
     
     static associate(models) {
-      Membership.belongsTo(models.Group);
-      Membership.belongsTo(models.User);
+      Membership.belongsTo(models.Group, {
+        foreignKey: 'groupId'
+      });
+      Membership.belongsTo(models.User, {
+        foreignKey: 'userId'
+      });
     }
   }
   Membership.init({
