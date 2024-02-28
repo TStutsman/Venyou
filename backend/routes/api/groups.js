@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
             },
             {
                 model: GroupImage,
-                attributes: ['url'],
+                attributes: [],
                 required: false,
                 where: {
                     preview: true
@@ -37,26 +37,53 @@ router.get('/', async (req, res) => {
             }
         ],
         attributes: {
-            include: [[fn('COUNT', col('Users.id')), 'numMembers']]
+            include: [
+                [fn('COUNT', col('Users.id')), 'numMembers'],
+                [col('GroupImages.url'), 'previewImage']
+            ]
         },
         group: 'Group.id'
-    });
-
-    // this is to get the preview url to show up without nesting
-    // and without lazy loading
-    allGroups.forEach(group => {
-        if(group.dataValues.GroupImages.length) {
-            group.dataValues.previewImage = group.dataValues.GroupImages[0].url;
-        }
-        delete group.dataValues.GroupImages;
     });
 
     res.json(allGroups);
 });
 
+// Get All Groups for current User
+router.get('/current', requireAuth, async (req, res, next) => {
+    const { id } = req.user;
+
+    const userGroups = await Group.findAll({
+        where: {
+            [Op.or]: [{'$Memberships.userId$': id}, {organizerId: id}]
+        },
+        include: [
+            {
+                model: Membership,
+                attributes: []
+            },
+            {
+                model: GroupImage,
+                attributes: [],
+                required: false,
+                where: {
+                    preview: true
+                }
+            }
+        ],
+        attributes: {
+            include: [
+                [fn('COUNT', col('Memberships.userId')), 'numMembers'],
+                [col('GroupImages.url'), 'previewImage']
+            ]
+        },
+        group: 'Group.id'
+    });
+
+    res.json(userGroups);
+});
+
 // Get Details of Group from an id
 router.get('/:groupId', async (req, res, next) => {
-    // .scope('numMembers')
     const group = await Group.findByPk(req.params.groupId, {
         attributes: {
           include: [[fn('COUNT', col('Memberships.userId')), 'numMembers']]
@@ -90,50 +117,6 @@ router.get('/:groupId', async (req, res, next) => {
     }
 
     res.json(group);
-});
-
-// Get All Groups for Current User
-router.get('/current', requireAuth, async (req, res, next) => {
-    const { id } = req.user;
-
-    const userGroups = await Group.findAll({
-        where: {
-            [Op.or]: [{'$Users.id$': id}, {organizerId: id}]
-        },
-        include: [
-            {
-                model: User,
-                attributes: [],
-                through: {
-                    model: Membership,
-                    attributes: []
-                },
-            },
-            {
-                model: GroupImage,
-                attributes: ['url'],
-                required: false,
-                where: {
-                    preview: true
-                }
-            }
-        ],
-        attributes: {
-            include: [[fn('COUNT', col('Users.id')), 'numMembers']]
-        },
-        group: 'Group.id'
-    });
-
-    // this is to get the preview url to show up without nesting
-    // and without lazy loading
-    userGroups.forEach(group => {
-        if(group.dataValues.GroupImages.length) {
-            group.dataValues.previewImage = group.dataValues.GroupImages[0].url;
-        }
-        delete group.dataValues.GroupImages;
-    });
-
-    res.json(userGroups);
 });
 
 // Input validation for Groups

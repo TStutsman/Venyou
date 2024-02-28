@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'organizerId'
       });
 
+      User.hasMany(models.Attendance, {
+        foreignKey: 'userId'
+      });
+
       User.belongsToMany(models.Event, {
         through: models.Attendance,
         foreignKey: 'userId',

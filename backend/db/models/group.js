@@ -1,7 +1,5 @@
 'use strict';
 
-const { Membership } = require('../models');
-
 const {
   Model
 } = require('sequelize');
