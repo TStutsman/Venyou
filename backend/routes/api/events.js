@@ -35,7 +35,8 @@ router.get('/', async (req, res, next) => {
                 [fn('COUNT', col('Attendances.id')), 'numAttending'],
                 [col('EventImages.url'), 'previewImage']
             ]
-        }
+        },
+        group: 'Group.id'
     });
 
     res.json(allEvents);

@@ -2,9 +2,8 @@ const express = require('express');
 
 const { fn, col, Op, literal } = require('sequelize');
 const { requireAuth } =  require('../../utils/auth');
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
-const { Group, User, Venue, Membership, GroupImage } = require('../../db/models');
+const { validateGroup, validateVenue, validateEvent } = require('../../utils/validation');
+const { Group, User, Venue, Event, Membership, GroupImage, Attendance, EventImage } = require('../../db/models');
 
 const router = express.Router();
 
@@ -118,23 +117,6 @@ router.get('/:groupId', async (req, res, next) => {
 
     res.json(group);
 });
-
-// Input validation for Groups
-const validateGroup = [
-    check('name').exists({ checkFalsy: true }).isLength({ max: 60 })
-    .withMessage('Name must be 60 characters or less'),
-    check('about').exists({ checkFalsy: true }).isLength({ min: 50 })
-    .withMessage('About must be 50 characters or more'),
-    check('type').exists({ checkFalsy: true }).isIn(['Online', 'In Person'])
-    .withMessage("Type must be 'Online' or 'In Person"),
-    check('private').exists().isBoolean()
-    .withMessage('Private must be a boolean'),
-    check('city').exists({ checkFalsy: true })
-    .withMessage('City is required'),
-    check('state').exists({ checkFalsy: true })
-    .withMessage('State is required'),
-    handleValidationErrors
-];
 
 // Create new Group
 router.post('/', requireAuth, validateGroup, async (req, res, next) => {
@@ -273,21 +255,6 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
     res.json(venues);
 });
 
-// Input validation for Venues
-const validateVenue = [
-    check('address').exists({ checkFalsy: true })
-    .withMessage('Street address is required'),
-    check('city').exists({ checkFalsy: true })
-    .withMessage('City is required'),
-    check('state').exists({ checkFalsy: true })
-    .withMessage('State is required'),
-    check('lat').exists({ checkFalsy: true }).isFloat({ min: -90, max: 90 })
-    .withMessage('Latitude must be within -90 and 90'),
-    check('lng').exists({ checkFalsy: true }).isFloat({ min: -180, max: 180 })
-    .withMessage('Longitude must be within -180 and 180'),
-    handleValidationErrors
-];
-
 // Create a new Venue for a Group
 // Auth: user must be organizer or co-host
 router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, next) => {
@@ -321,5 +288,51 @@ router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, nex
 
     res.json(newVenue);
 });
+
+router.get('/:groupId/events', async (req, res, next) => {
+
+    const group = await Group.findByPk(req.params.groupId, {
+        include: {
+            model: Event,
+            include: [
+                {
+                    model: Group,
+                    attributes: ['id', 'name', 'city', 'state']
+                },
+                {
+                    model: Venue,
+                    attributes: ['id', 'city', 'state']
+                },
+                {
+                    model: Attendance,
+                    attributes: []
+                },
+                {
+                    model: EventImage,
+                    attributes: [[col('url'), 'previewImage']],
+                    required: false,
+                    where: {
+                        preview: true
+                    }
+                }
+            ],
+            attributes: {
+                include: [
+                    [fn('COUNT', col('Events.Attendances.id')), 'numAttending'],
+                    // [col('EventImages.url'), 'previewImage']
+                ]
+            }
+        },
+        attributes: []
+    });
+
+    if(!group) return groupNotFound(next);
+
+    res.json(group);
+});
+
+// router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, next) => {
+
+// });
 
 module.exports = router;
