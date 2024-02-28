@@ -2,11 +2,18 @@ const express = require('express');
 
 const { fn, col, Op, literal } = require('sequelize');
 const { requireAuth } =  require('../../utils/auth');
-const { check } = require('express-validator')
+const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Group, User, Venue, Membership, GroupImage } = require('../../db/models');
 
 const router = express.Router();
+
+const groupNotFound = (next) => {
+    const err = new Error("Group couldn't be found");
+    err.title = "Group couldn't be found";
+    err.status = 404;
+    return next(err);
+}
 
 // Get All Groups
 router.get('/', async (req, res) => {
@@ -129,7 +136,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json(userGroups);
 });
 
-const validateNewGroup = [
+// Input validation for Groups
+const validateGroup = [
     check('name').exists({ checkFalsy: true }).isLength({ max: 60 })
     .withMessage('Name must be 60 characters or less'),
     check('about').exists({ checkFalsy: true }).isLength({ min: 50 })
@@ -145,7 +153,8 @@ const validateNewGroup = [
     handleValidationErrors
 ];
 
-router.post('/', requireAuth, validateNewGroup, async (req, res, next) => {
+// Create new Group
+router.post('/', requireAuth, validateGroup, async (req, res, next) => {
     const { name, about, type, private, city, state } = req.body;
     const { id: organizerId } = req.user;
 
@@ -157,6 +166,8 @@ router.post('/', requireAuth, validateNewGroup, async (req, res, next) => {
     res.json(newGroup);
 });
 
+// Add new Group Image
+// Auth: user must be organizer
 router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     const { url, preview } = req.body;
     const { id } = req.user;
@@ -190,7 +201,9 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     res.json(response);
 });
 
-router.put('/:groupId', requireAuth, validateNewGroup, async (req, res, next) => {
+// Edit a Group
+// Auth: user must be organizer
+router.put('/:groupId', requireAuth, validateGroup, async (req, res, next) => {
     const { name, about, type, private, city, state } = req.body;
     const { id } = req.user;
 
@@ -217,6 +230,113 @@ router.put('/:groupId', requireAuth, validateNewGroup, async (req, res, next) =>
     const saved = await group.save();
 
     res.json(saved);
+});
+
+// Delete a Group
+// Auth: user must be organizer
+router.delete('/:groupId', requireAuth, async (req, res, next) => {
+    const { id } = req.user;
+
+    const group = await Group.findByPk(req.params.groupId);
+
+    if(!group) {
+        
+    }
+
+    if(id !== group.organizerId){
+        const err = new Error('Must be organizer to delete a group');
+        err.title = 'Must be organizer to delete a group';
+        err.status = 403;
+        return next(err);
+    }
+
+    await group.destroy();
+
+    res.json({
+        message: "Successfully deleted"
+    });
+});
+
+// Get all Venues for a group
+// Auth: user must be organizer or co-host
+router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const { id } = req.user;
+
+    const group = await Group.findByPk(req.params.groupId, {
+        include: [
+            {
+                model: Membership,
+                attributes: ['userId', 'status']
+            },
+            {
+                model: Venue,
+            }
+        ]
+    });
+
+    if(!group) return groupNotFound(next);
+
+    const isCohost = group.Memberships.filter(member => member.userId === id && member.status === 'co-host');
+
+    if(id !== group.organizerId && !isCohost){
+        const err = new Error('Must be organizer or cohost to view a groups venues');
+        err.title = 'Must be organizer or cohost to view a groups venues';
+        err.status = 403;
+        return next(err);
+    }
+
+    const venues = group.Venues;
+
+    res.json(venues);
+});
+
+// Input validation for Venues
+const validateVenue = [
+    check('address').exists({ checkFalsy: true })
+    .withMessage('Street address is required'),
+    check('city').exists({ checkFalsy: true })
+    .withMessage('City is required'),
+    check('state').exists({ checkFalsy: true })
+    .withMessage('State is required'),
+    check('lat').exists({ checkFalsy: true }).isFloat({ min: -90, max: 90 })
+    .withMessage('Latitude must be within -90 and 90'),
+    check('lng').exists({ checkFalsy: true }).isFloat({ min: -180, max: 180 })
+    .withMessage('Longitude must be within -180 and 180'),
+    handleValidationErrors
+];
+
+// Create a new Venue for a Group
+// Auth: user must be organizer or co-host
+router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, next) => {
+    const { address, city, state, lat, lng } = req.body;
+    const { id } = req.user;
+
+    const group = await Group.findByPk(req.params.groupId, {
+        include: {
+            model: Membership,
+            attributes: ['userId', 'status']
+        },
+    });
+
+    if(!group) return groupNotFound(next);
+
+    const isCohost = group.Memberships.filter(member => member.userId === id && member.status === 'co-host');
+
+    if(id !== group.organizerId && !isCohost){
+        const err = new Error('Must be organizer or cohost to create a group venue');
+        err.title = 'Must be organizer or cohost to create a group venue';
+        err.status = 403;
+        return next(err);
+    }
+
+    const newVenue = await group.createVenue({
+        groupId: group.id, address, city, state, lat, lng
+    });
+
+    delete newVenue.dataValues.createdAt;
+    delete newVenue.dataValues.updatedAt;
+
+    res.json(newVenue);
 });
 
 module.exports = router;
