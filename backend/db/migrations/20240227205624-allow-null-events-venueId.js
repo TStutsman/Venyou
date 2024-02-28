@@ -13,6 +13,9 @@ module.exports = {
     await queryInterface.changeColumn(options, 'venueId', {
       type: Sequelize.INTEGER,
       allowNull: true,
+      references: {
+        model: 'Venues'
+      }
     });
   },
 
@@ -20,6 +23,9 @@ module.exports = {
     await queryInterface.changeColumn(options, 'venueId', {
       type: Sequelize.INTEGER,
       allowNull: false,
+      references: {
+        model: 'Venues'
+      }
     });
   }
 };
