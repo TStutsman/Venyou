@@ -14,9 +14,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: {
-          tableName: 'Venues'
-        }
+        model: 'Venues'
       }
     });
   },
@@ -26,9 +24,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: {
-          tableName: 'Venues'
-        }
+        model: 'Venues'
       }
     });
   }
