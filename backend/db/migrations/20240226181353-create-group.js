@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: {
-            tableName: User
+            tableName: 'Users'
           }
         }
       },
