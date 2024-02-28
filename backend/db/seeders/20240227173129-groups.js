@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const groups = [
   {
-    organizerId: 8,
+    organizerId: 1,
     name: "Evening Tennis on the Water",
     about: "Enjoy rounds of tennis with a tight-nit group of people on the water facing the Brooklyn Bridge. Singles or doubles.",
     type: "In Person",
@@ -19,7 +19,7 @@ const groups = [
     previewImage: "image url",
   },
   {
-    organizerId: 10,
+    organizerId: 2,
     name: "Wake Boarding Classes",
     about: "Get out on the water and learn to wake board like a pro",
     type: "In Person",
@@ -29,7 +29,7 @@ const groups = [
     previewImage: "image url",
   },
   {
-    organizerId: 5,
+    organizerId: 3,
     name: "Watercolor Wednesdays",
     about: "Meet every wednesday to make watercolor together and listen to jazz",
     type: "In Person",
