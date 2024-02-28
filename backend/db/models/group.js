@@ -1,11 +1,23 @@
 'use strict';
+
+const { Membership } = require('../models');
+
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
     static associate(models) {
-      // Group.belongsTo(models.User);
+      Group.belongsTo(models.User, {
+        as: 'Organizer',
+        foreignKey: 'organizerId'
+      });
+
+      Group.hasMany(models.Venue, {
+        foreignKey: 'groupId',
+        onDelete: 'CASCADE',
+        hooks: true
+      });
 
       Group.hasMany(models.Event, {
         foreignKey: 'groupId',
@@ -17,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'groupId',
         onDelete: 'CASCADE',
         hooks: true
+      });
+
+      Group.hasMany(models.Membership, {
+        foreignKey: 'groupId'
       });
 
       Group.belongsToMany(models.User, {

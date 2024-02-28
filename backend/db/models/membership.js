@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class Membership extends Model {
     
     static associate(models) {
-      // Membership.belongsTo(models.Group);
-      // Membership.belongsTo(models.User);
+      Membership.belongsTo(models.Group);
+      Membership.belongsTo(models.User);
     }
   }
   Membership.init({
