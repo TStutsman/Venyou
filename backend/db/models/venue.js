@@ -18,9 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: {
-          tableName: 'Groups'
-        }
+        model: 'Groups'
       }
     },
     address: DataTypes.STRING,
