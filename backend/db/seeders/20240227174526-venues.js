@@ -7,10 +7,6 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
-const groupIds = await Group.findAll({
-  attributes: ['id']
-});
-
 const venues = [
   {
     address: "123 Disney Lane",
@@ -35,13 +31,17 @@ const venues = [
   }
 ];
 
-venues.forEach((venue, i) => {
-  venue.groupId = groupIds[i % groupIds.length].id;
-});
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    const groupIds = await Group.findAll({
+      attributes: ['id']
+    });
+
+    venues.forEach((venue, i) => {
+      venue.groupId = groupIds[i % groupIds.length].id;
+    });
+
     await Venue.bulkCreate(venues, { validate: true });
   },
 
