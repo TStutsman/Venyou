@@ -7,51 +7,55 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
-const memberships = [
+const userGroupMemberships = [
   {
+    username: 'FakeUser1',
+    name: 'Evening Tennis on the Water',
     status: 'organizer'
   },
   {
+    username: 'FakeUser1',
+    name: 'Wake Boarding Classes',
     status: 'member'
   },
   {
+    username: 'FakeUser2',
+    name: 'Wake Boarding Classes',
     status: 'organizer'
   },
   {
+    username: 'FakeUser2',
+    name: 'Watercolor Wednesdays',
     status: 'organizer'
   },
   {
+    username: 'Demo-lition',
+    name: 'Watercolor Wednesdays',
     status: 'member'
   }
 ];
 
-let toDelete;
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const groupIds = await Group.findAll({
-      attributes: ['id']
-    });
-    const userIds = await User.findAll({
-      attributes: ['id']
-    });
+    for(let userGroupMembership of userGroupMemberships) {
+      const { username, name, status } = userGroupMembership;
+      const group = await Group.findOne({ where: { name: name }});
+      const user =  await User.findOne({ where: { username }});
 
-    toDelete = userIds.map(user => user.id);
+      await Membership.create({ status, userId: user.id, groupId: group.id }, { validate: true });
+    }
 
-    memberships.forEach((member, i) => {
-      member.groupId = groupIds[i % groupIds.length].id;
-      member.userId = userIds[i % userIds.length].id;
-    });
-
-    Membership.bulkCreate(memberships, { validate: true });
+    // Membership.bulkCreate(memberships, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Memberships';
-    const { Op } = Sequelize;
-    await queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: toDelete }
-    }, {});
+    for(let userGroupMembership of userGroupMemberships) {
+      const { username, name, status } = userGroupMembership;
+      const group = await Group.findOne({ where: { name: name }});
+      const user =  await User.findOne({ where: { username }});
+
+      await Membership.destroy({ where: { status, userId: user.id, groupId: group.id } });
+    }
   }
 };

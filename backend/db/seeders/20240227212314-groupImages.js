@@ -9,42 +9,41 @@ if (process.env.NODE_ENV === 'production') {
 
 const groupImages = [
   {
+    name: 'Evening Tennis on the Water',
     url: 'fake url',
     preview: true
   },
   {
+    name: 'Wake Boarding Classes',
     url: 'fake url2',
     preview: false
   },
   {
+    name: 'Watercolor Wednesdays',
     url: 'fake url3',
     preview: false
   }
 ];
 
-let toDelete;
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const groupIds = await Group.findAll({
-      attributes: ['id']
-    });
+    for(let groupImage of groupImages) {
+      const { name, url, preview } = groupImage;
+      const group = await Group.findOne({ where: { name } });
 
-    groupImages.forEach((image, i) => {
-      image.groupId = groupIds[i % groupIds.length].id;
-    });
+      await GroupImage.create({ url, preview, groupId: group.id }, { validate: true });
+    }
 
-    toDelete = groupIds.map(group => group.id);
-
-    await GroupImage.bulkCreate(groupImages, { validate: true });
+    // await GroupImage.bulkCreate(groupImages, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'GroupImages';
-    const { Op } =  Sequelize;
-    await queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: toDelete }
-    }, {});
+    for(let groupImage of groupImages) {
+      const { name, url, preview } = groupImage;
+      const group = Group.findOne({ where: { name } });
+
+      await GroupImage.destroy({ where: { url, preview, groupId: group.id } });
+    }
   }
 };

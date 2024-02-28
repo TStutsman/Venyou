@@ -9,42 +9,41 @@ if (process.env.NODE_ENV === 'production') {
 
 const eventImages = [
   {
+    name: 'Tennis Group First Meet and Greet',
     url: 'fake url',
     preview: true
   },
   {
+    name: 'Wake Boarding First Wave',
     url: 'fake url2',
     preview: false
   },
   {
+    name: 'Weekly Watercolor',
     url: 'fake url3',
     preview: false
   }
 ];
 
-let toDelete;
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const eventIds = await Event.findAll({
-      attributes: ['id']
-    });
+    for(let eventImage of eventImages) {
+      const { name, url, preview } = eventImage;
+      const event = await Event.findOne({ where: { name } });
 
-    eventImages.forEach((image, i) => {
-      image.eventId = eventIds[i % eventIds.length].id;
-    });
+      await EventImage.create({ url, preview, eventId: event.id }, { validate: true });
+    }
 
-    toDelete = eventIds.map(event => event.id);
-
-    await EventImage.bulkCreate(eventImages, { validate: true });
+    // await EventImage.bulkCreate(eventImages, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'EventImages';
-    const { Op } =  Sequelize;
-    await queryInterface.bulkDelete(options, {
-      eventId: { [Op.in]: toDelete }
-    }, {});
+    for(let eventImage of eventImages) {
+      const { name, url, preview } = eventImage;
+      const event = Event.findOne({ where: { name } });
+
+      await EventImage.destroy({ where: { url, preview, eventId: event.id } });
+    }
   }
 };

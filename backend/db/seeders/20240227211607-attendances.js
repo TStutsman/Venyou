@@ -7,14 +7,20 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
-const attendances = [
+const userEventAttendances = [
   {
+    username: 'FakeUser1',
+    name: 'Tennis Group First Meet and Greet',
     status: "waitlist"
   },
   {
+    username: 'FakeUser1',
+    name: 'Wake Boarding First Wave',
     status: "attending"
   },
   {
+    username: 'FakeUser2',
+    name: 'Weekly Watercolor',
     status: "pending"
   }
 ];
@@ -25,28 +31,25 @@ let toDelete;
 module.exports = {
   async up (queryInterface, Sequelize) {
 
-    const eventIds = await Event.findAll({
-      attributes: ['id']
-    });
-    const userIds = await User.findAll({
-      attributes: ['id']
-    });
+    for(let userEventAttendance of userEventAttendances) {
+      const { username, name, status } = userEventAttendance;
+      const user = await User.findOne({ where: { username } });
+      const event = await Event.findOne({ where: { name } });
 
-    toDelete = userIds.map(user => user.id);
+      await Attendance.create({ status, userId: user.id, eventId: event.id }, { validate: true });
+    }
 
-    attendances.forEach((attendee, i) => {
-      attendee.eventId = eventIds[i % eventIds.length].id;
-      attendee.userId = userIds[i % userIds.length].id;
-    });
-
-    await Attendance.bulkCreate(attendances, { validate: true });
+    // await Attendance.bulkCreate(attendances, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Attendances';
-    const { Op } =  Sequelize;
-    await queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: toDelete }
-    }, {});
+    
+    for(let userEventAttendance of userEventAttendances) {
+      const { username, name, status } = userEventAttendance;
+      const user = await User.findOne({ where: { username } });
+      const event = await Event.findOne({ where: { name } });
+
+      await Attendance.destroy({ where: { status, userId: user.id, eventId: event.id } });
+    }
   }
 };
