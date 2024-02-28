@@ -1,15 +1,18 @@
 'use strict';
 
-const { Venue } =  require('../models');
+const { Venue, Group } =  require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 }
 
+const groupIds = await Group.findAll({
+  attributes: ['id']
+});
+
 const venues = [
   {
-    groupId: 1,
     address: "123 Disney Lane",
     city: "New York",
     state: "NY",
@@ -17,7 +20,6 @@ const venues = [
     lng: -122.4730327
   },
   {
-    groupId: 2,
     address: "345 Wave Point",
     city: "San Diego",
     state: "CA",
@@ -25,7 +27,6 @@ const venues = [
     lng: -122.4730327
   },
   {
-    groupId: 3,
     address: "456 Captain Dr",
     city: "Tampa",
     state: "FL",
@@ -33,6 +34,10 @@ const venues = [
     lng: -122.4730327
   }
 ];
+
+venues.forEach((venue, i) => {
+  venue.groupId = groupIds[i % groupIds.length].id;
+});
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
