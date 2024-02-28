@@ -1,6 +1,6 @@
 'use strict';
 
-const { EventImage } =  require('../models');
+const { EventImage, Event } =  require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -9,25 +9,34 @@ if (process.env.NODE_ENV === 'production') {
 
 const eventImages = [
   {
-    eventId: 1,
     url: 'fake url',
     preview: true
   },
   {
-    eventId: 2,
     url: 'fake url2',
     preview: false
   },
   {
-    eventId: 3,
     url: 'fake url3',
     preview: false
   }
 ];
 
+let toDelete;
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    const eventIds = await Event.findAll({
+      attributes: ['id']
+    });
+
+    eventImages.forEach((image, i) => {
+      image.eventId = eventIds[i % eventIds.length].id;
+    });
+
+    toDelete = eventIds.map(event => event.id);
+
     await EventImage.bulkCreate(eventImages, { validate: true });
   },
 
@@ -35,7 +44,7 @@ module.exports = {
     options.tableName = 'EventImages';
     const { Op } =  Sequelize;
     await queryInterface.bulkDelete(options, {
-      eventId: { [Op.in]: [1, 2, 3] }
+      eventId: { [Op.in]: toDelete }
     }, {});
   }
 };

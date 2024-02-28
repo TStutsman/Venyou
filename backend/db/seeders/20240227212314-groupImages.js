@@ -1,6 +1,6 @@
 'use strict';
 
-const { GroupImage } =  require('../models');
+const { GroupImage, Group } =  require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -9,25 +9,34 @@ if (process.env.NODE_ENV === 'production') {
 
 const groupImages = [
   {
-    groupId: 1,
     url: 'fake url',
     preview: true
   },
   {
-    groupId: 2,
     url: 'fake url2',
     preview: false
   },
   {
-    groupId: 3,
     url: 'fake url3',
     preview: false
   }
 ];
 
+let toDelete;
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    const groupIds = await Group.findAll({
+      attributes: ['id']
+    });
+
+    groupImages.forEach((image, i) => {
+      image.groupId = groupIds[i % groupIds.length].id;
+    });
+
+    toDelete = groupIds.map(group => group.id);
+
     await GroupImage.bulkCreate(groupImages, { validate: true });
   },
 
@@ -35,7 +44,7 @@ module.exports = {
     options.tableName = 'GroupImages';
     const { Op } =  Sequelize;
     await queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: [1, 2, 3] }
+      groupId: { [Op.in]: toDelete }
     }, {});
   }
 };

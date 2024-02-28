@@ -1,6 +1,6 @@
 'use strict';
 
-const { Attendance } =  require('../models');
+const { Attendance, Event, User } =  require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -9,25 +9,36 @@ if (process.env.NODE_ENV === 'production') {
 
 const attendances = [
   {
-    eventId: 1,
-    userId: 5,
     status: "waitlist"
   },
   {
-    eventId: 2,
-    userId: 7,
     status: "attending"
   },
   {
-    eventId: 3,
-    userId: 7,
     status: "pending"
   }
 ];
 
+let toDelete;
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+
+    const eventIds = await Event.findAll({
+      attributes: ['id']
+    });
+    const userIds = await User.findAll({
+      attributes: ['id']
+    });
+
+    toDelete = userIds.map(user => user.id);
+
+    attendances.forEach((attendee, i) => {
+      attendee.eventId = eventIds[i % eventIds.length].id;
+      attendee.userId = userIds[i % userIds.length].id;
+    });
+
     await Attendance.bulkCreate(attendances, { validate: true });
   },
 
@@ -35,7 +46,7 @@ module.exports = {
     options.tableName = 'Attendances';
     const { Op } =  Sequelize;
     await queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: [5, 7] }
+      userId: { [Op.in]: toDelete }
     }, {});
   }
 };

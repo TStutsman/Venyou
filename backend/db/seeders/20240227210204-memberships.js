@@ -1,6 +1,6 @@
 'use strict';
 
-const { Membership } =  require('../models');
+const { Membership, Group, User} =  require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -9,35 +9,41 @@ if (process.env.NODE_ENV === 'production') {
 
 const memberships = [
   {
-    userId: 5,
-    groupId: 1,
     status: 'organizer'
   },
   {
-    userId: 6,
-    groupId: 1,
     status: 'member'
   },
   {
-    userId: 7,
-    groupId: 3,
     status: 'organizer'
   },
   {
-    userId: 7,
-    groupId: 2,
     status: 'organizer'
   },
   {
-    userId: 6,
-    groupId: 2,
     status: 'member'
   }
 ];
 
+let toDelete;
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    const groupIds = await Group.findAll({
+      attributes: ['id']
+    });
+    const userIds = await User.findAll({
+      attributes: ['id']
+    });
+
+    toDelete = userIds.map(user => user.id);
+
+    memberships.forEach((member, i) => {
+      member.groupId = groupIds[i % groupIds.length].id;
+      member.userId = userIds[i % userIds.length].id;
+    });
+
     Membership.bulkCreate(memberships, { validate: true });
   },
 
@@ -45,7 +51,7 @@ module.exports = {
     options.tableName = 'Memberships';
     const { Op } = Sequelize;
     await queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: [5, 6, 7] }
+      userId: { [Op.in]: toDelete }
     }, {});
   }
 };
