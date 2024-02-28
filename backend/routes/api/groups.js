@@ -119,4 +119,37 @@ router.post('/', requireAuth, validateNewGroup, async (req, res, next) => {
     res.json(newGroup);
 });
 
+router.post('/:groupId/images', requireAuth, async (req, res, next) => {
+    const { url, preview } = req.body;
+    const { id } = req.user;
+
+    const group = await Group.findByPk(req.params.groupId);
+
+    if(!group) {
+        const err = new Error("Group couldn't be found");
+        err.title = "Group couldn't be found";
+        err.status = 404;
+        return next(err);
+    }
+
+    if(id !== group.organizerId){
+        const err = new Error('Must be organizer to add image');
+        err.title = 'Must be organizer to add image';
+        err.status = 403;
+        return next(err);
+    }
+
+    const newImage = await GroupImage.create({
+        url, preview, groupId: group.id
+    });
+
+    const response = {
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
+    }
+
+    res.json(response);
+});
+
 module.exports = router;
