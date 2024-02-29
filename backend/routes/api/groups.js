@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
                 [fn('COUNT', col('Users.id')), 'numMembers'],
             ]
         },
-        group: 'Group.id'
+        group: ['Group.id', 'GroupImages.id']
     });
 
     // removes the 'GroupImages' key and puts the preview in 'previewImage'
