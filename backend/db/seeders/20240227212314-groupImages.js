@@ -41,7 +41,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     for(let groupImage of groupImages) {
       const { name, url, preview } = groupImage;
-      const group = Group.findOne({ where: { name } });
+      const group = await Group.findOne({ where: { name } });
 
       await GroupImage.destroy({ where: { url, preview, groupId: group.id } });
     }

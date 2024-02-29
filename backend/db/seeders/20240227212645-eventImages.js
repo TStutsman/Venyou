@@ -41,7 +41,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     for(let eventImage of eventImages) {
       const { name, url, preview } = eventImage;
-      const event = Event.findOne({ where: { name } });
+      const event = await Event.findOne({ where: { name } });
 
       await EventImage.destroy({ where: { url, preview, eventId: event.id } });
     }
