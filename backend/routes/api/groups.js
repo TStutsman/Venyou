@@ -267,9 +267,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
         return next(err);
     }
 
-    const venues = group.Venues;
-
-    res.json(venues);
+    res.json(group);
 });
 
 // Create a new Venue for a Group
