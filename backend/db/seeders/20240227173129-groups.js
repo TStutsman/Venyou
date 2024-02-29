@@ -9,6 +9,10 @@ if (process.env.NODE_ENV === 'production') {
 
 const userGroups = [
   {
+    username: 'Demo-lition',
+    groups: []
+  },
+  {
     username: 'FakeUser1',
     groups: [
       {
@@ -61,12 +65,12 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     for(let userGroup of userGroups) {
-      const { groups } = userGroup;
+      const { username } = userGroup;
 
-      for(let group of groups) {
-        let where = {};
-        await Group.destroy({ where });
-      }
+      const user = await User.findOne({ where: { username } });
+        
+      // destroy all groups each seed user organized
+      await Group.destroy({ where: { organizerId: user.id } });
     }
   }
 };
