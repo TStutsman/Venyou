@@ -30,7 +30,7 @@ router.get('/', async (req, res, next) => {
             }
         ],
         attributes: {
-            exclude: ['createdAt', 'updatedAt'],
+            exclude: ['createdAt', 'updatedAt', 'capacity', 'price'],
             include: [
                 [fn('COUNT', col('Attendances.id')), 'numAttending'],
                 [col('EventImages.url'), 'previewImage']
@@ -39,7 +39,11 @@ router.get('/', async (req, res, next) => {
         group: ['Group.id', 'Event.id', 'EventImages.url', 'Venue.id']
     });
 
-    res.json(allEvents);
+    const resObj = {
+        "Events": allEvents
+    }
+
+    res.json(resObj);
 });
 
 module.exports = router;
