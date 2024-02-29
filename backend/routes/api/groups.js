@@ -121,7 +121,8 @@ router.get('/:groupId', async (req, res, next) => {
                 model: Membership,
                 attributes: [],
             },
-        ]
+        ],
+        group: 'Group.id' // need this for render/postgres
     });
 
     if(!group.id) {
