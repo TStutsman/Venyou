@@ -69,7 +69,7 @@ module.exports = {
       // for(let venue of venues) {
       //   await Venue.destroy({ where: { ...venue, groupId: group.id } });
       // }
-      await Venue.truncate();
+      await sequelize.destroyAll();
     }
   }
 };
