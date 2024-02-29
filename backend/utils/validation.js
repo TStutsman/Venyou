@@ -56,15 +56,13 @@ const validateEvent = [
     .withMessage('Type must be Online or In Person'),
     check('capacity').exists({ checkFalsy: true }).isInt()
     .withMessage('Capacity must be an integer'),
-    check('price').exists({ checkFalsy: true }).isDecimal({ decimal_digits: 2 }).isFloat({ min: 0 })
+    check('price').exists({ checkFalsy: true }).isFloat({ min: 0 })
     .withMessage('Price is invalid'),
     check('description').exists({ checkFalsy: true })
     .withMessage('Description is required'),
-    check('startDate').exists({ checkFalsy: true }).isDate().custom(date => new Date(date).getTime() > Date.now)
+    check('startDate').exists({ checkFalsy: true }).isAfter({ comparisonDate: new Date(Date.now()).toDateString() })
     .withMessage('Start date must be in the future'),
-    check('endDate').exists({ checkFalsy: true }).isDate()
-    .withMessage('End date is less than start date'),
-    check(['startDate', 'endDate']).custom(([start, end]) => Date(start).getTime() < Date(end).getTime())
+    check('endDate').exists({ checkFalsy: true }).custom((date, { req }) => date > req.body.startDate)
     .withMessage('End date is less than start date'),
     handleValidationErrors
 ];

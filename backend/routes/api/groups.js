@@ -164,8 +164,8 @@ router.post('/:groupId/images', requireAuth, async (req, res, next) => {
     }
 
     if(id !== group.organizerId){
-        const err = new Error('Must be organizer to add image');
-        err.title = 'Must be organizer to add image';
+        const err = new Error('Forbidden');
+        err.title = 'Forbidden';
         err.status = 403;
         return next(err);
     }
@@ -199,8 +199,8 @@ router.put('/:groupId', requireAuth, validateGroup, async (req, res, next) => {
     }
 
     if(id !== group.organizerId){
-        const err = new Error('Must be organizer to edit group');
-        err.title = 'Must be organizer to edit group';
+        const err = new Error('Forbidden');
+        err.title = 'Forbidden';
         err.status = 403;
         return next(err);
     }
@@ -226,8 +226,8 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
     }
 
     if(id !== group.organizerId){
-        const err = new Error('Must be organizer to delete a group');
-        err.title = 'Must be organizer to delete a group';
+        const err = new Error('Forbidden');
+        err.title = 'Forbidden';
         err.status = 403;
         return next(err);
     }
@@ -261,8 +261,8 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
     const isCohost = group.Memberships.filter(member => member.userId === id && member.status === 'co-host');
 
     if(id !== group.organizerId && !isCohost){
-        const err = new Error('Must be organizer or cohost to view a groups venues');
-        err.title = 'Must be organizer or cohost to view a groups venues';
+        const err = new Error('Forbidden');
+        err.title = 'Forbidden';
         err.status = 403;
         return next(err);
     }
@@ -288,8 +288,8 @@ router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, nex
     const isCohost = group.Memberships.filter(member => member.userId === id && member.status === 'co-host');
 
     if(id !== group.organizerId && !isCohost){
-        const err = new Error('Must be organizer or cohost to create a group venue');
-        err.title = 'Must be organizer or cohost to create a group venue';
+        const err = new Error('Forbidden');
+        err.title = 'Forbidden';
         err.status = 403;
         return next(err);
     }
@@ -346,8 +346,47 @@ router.get('/:groupId/events', async (req, res, next) => {
     res.json(group);
 });
 
-// router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, next) => {
+router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, next) => {
+    const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+    const { id } = req.user;
 
-// });
+    const group = await Group.findByPk(req.params.groupId, {
+        include: {
+            model: Membership,
+            attributes: ['userId', 'status']
+        }
+    });
+
+    if(!group) return groupNotFound(next);
+
+    const venue = await Venue.findByPk(venueId);
+
+    if(!venue) {
+        const err = new Error("Venue couldn't be found");
+        err.title = "Venue couldn't be found";
+        err.status = 404;
+        next(err);
+    }
+    
+    const groupJson = group.toJSON();
+    const isCohost = groupJson.Memberships.some(member => member.userId === id && member.status === 'co-host');
+    
+    if(id !== group.organizerId && !isCohost){
+        const err = new Error('Forbidden');
+        err.title = 'Forbidden';
+        err.status = 403;
+        return next(err);
+    }
+    
+    const newEvent = await group.createEvent({
+        venueId, name, type, capacity, price, description, startDate, endDate
+    });
+
+    const resObj = newEvent.toJSON();
+    delete resObj.createdAt;
+    delete resObj.updatedAt;
+    
+    res.json(resObj);
+});
 
 module.exports = router;

@@ -31,12 +31,12 @@ router.put('/:venueId', requireAuth, validateVenue, async (req, res, next) => {
         next(err);
     }
 
-    const group = venue.Group;
-    const isCohost = group.Memberships.filter(member => member.userId === id && member.status === 'co-host');
+    const group = venue.Group.toJSON();
+    const isCohost = group.Memberships.some(member => member.userId === id && member.status === 'co-host');
 
     if(id !== group.organizerId && !isCohost){
-        const err = new Error('Must be organizer or cohost to create a group venue');
-        err.title = 'Must be organizer or cohost to create a group venue';
+        const err = new Error('Forbidden');
+        err.title = 'Forbidden';
         err.status = 403;
         return next(err);
     }
