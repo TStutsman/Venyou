@@ -64,7 +64,7 @@ module.exports = {
       const { groups } = userGroup;
 
       for(let group of groups) {
-        let where = group;
+        let where = {};
         await Group.destroy({ where });
       }
     }
