@@ -122,10 +122,10 @@ router.get('/:groupId', async (req, res, next) => {
                 attributes: [],
             },
         ],
-        group: 'Group.id' // need this for render/postgres
+        group: ['Group.id', 'GroupImages.id', 'Venues.id'] // need this for render/postgres
     });
 
-    if(!group.id) {
+    if(!group) {
         const err = new Error("Group couldn't be found");
         err.title = "Group couldn't be found";
         err.status = 404;
