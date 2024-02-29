@@ -15,7 +15,8 @@ module.exports = {
       allowNull: false,
       references: {
         model: 'Venues'
-      }
+      },
+      onDelete: 'CASCADE'
     })
   },
 
