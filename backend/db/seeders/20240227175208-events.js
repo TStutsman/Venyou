@@ -62,10 +62,18 @@ module.exports = {
     for(let groupVenueEvent of groupVenueEvents) {
       const { groupName, address, events } = groupVenueEvent;
       const group = await Group.findOne({ where: { name: groupName }});
-      const venue = address === null ? { id: null } : await Venue.findOne({ where: { address }});
+
+      if(!group) throw new Error('Seed group not found');
+      
+      let venue;
+      if(address !== null) {
+        venue = await Venue.findOne({ where: { address }});
+
+        if(!venue) throw new Error('Seed venue not found');
+      } else venue = { id: null };
 
       for(let event of events) {
-        await Event.create({ ...event, venueId: venue ? venue.id : null, groupId: group.id }, { validate: true });
+        await Event.create({ ...event, venueId: venue.id, groupId: group.id }, { validate: true });
       }
     }
 
@@ -76,10 +84,14 @@ module.exports = {
     for(let groupVenueEvent of groupVenueEvents) {
       const { groupName, address, events } = groupVenueEvent;
       const group = await Group.findOne({ where: { name: groupName }});
-      const venue = address === null ? { id: null } : await Venue.findOne({ where: { address }});
+      
+      let venue;
+      if(address) {
+        venue = await Venue.findOne({ where: { address }});
+      } else venue = { id: null };
 
       for(let event of events) {
-        await Event.destroy({ where: { ...event, venueId: venue ? venue.id : null, groupId: group.id } });
+        await Event.destroy({ where: { ...event, venueId: venue.id, groupId: group.id } });
       }
     }
   }
