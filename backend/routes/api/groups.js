@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
         attributes: {
             include: [
                 [fn('COUNT', col('Users.id')), 'numMembers'],
-                [col('GroupImages.url'), 'previewImage']
+                ['$GroupImages.url$', 'previewImage']
             ]
         },
         group: 'Group.id'
