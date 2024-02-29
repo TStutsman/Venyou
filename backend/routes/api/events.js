@@ -36,7 +36,7 @@ router.get('/', async (req, res, next) => {
                 [col('EventImages.url'), 'previewImage']
             ]
         },
-        group: 'Group.id'
+        group: ['Group.id', 'Event.id']
     });
 
     res.json(allEvents);
