@@ -122,7 +122,7 @@ router.get('/:groupId', async (req, res, next) => {
                 attributes: [],
             },
         ],
-        group: ['Group.id', 'GroupImages.id', 'Venues.id'] // need this for render/postgres
+        group: ['Group.id', 'GroupImages.id', 'Venues.id', 'Organizer.id'] // need this for render/postgres
     });
 
     if(!group) {
