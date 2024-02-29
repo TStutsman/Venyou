@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const groupVenueEvents = [
   {
-    groupName: 'Evening Tennis on the Water',
+    name: 'Evening Tennis on the Water',
     address: null,
     events: [
       {
@@ -25,7 +25,7 @@ const groupVenueEvents = [
     ]
   },
   {
-    groupName: 'Wake Boarding Classes',
+    name: 'Wake Boarding Classes',
     address: '345 Wave Point',
     events: [
       {
@@ -40,7 +40,7 @@ const groupVenueEvents = [
     ]
   },
   {
-    groupName: 'Watercolor Wednesdays',
+    name: 'Watercolor Wednesdays',
     address: '456 Captain Dr',
     events: [
       {
@@ -60,8 +60,8 @@ const groupVenueEvents = [
 module.exports = {
   async up (queryInterface, Sequelize) {
     for(let groupVenueEvent of groupVenueEvents) {
-      const { groupName, address, events } = groupVenueEvent;
-      const group = await Group.findOne({ where: { name: groupName }});
+      const { name, address, events } = groupVenueEvent;
+      const group = await Group.findOne({ where: { name }});
 
       if(!group) throw new Error('Seed group not found');
       
