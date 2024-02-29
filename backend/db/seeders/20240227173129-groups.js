@@ -62,11 +62,11 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     for(let userGroup of userGroups) {
-      const { username, groups } = userGroup;
-      const user = await User.findOne({ where: { username } });
+      const { groups } = userGroup;
 
       for(let group of groups) {
-        await Group.destroy({ where: { ...group, organizerId: user.id } });
+        let where = group;
+        await Group.destroy({ where });
       }
     }
   }

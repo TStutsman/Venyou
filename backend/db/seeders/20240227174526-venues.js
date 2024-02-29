@@ -66,11 +66,11 @@ module.exports = {
       const { name, venues } = groupVenue;
       const group = await Group.findOne({ where: { name } });
 
-      // for(let venue of venues) {
-      //   await Venue.destroy({ where: { ...venue, groupId: group.id } });
-      // }
-      options.tableName = 'Venues';
-      await queryInterface.bulkDelete(options);
+      for(let venue of venues) {
+        let where = venue;
+        if(group) where.groupId = group.id;
+        await Venue.destroy({ where });
+      }
     }
   }
 };
