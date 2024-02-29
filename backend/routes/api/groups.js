@@ -16,7 +16,7 @@ const groupNotFound = (next) => {
 
 // Get All Groups
 router.get('/', async (req, res) => {
-    const allGroups = await Group.findAll({
+    let allGroups = await Group.findAll({
         include: [
             {
                 model: User,
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
             },
             {
                 model: GroupImage,
-                attributes: [],
+                attributes: ['url'],
                 required: false,
                 where: {
                     preview: true
@@ -38,13 +38,20 @@ router.get('/', async (req, res) => {
         attributes: {
             include: [
                 [fn('COUNT', col('Users.id')), 'numMembers'],
-                ['$GroupImages.url$', 'previewImage']
             ]
         },
         group: 'Group.id'
     });
 
-    res.json(allGroups);
+    // removes the 'GroupImages' key and puts the preview in 'previewImage'
+    const groups = allGroups.map(each => {
+        const group = each.toJSON();
+        if(group.GroupImages.length) group.previewImage = group.GroupImages[0].url;
+        delete group.GroupImages;
+        return group;
+    });
+
+    res.json(groups);
 });
 
 // Get All Groups for current User
@@ -62,7 +69,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             },
             {
                 model: GroupImage,
-                attributes: [],
+                attributes: ['url'],
                 required: false,
                 where: {
                     preview: true
@@ -71,14 +78,21 @@ router.get('/current', requireAuth, async (req, res, next) => {
         ],
         attributes: {
             include: [
-                [fn('COUNT', col('Memberships.userId')), 'numMembers'],
-                [col('GroupImages.url'), 'previewImage']
+                [fn('COUNT', col('Memberships.userId')), 'numMembers']
             ]
         },
         group: 'Group.id'
     });
 
-    res.json(userGroups);
+    // removes the 'GroupImages' key and puts the preview in 'previewImage'
+    const groups = userGroups.map(each => {
+        const group = each.toJSON();
+        if(group.GroupImages.length) group.previewImage = group.GroupImages[0].url;
+        delete group.GroupImages;
+        return group;
+    });
+
+    res.json(groups);
 });
 
 // Get Details of Group from an id
