@@ -66,9 +66,10 @@ module.exports = {
       const { name, venues } = groupVenue;
       const group = await Group.findOne({ where: { name } });
 
-      for(let venue of venues) {
-        await Venue.destroy({ where: { ...venue, groupId: group.id } });
-      }
+      // for(let venue of venues) {
+      //   await Venue.destroy({ where: { ...venue, groupId: group.id } });
+      // }
+      await Venue.truncate();
     }
   }
 };
