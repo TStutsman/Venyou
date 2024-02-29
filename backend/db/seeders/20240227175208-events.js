@@ -63,7 +63,7 @@ module.exports = {
       const { name, address, events } = groupVenueEvent;
       const group = await Group.findOne({ where: { name }});
 
-      if(!group) throw new Error('Seed group not found');
+      if(!group) throw new Error(`Seed group not found for group name: ${name}`);
       
       let venue;
       if(address !== null) {
