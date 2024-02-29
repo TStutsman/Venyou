@@ -82,16 +82,12 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     for(let groupVenueEvent of groupVenueEvents) {
-      const { name, address, events } = groupVenueEvent;
-      const group = await Group.findOne({ where: { name }});
-      
-      let venue;
-      if(address) {
-        venue = await Venue.findOne({ where: { address }});
-      } else venue = { id: null };
+      const { events } = groupVenueEvent;
 
       for(let event of events) {
         let where = event;
+        delete where.startDate;
+        delete where.endDate;
         await Event.destroy({ where });
       }
     }
