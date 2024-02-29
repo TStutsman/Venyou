@@ -33,7 +33,6 @@ const userGroups = [
     username: 'FakeUser2',
     groups: [
       {
-        organizerId: 3,
         name: "Watercolor Wednesdays",
         about: "Meet every wednesday to make watercolor together and listen to jazz",
         type: "In Person",
