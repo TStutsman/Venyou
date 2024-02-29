@@ -65,7 +65,7 @@ module.exports = {
       const venue = address === null ? { id: null } : await Venue.findOne({ where: { address }});
 
       for(let event of events) {
-        await Event.create({ ...event, venueId: venue.id || null, groupId: group.id }, { validate: true });
+        await Event.create({ ...event, venueId: venue ? venue.id : null, groupId: group.id }, { validate: true });
       }
     }
 
@@ -79,7 +79,7 @@ module.exports = {
       const venue = address === null ? { id: null } : await Venue.findOne({ where: { address }});
 
       for(let event of events) {
-        await Event.destroy({ where: { ...event, venueId: venue.id || null, groupId: group.id } });
+        await Event.destroy({ where: { ...event, venueId: venue ? venue.id : null, groupId: group.id } });
       }
     }
   }
