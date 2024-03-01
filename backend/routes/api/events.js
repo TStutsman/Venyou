@@ -22,8 +22,8 @@ router.get('/', validatePagination, async (req, res, next) => {
     if(name) where.name = { [Op.substring]: name };
     if(type) where.type = type;
     if(startDate) where.startDate = {
-        [Op.lt]: new Date(startDate),
-        [Op.gt]: new Date(new Date(startDate) - 24 * 60 * 60 * 1000)
+        [Op.lt]: new Date(new Date(startDate) + 24 * 60 * 60 * 1000),
+        [Op.gt]: new Date(startDate)
     };
 
     const allEvents = await Event.findAll({
