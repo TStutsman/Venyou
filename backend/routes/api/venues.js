@@ -4,6 +4,8 @@ const { literal } = require('sequelize');
 const { requireAuth } =  require('../../utils/auth');
 const { validateVenue } = require('../../utils/validation');
 const { Venue, Group, Membership } = require('../../db/models');
+const { forbidden, venueNotFound } = require('../../utils/errors');
+const { getRole } = require('../../utils/perms');
 
 const router = express.Router();
 
@@ -24,22 +26,13 @@ router.put('/:venueId', requireAuth, validateVenue, async (req, res, next) => {
         }]
     });
 
-    if(!venue) {
-        const err = new Error("Venue couldn't be found");
-        err.title = "Venue couldn't be found";
-        err.status = 404;
-        next(err);
-    }
+    if(!venue) return next(venueNotFound);
 
-    const group = venue.Group.toJSON();
-    const isCohost = group.Memberships.some(member => member.userId === id && member.status === 'co-host');
+    const role = getRole(venue, id);
 
-    if(id !== group.organizerId && !isCohost){
-        const err = new Error('Forbidden');
-        err.title = 'Forbidden';
-        err.status = 403;
-        return next(err);
-    }
+    console.log('ROLE:', role);
+
+    if(role !== 'organizer' && role !== 'co-host') return next(forbidden);
 
     venue.set({
         address, city, state, lat, lng, updatedAt: literal('CURRENT_TIMESTAMP')

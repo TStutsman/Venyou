@@ -28,4 +28,8 @@ const groupNotFound = new Error("Group couldn't be found");
 groupNotFound.title = "Group couldn't be found";
 groupNotFound.status = 404;
 
-module.exports = { formatErrors, forbidden, eventNotFound, venueNotFound, groupNotFound };
+const userNotFound = new Error("User couldn't be found");
+userNotFound.title = "User couldn't be found";
+userNotFound.status = 404;
+
+module.exports = { formatErrors, forbidden, eventNotFound, venueNotFound, groupNotFound, userNotFound };

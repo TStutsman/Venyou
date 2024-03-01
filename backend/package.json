@@ -13,8 +13,10 @@
     "build": "node psql-setup-script.js",
     "migrate": "npx dotenv sequelize db:migrate",
     "migrate:undo": "npx dotenv sequelize db:migrate:undo",
+    "migrate:undo:all": "npx dotenv sequelize db:migrate:undo:all",
     "seed": "npx dotenv sequelize db:seed:all",
-    "seed:undo": "npx dotenv sequelize db:seed:undo"
+    "seed:undo": "npx dotenv sequelize db:seed:undo",
+    "seed:undo:all": "npx dotenv sequelize db:seed:undo:all"
   },
   "keywords": [],
   "author": "",

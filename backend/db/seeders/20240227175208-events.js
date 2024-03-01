@@ -68,8 +68,6 @@ module.exports = {
         venue = await Venue.findOne({ where: { address }});
       } else venue = { id: null };
 
-      console.log('Venue:', venue);
-
       for(let event of events) {
         await group.createEvent({ ...event, venueId: venue.id }, { validate: true });
       }

@@ -1,27 +1,27 @@
-const { Event } = require('../db/models');
+const { Group, EventImage } = require('../db/models');
 
-const organizerOrCohost = (queryResult, userId) => {
+const findMember = (memberArray, key, value) => {
+    return memberArray.find(member => member[key] === value);
+}
+
+const getRole = (queryResult, userId) => {
     const resultObj = queryResult.toJSON();
 
     let group;
-    if(queryResult instanceof Event) group = resultObj.Group;
+    if(queryResult instanceof EventImage) group = resultObj.Event.Group;
+    else if(!(queryResult instanceof Group)) group = resultObj.Group;
     else group = resultObj;
+
+    let member;
+    if(group.Users) member = findMember(group.Users, 'id', userId);
+    else if (group.Memberships) member = findMember(group.Memberships, 'userId', userId);
     
-    const isCohost = group.Memberships.some(member => member.userId === userId && member.status === 'co-host');
+    if(member) return member.status;
     
     const isOrganizer = group.organizerId === userId;
+    if(isOrganizer) return 'organizer';
 
-    return isOrganizer || isCohost;
+    return 'stranger';
 }
 
-// const organizerOrCohostOrAttendee = (event, userId) => {
-//     const eventObj = event.toJSON();
-
-//     const isCohost = eventObj.Group.Memberships.some(member => member.userId === userId && member.status === 'co-host');
-
-//     const isOrganizer = eventObj.Group.organizerId === userId;
-    
-//     return isOrganizer || isCohost;
-// }
-
-module.exports = { organizerOrCohost };
+module.exports = { getRole };

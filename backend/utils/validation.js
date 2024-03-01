@@ -1,4 +1,4 @@
-const { validationResult, check } =  require('express-validator');
+const { validationResult, check, query } =  require('express-validator');
 
 const handleValidationErrors = (req, _res, next) => {
     const validationErrors = validationResult(req);
@@ -16,6 +16,11 @@ const handleValidationErrors = (req, _res, next) => {
 
     next();
 }
+const capitalizeWords = (string) => {
+    let caps =  string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
+    console.log('CAPS: ',caps);
+    return caps;
+}
 
 // Input validation for Groups
 const validateGroup = [
@@ -23,7 +28,8 @@ const validateGroup = [
     .withMessage('Name must be 60 characters or less'),
     check('about').exists({ checkFalsy: true }).isLength({ min: 50 })
     .withMessage('About must be 50 characters or more'),
-    check('type').exists({ checkFalsy: true }).isIn(['Online', 'In Person'])
+    check('type').exists({ checkFalsy: true })
+    .customSanitizer(string => capitalizeWords(string)).isIn(['Online', 'In Person'])
     .withMessage("Type must be 'Online' or 'In Person"),
     check('private').exists().isBoolean()
     .withMessage('Private must be a boolean'),
@@ -49,9 +55,6 @@ const validateVenue = [
     handleValidationErrors
 ];
 
-const capitalizeWords = (string) => {
-    return string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
-}
 
 const validateEvent = [
     check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
@@ -73,4 +76,31 @@ const validateEvent = [
     handleValidationErrors
 ];
 
-module.exports = { handleValidationErrors, validateGroup, validateVenue, validateEvent };
+const validateMembership = [
+    check('status').exists({ checkFalsy: true }).isString().not().isIn(['pending'])
+    .withMessage('Cannot change a membership status to pending'),
+    handleValidationErrors
+];
+
+const validateAttendance = [
+    check('status').exists({ checkFalsy: true }).isString().not().isIn(['pending'])
+    .withMessage('Cannot change an attendance status to pending'),
+    handleValidationErrors
+];
+
+const validatePagination = [
+    query('page').optional().isInt({ min: 1, max: 10 })
+    .withMessage("Page must be greater than or equal to 1"),
+    query('size').optional().isInt({ min: 1, max: 20 })
+    .withMessage("Size must be greater than or equal to 1"),
+    query('name').optional().isString()
+    .withMessage("Name must be a string"),
+    query('type').optional().isString().customSanitizer(string => capitalizeWords(string))
+    .isIn(['Online', 'In Person'])
+    .withMessage("Type must be 'Online' or 'In Person'"),
+    query('startDate').optional().isString()
+    .withMessage("Start date must be a valid datetime"),
+    handleValidationErrors
+]
+
+module.exports = { handleValidationErrors, validateGroup, validateVenue, validateEvent, validateMembership, validateAttendance, validatePagination };
