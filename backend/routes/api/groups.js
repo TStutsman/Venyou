@@ -274,14 +274,9 @@ router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, nex
 
     if(!group) return next(groupNotFound);
 
-    const isCohost = group.Memberships.filter(member => member.userId === id && member.status === 'co-host');
+    const role = getRole(group, id);
 
-    if(id !== group.organizerId && !isCohost){
-        const err = new Error('Forbidden');
-        err.title = 'Forbidden';
-        err.status = 403;
-        return next(err);
-    }
+    if(role !== 'organizer' && role !== 'co-host') return next(forbidden);
 
     const newVenue = await group.createVenue({
         groupId: group.id, address, city, state, lat, lng

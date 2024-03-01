@@ -289,9 +289,11 @@ router.post('/:eventId/attendance', requireAuth, async (req, res, next) => {
 
     if(!event) return next(eventNotFound);
 
-    const eventJson = event.toJSON();
+    const role = getRole(event, id);
 
-    console.log('Event', eventJson);
+    if(role === 'stranger' || role === 'pending') return next(forbidden);
+
+    const eventJson = event.toJSON();
 
     if(eventJson.Attendances.length){
         if(eventJson.Attendances[0].status === 'pending'){
