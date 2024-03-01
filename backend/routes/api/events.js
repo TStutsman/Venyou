@@ -146,7 +146,7 @@ router.get('/:eventId', async (req, res, next) => {
         group: ['Event.id', 'Group.id', 'Venue.id', 'EventImages.id']
     });
 
-    if(!event.toJSON().id) return next(eventNotFound);
+    if(!event) return next(eventNotFound);
 
     res.json(event);
 });
