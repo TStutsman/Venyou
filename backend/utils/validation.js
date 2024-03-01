@@ -93,12 +93,12 @@ const validatePagination = [
     .withMessage("Page must be greater than or equal to 1"),
     query('size').optional().isInt({ min: 1, max: 20 })
     .withMessage("Size must be greater than or equal to 1"),
-    query('name').optional().isString()
+    query('name').optional().not().isNumeric().not().isDate()
     .withMessage("Name must be a string"),
     query('type').optional().isString().customSanitizer(string => capitalizeWords(string))
     .isIn(['Online', 'In Person'])
     .withMessage("Type must be 'Online' or 'In Person'"),
-    query('startDate').optional().custom(dateString => Date.parse(dateString))
+    query('startDate').optional().custom(dateString => Date.parse(dateString) > Date.parse('1970-01-01'))
     .withMessage("Start date must be a valid datetime"),
     handleValidationErrors
 ]
