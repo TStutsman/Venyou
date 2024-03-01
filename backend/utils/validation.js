@@ -98,7 +98,7 @@ const validatePagination = [
     query('type').optional().isString().customSanitizer(string => capitalizeWords(string))
     .isIn(['Online', 'In Person'])
     .withMessage("Type must be 'Online' or 'In Person'"),
-    query('startDate').optional().isString()
+    query('startDate').optional().custom(dateString => Date.parse(dateString))
     .withMessage("Start date must be a valid datetime"),
     handleValidationErrors
 ]

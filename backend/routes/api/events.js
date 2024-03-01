@@ -404,7 +404,9 @@ router.delete('/:eventId/attendance/:userId', requireAuth, async (req, res, next
         return next(err);
     }
 
-    if(event.toJSON().Group.organizerId !== id && req.params.userId !== id) return next(forbidden);
+    const role = getRole(event, id);
+
+    if(role !== 'organizer' && user.id !== id) return next(forbidden);
 
     await attendance.destroy();
 
