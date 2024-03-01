@@ -142,7 +142,8 @@ router.get('/:eventId', async (req, res, next) => {
                 [fn('COUNT', col('Attendances.id')), 'numAttending']
             ],
             exclude: ['createdAt', 'updatedAt']
-        }
+        },
+        group: ['Event.id', 'Group.id', 'Venues.id', 'EventImages.id']
     });
 
     if(!event.toJSON().id) return next(eventNotFound);
@@ -150,8 +151,6 @@ router.get('/:eventId', async (req, res, next) => {
     res.json(event);
 });
 
-
-// Error: cannot read properties of undefined ('some')
 router.put('/:eventId', requireAuth, validateEvent, async (req, res, next) => {
     const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
     const { id } = req.user;
@@ -194,7 +193,6 @@ router.put('/:eventId', requireAuth, validateEvent, async (req, res, next) => {
     res.json(eventJson)
 });
 
-// Error: cannot read properties of ...
 router.delete('/:eventId', requireAuth, async (req, res, next) => {
     const { id } = req.user;
 
