@@ -12,4 +12,20 @@ const formatErrors = (err, req, res, next) => {
     next(err);
 };
 
-module.exports = { formatErrors };
+const forbidden = new Error('Forbidden');
+forbidden.title = 'Forbidden';
+forbidden.status = 403;
+
+const eventNotFound = new Error("Event couldn't be found");
+eventNotFound.title = "Event couldn't be found";
+eventNotFound.status = 404;
+
+const venueNotFound = new Error("Venue couldn't be found");
+venueNotFound.title = "Venue couldn't be found";
+venueNotFound.status = 404;
+
+const groupNotFound = new Error("Group couldn't be found");
+groupNotFound.title = "Group couldn't be found";
+groupNotFound.status = 404;
+
+module.exports = { formatErrors, forbidden, eventNotFound, venueNotFound, groupNotFound };

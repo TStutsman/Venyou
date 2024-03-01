@@ -32,7 +32,7 @@ module.exports = {
       const { name, url, preview } = eventImage;
       const event = await Event.findOne({ where: { name } });
 
-      await EventImage.create({ url, preview, eventId: event.id }, { validate: true });
+      await event.createEventImage({ url, preview }, { validate: true });
     }
 
     // await EventImage.bulkCreate(eventImages, { validate: true });
@@ -40,10 +40,10 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     for(let eventImage of eventImages) {
-      const { name, url, preview } = eventImage;
+      const { name, url } = eventImage;
       const event = await Event.findOne({ where: { name } });
 
-      await EventImage.destroy({ where: { url, preview, eventId: event.id } });
+      await EventImage.destroy({ where: { url, eventId: event.id } });
     }
   }
 };

@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Attendance.belongsTo(models.Event, {
-        foreignKey: 'id'
+        foreignKey: 'eventId'
       });
       Attendance.belongsTo(models.User, {
-        foreignKey: 'id'
+        foreignKey: 'userId'
       });
     }
   }

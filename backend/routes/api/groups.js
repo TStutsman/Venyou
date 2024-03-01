@@ -4,15 +4,10 @@ const { fn, col, Op, literal } = require('sequelize');
 const { requireAuth } =  require('../../utils/auth');
 const { validateGroup, validateVenue, validateEvent } = require('../../utils/validation');
 const { Group, User, Venue, Event, Membership, GroupImage, Attendance, EventImage } = require('../../db/models');
+const { venueNotFound, groupNotFound, forbidden } = require('../../utils/errors');
+const { organizerOrCohost } = require('../../utils/perms');
 
 const router = express.Router();
-
-const groupNotFound = (next) => {
-    const err = new Error("Group couldn't be found");
-    err.title = "Group couldn't be found";
-    err.status = 404;
-    return next(err);
-}
 
 // Get All Groups
 router.get('/', async (req, res) => {
@@ -306,44 +301,50 @@ router.post('/:groupId/venues', requireAuth, validateVenue, async (req, res, nex
 
 router.get('/:groupId/events', async (req, res, next) => {
 
-    const group = await Group.findByPk(req.params.groupId, {
-        include: {
-            model: Event,
-            include: [
-                {
-                    model: Group,
-                    attributes: ['id', 'name', 'city', 'state']
-                },
-                {
-                    model: Venue,
-                    attributes: ['id', 'city', 'state']
-                },
-                {
-                    model: Attendance,
-                    attributes: []
-                },
-                {
-                    model: EventImage,
-                    attributes: [[col('url'), 'previewImage']],
-                    required: false,
-                    where: {
-                        preview: true
-                    }
-                }
-            ],
-            attributes: {
-                include: [
-                    [fn('COUNT', col('Events.Attendances.id')), 'numAttending'],
-                    // [col('EventImages.url'), 'previewImage']
-                ]
-            }
-        },
-        attributes: []
-    });
+    const group = await Group.findByPk(req.params.groupId);
 
     if(!group) return groupNotFound(next);
 
-    res.json(group);
+    const events = await group.getEvents({
+        include: [
+            {
+                model: Group,
+                attributes: ['id', 'name', 'city', 'state']
+            },
+            {
+                model: Venue,
+                attributes: ['id', 'city', 'state']
+            },
+            {
+                model: Attendance,
+                attributes: []
+            },
+            {
+                model: EventImage,
+                attributes: [],
+                required: false,
+                where: {
+                    preview: true
+                }
+            }
+        ],
+        attributes: {
+            include: [
+                [fn('COUNT', col('Attendances.id')), 'numAttending'],
+                [col('EventImages.url'), 'previewImage']
+            ],
+            exclude: ['description', 'price', 'capacity', 'createdAt', 'updatedAt']
+        },
+        group: ['Event.id', 'Group.id', 'Venue.id', 'EventImages.url']
+    });
+
+    const eventsObj = events.map(event => event.toJSON());
+
+    const resObj = {
+        "Events": eventsObj
+    }
+
+    res.json(resObj);
 });
 
 router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, next) => {
@@ -357,26 +358,16 @@ router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, nex
         }
     });
 
-    if(!group) return groupNotFound(next);
+    if(!group) return next(groupNotFound);
 
     const venue = await Venue.findByPk(venueId);
 
-    if(!venue) {
-        const err = new Error("Venue couldn't be found");
-        err.title = "Venue couldn't be found";
-        err.status = 404;
-        next(err);
-    }
+    if(!venue) return next(venueNotFound);
     
-    const groupJson = group.toJSON();
-    const isCohost = groupJson.Memberships.some(member => member.userId === id && member.status === 'co-host');
+    // const groupJson = group.toJSON();
+    // const isCohost = groupJson.Memberships.some(member => member.userId === id && member.status === 'co-host');
     
-    if(id !== group.organizerId && !isCohost){
-        const err = new Error('Forbidden');
-        err.title = 'Forbidden';
-        err.status = 403;
-        return next(err);
-    }
+    if(!organizerOrCohost(group, id)) return next(forbidden);
     
     const newEvent = await group.createEvent({
         venueId, name, type, capacity, price, description, startDate, endDate

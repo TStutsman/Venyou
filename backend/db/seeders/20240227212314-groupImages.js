@@ -32,7 +32,7 @@ module.exports = {
       const { name, url, preview } = groupImage;
       const group = await Group.findOne({ where: { name } });
 
-      await GroupImage.create({ url, preview, groupId: group.id }, { validate: true });
+      await group.createGroupImage({ url, preview }, { validate: true });
     }
 
     // await GroupImage.bulkCreate(groupImages, { validate: true });
@@ -40,10 +40,10 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     for(let groupImage of groupImages) {
-      const { name, url, preview } = groupImage;
+      const { name, url } = groupImage;
       const group = await Group.findOne({ where: { name } });
 
-      await GroupImage.destroy({ where: { url, preview, groupId: group.id } });
+      await GroupImage.destroy({ where: { url, groupId: group.id } });
     }
   }
 };

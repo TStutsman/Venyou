@@ -62,18 +62,16 @@ module.exports = {
     for(let groupVenueEvent of groupVenueEvents) {
       const { name, address, events } = groupVenueEvent;
       const group = await Group.findOne({ where: { name }});
-
-      if(!group) throw new Error(`Seed group not found for group name: ${name}`);
       
       let venue;
       if(address !== null) {
         venue = await Venue.findOne({ where: { address }});
-
-        if(!venue) throw new Error('Seed venue not found');
       } else venue = { id: null };
 
+      console.log('Venue:', venue);
+
       for(let event of events) {
-        await Event.create({ ...event, venueId: venue.id, groupId: group.id }, { validate: true });
+        await group.createEvent({ ...event, venueId: venue.id }, { validate: true });
       }
     }
 

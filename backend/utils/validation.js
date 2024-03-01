@@ -49,10 +49,16 @@ const validateVenue = [
     handleValidationErrors
 ];
 
+const capitalizeWords = (string) => {
+    return string.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
+}
+
 const validateEvent = [
     check('name').exists({ checkFalsy: true }).isLength({ min: 5 })
     .withMessage('Name must be at least 5 characters'),
-    check('type').exists({ checkFalsy: true }).isIn(['Online', 'In Person'])
+    check('type').exists({ checkFalsy: true }).isString()
+    .customSanitizer(string => capitalizeWords(string))
+    .isIn(['Online', 'In Person'])
     .withMessage('Type must be Online or In Person'),
     check('capacity').exists({ checkFalsy: true }).isInt()
     .withMessage('Capacity must be an integer'),

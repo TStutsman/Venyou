@@ -54,7 +54,7 @@ module.exports = {
       const group = await Group.findOne({ where: { name } });
 
       for(let venue of venues) {
-        await Venue.create({ ...venue, groupId: group.id }, { validate: true });
+        await group.createVenue({ ...venue }, { validate: true });
       }
     }
 
@@ -63,12 +63,10 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     for(let groupVenue of groupVenues) {
-      const { name, venues } = groupVenue;
-      const group = await Group.findOne({ where: { name } });
+      const { venues } = groupVenue;
 
       for(let venue of venues) {
         let where = venue;
-        if(group) where.groupId = group.id;
         await Venue.destroy({ where });
       }
     }
