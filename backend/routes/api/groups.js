@@ -39,15 +39,9 @@ router.get('/', async (req, res) => {
         group: ['Group.id', 'GroupImages.id']
     });
 
-    // removes the 'GroupImages' key and puts the preview in 'previewImage'
-    // const groups = allGroups.map(each => {
-    //     const group = each.toJSON();
-    //     if(group.GroupImages.length) group.previewImage = group.GroupImages[0].url;
-    //     delete group.GroupImages;
-    //     return group;
-    // });
-
-    res.json(allGroups);
+    res.json({
+        Groups: allGroups
+    });
 });
 
 // Get All Groups for current User
@@ -81,15 +75,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
         group: ['Group.id', 'GroupImages.id']
     });
 
-    // removes the 'GroupImages' key and puts the preview in 'previewImage'
-    // const groups = userGroups.map(each => {
-    //     const group = each.toJSON();
-    //     if(group.GroupImages.length) group.previewImage = group.GroupImages[0].url;
-    //     delete group.GroupImages;
-    //     return group;
-    // });
-
-    res.json(userGroups);
+    res.json({
+        Groups: userGroups
+    });
 });
 
 // Get Details of Group from an id
@@ -242,6 +230,9 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
             },
             {
                 model: Venue,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
             }
         ]
     });

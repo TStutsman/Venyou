@@ -13,7 +13,10 @@ const getRole = (queryResult, userId) => {
     else group = resultObj;
 
     let member;
-    if(group.Users) member = findMember(group.Users, 'id', userId);
+    if(group.Users) {
+        member = findMember(group.Users, 'id', userId);
+        if(member) member = member.Membership
+    }
     else if (group.Memberships) member = findMember(group.Memberships, 'userId', userId);
     
     if(member) return member.status;

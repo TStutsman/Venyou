@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
         username: unsafe.username
     }
 
-    res.json(user);
+    res.json({user});
 });
 
 const validateLogin = [
