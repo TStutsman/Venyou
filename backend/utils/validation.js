@@ -93,7 +93,7 @@ const validatePagination = [
     .withMessage("Page must be greater than or equal to 1"),
     query('size').optional().isInt({ min: 1, max: 20 })
     .withMessage("Size must be greater than or equal to 1"),
-    query('name').optional().not().isNumeric().not().isDate()
+    query('name').optional().not().isNumeric()
     .withMessage("Name must be a string"),
     query('type').optional().isString().customSanitizer(string => capitalizeWords(string))
     .isIn(['Online', 'In Person'])
