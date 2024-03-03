@@ -243,10 +243,8 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
 
     if(role !== 'organizer' && role !== 'co-host') return next(forbidden);
 
-    const groupJson = group.toJSON();
-
     res.json({
-        Venues: groupJson.Venues
+        Venues: group.dataValues.Venues
     });
 });
 
@@ -319,10 +317,8 @@ router.get('/:groupId/events', async (req, res, next) => {
         group: ['Event.id', 'Group.id', 'Venue.id', 'EventImages.url']
     });
 
-    const eventsObj = events.map(event => event.toJSON());
-
     const resObj = {
-        "Events": eventsObj
+        "Events": events
     }
 
     res.json(resObj);
