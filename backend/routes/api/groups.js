@@ -75,12 +75,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
         group: ['Group.id', 'GroupImages.id']
     });
 
-    const groupArray = userGroups.toJSON();
-
-    if(groupArray.length) groupArray.forEach(group => group.numMembers = parseInt(group.numMembers));
+    if(userGroups.length) userGroups.forEach(group => group.numMembers = parseInt(group.numMembers));
 
     res.json({
-        Groups: groupArray
+        Groups: userGroups
     });
 });
 
