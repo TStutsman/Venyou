@@ -61,6 +61,8 @@ router.get('/', validatePagination, async (req, res, next) => {
         group: ['Group.id', 'Event.id', 'EventImages.url', 'Venue.id']
     });
 
+    if(allEvents.length) allEvents.forEach(event => event.dataValues.numAttending = parseInt(event.dataValues.numAttending));
+
     const resObj = {
         "Events": allEvents
     }
@@ -147,6 +149,8 @@ router.get('/:eventId', async (req, res, next) => {
     });
 
     if(!event) return next(eventNotFound);
+
+    event.dataValues.numAttending = parseInt(event.dataValues.numAttending);
 
     res.json(event);
 });

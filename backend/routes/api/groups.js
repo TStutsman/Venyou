@@ -39,6 +39,8 @@ router.get('/', async (req, res) => {
         group: ['Group.id', 'GroupImages.id']
     });
 
+    if(allGroups.length) allGroups.forEach(group => group.dataValues.numMembers = parseInt(group.dataValues.numMembers));
+
     res.json({
         Groups: allGroups
     });
@@ -116,6 +118,8 @@ router.get('/:groupId', async (req, res, next) => {
         err.status = 404;
         return next(err);
     }
+
+    group.dataValues.numMembers = parseInt(group.dataValues.numMembers);
 
     res.json(group);
 });
@@ -318,6 +322,8 @@ router.get('/:groupId/events', async (req, res, next) => {
         },
         group: ['Event.id', 'Group.id', 'Venue.id', 'EventImages.url']
     });
+
+    if(events.length) events.forEach(event => event.dataValues.numAttending = parseInt(event.dataValues.numAttending));
 
     const resObj = {
         "Events": events
