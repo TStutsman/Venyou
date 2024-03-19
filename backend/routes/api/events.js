@@ -52,7 +52,7 @@ router.get('/', validatePagination, async (req, res, next) => {
             }
         ],
         attributes: {
-            exclude: ['createdAt', 'updatedAt', 'capacity', 'price', 'description'],
+            exclude: ['createdAt', 'updatedAt', 'capacity', 'price'],
             include: [
                 [fn('COUNT', col('Attendances.id')), 'numAttending'],
                 [col('EventImages.url'), 'previewImage']

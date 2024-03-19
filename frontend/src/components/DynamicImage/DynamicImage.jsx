@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-import './HeroImage.css';
+import './DynamicImage.css';
 
-function HeroImage({ url }) {
+function DynamicImage({ url, type }) {
     const [ showImage, setShowImage ] = useState(true);
     const imgRef = useRef(null);
 
     useEffect(() => {
         if(imgRef === null) return;
+        if(url === null) return setShowImage(false);
 
         const isImage = () => new Promise((resolve) => {
             imgRef.current.onload = () => resolve(true);
             imgRef.current.onerror = () => resolve(false);
         });
         isImage().then(val => setShowImage(val));
+        console.log(url)
     }, [imgRef])
 
     return (
-        <div className='hero-image'>
+        <div className={`${type}-image`}>
             { showImage
                 ? <img src={ url } alt='Image' ref={imgRef} />
                 : <div className="no-image">
@@ -28,4 +30,4 @@ function HeroImage({ url }) {
     )
 }
 
-export default HeroImage;
+export default DynamicImage;

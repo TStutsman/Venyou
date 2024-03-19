@@ -20,6 +20,12 @@ body {
 
 @font-face {
     font-family: 'BeVietnamPro';
+    src: url('/fonts/BeVietnamPro-Medium.ttf') format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'BeVietnamPro';
     src: url('/fonts/BeVietnamPro-Light.ttf') format('truetype');
     font-weight: lighter;
 }

@@ -15,7 +15,7 @@ function Navigation({ isLoaded }) {
       { isLoaded && (sessionUser ?
         (
           <div className='logged-in'>
-            <Link>Start a new group</Link>
+            <Link to='groups/new'>Start a new group</Link>
             <ProfileButton user={sessionUser} />
           </div>
         ) : (

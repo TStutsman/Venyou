@@ -10,13 +10,13 @@
     cursor: pointer;
 }
 
-.group-item > img {
-    width: 100px;
+.group-item h3 {
+    margin-bottom: 5px;
+    font-size: 20px;
 }
 
-.content > h3 {
-    margin-bottom: 5px;
-    font-size: 24px;
+.group-item .content {
+    margin-left: 10px;
 }
 
 .content {

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './groupItem.css';
+import DynamicImage from '../DynamicImage';
 
 function GroupItem({ group }) {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ function GroupItem({ group }) {
 
     return (
         <div className="group-item" onClick={() => onClick(group.id)}>
-            <img src={group.previewImg} alt="Group Image" />
+            <DynamicImage url={group.previewImage} type={'item'} />
             <div className="content">
                 <h3>{ group.name }</h3>
                 <p className='location'>{ group.city }, { group.state }</p>

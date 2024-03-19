@@ -1,6 +1,11 @@
-.no-image, .hero-image > img {
+.hero-image > .no-image, .hero-image > img {
     height: 365px;
     width: 630px;
+}
+
+.item-image > .no-image, .item-image > img {
+    height: 140px;
+    width: 220px;
 }
 
 .no-image {
@@ -14,4 +19,8 @@
     margin: 0;
     color: rgb(150, 150, 150);
     font-weight: normal;
+}
+
+.item-image h2 {
+    font-size: 12px;
 }

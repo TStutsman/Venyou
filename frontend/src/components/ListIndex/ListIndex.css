@@ -15,6 +15,18 @@
     border-bottom-style: solid;
 }
 
+.list-header > a {
+    color: #a09d9d;
+}
+
+.list-header > a:hover {
+    color: #a09d9d;
+}
+
+.list-header > a.active {
+    color: #00798a;
+}
+
 h5 {
     font-size: 14px;
     font-weight: normal;

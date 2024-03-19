@@ -5,7 +5,7 @@ import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
 // import SignupFormPage from './components/SignupFormPage';
 import Navigation from './components/Navigation/Navigation';
 import Home from './components/Home';
-import GroupsIndex from './components/GroupsIndex';
+import ListIndex from './components/ListIndex';
 import GroupShow from './components/GroupShow';
 import * as sessionActions from './store/session';
 import { Modal } from './context/Modal';
@@ -39,11 +39,19 @@ const router = createBrowserRouter([
       },
       {
         path: '/groups',
-        element: <GroupsIndex />
+        element: <ListIndex type={'group'} />
+      },
+      {
+        path: '/groups/new',
+        element: <h1>Create new group</h1>
       },
       {
         path: '/groups/:groupId',
         element: <GroupShow />
+      },
+      {
+        path: '/events',
+        element: <ListIndex type={'event'} />
       }
       // {
       //   path: 'login',

@@ -323,7 +323,7 @@ router.get('/:groupId/events', async (req, res, next) => {
                 [fn('COUNT', col('Attendances.id')), 'numAttending'],
                 [col('EventImages.url'), 'previewImage']
             ],
-            exclude: ['description', 'price', 'capacity', 'createdAt', 'updatedAt']
+            exclude: ['price', 'capacity', 'createdAt', 'updatedAt']
         },
         group: ['Event.id', 'Group.id', 'Venue.id', 'EventImages.url']
     });
