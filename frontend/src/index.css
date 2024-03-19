@@ -3,6 +3,10 @@
     font-family: 'BeVietnamPro';
 }
 
+body {
+    margin: 0;
+}
+
 @font-face {
     font-family: 'Barrio';
     src: url('/fonts/Barrio-Regular.ttf') format('truetype');

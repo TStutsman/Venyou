@@ -20,6 +20,17 @@ export const getAllGroups = () => async dispatch => {
     }
 }
 
+export const getGroupById = groupId => async dispatch => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}`);
+        const group = await response.json();
+        dispatch(addGroups([group]));
+        return group;
+    } catch (e) {
+        return e;
+    }
+}
+
 export const selectGroups = state => state.groups;
 
 export const selectGroupsArr = createSelector(selectGroups, groups => {

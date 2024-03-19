@@ -1,0 +1,37 @@
+.group-show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero {
+    width: 80%;
+    margin-top: 40px;
+    padding: 20px;
+}
+
+.group-details-wrapper {
+    background-color: #e8e6e6;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.group-details {
+    width: 80%;
+    padding-bottom: 200px;
+}
+
+.group-details > h2 {
+    font-weight: normal;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.group-details > p {
+    margin: 0;
+}
+
+p.organizer {
+    color: #8d8d8d;
+}
