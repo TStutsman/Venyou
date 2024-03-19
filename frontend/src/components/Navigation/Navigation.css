@@ -53,6 +53,20 @@ button {
   background-color: #008fa3;
 }
 
+.logged-in {
+  display: flex;
+  align-items: center;
+}
+
+.logged-in > a {
+  font-size: 16px;
+  margin-right: 30px;
+}
+
+.logged-in > a:hover {
+  text-decoration: none;
+}
+
 .icon-button {
   width: 70px;
 
@@ -69,8 +83,8 @@ button {
 
 .profile-dropdown {
   position: absolute;
+  top: 65px;
   right: 20px;
-  transform: translateY(55px);
 
   padding: 10px 20px;
   width: 160px;
@@ -104,12 +118,17 @@ button {
   font-size: 14px;
 }
 
+.dropdown-section > p {
+  cursor: default;
+}
+
 .dropdown-section > a {
   text-decoration: none;
   color: #212121;
 }
 .dropdown-section > a:hover {
   color: #00798a;
+  text-decoration: none;
 }
 
 .hidden {

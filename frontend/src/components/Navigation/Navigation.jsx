@@ -14,7 +14,10 @@ function Navigation({ isLoaded }) {
       <Link className='logo' to="/">Venyou</Link>
       { isLoaded && (sessionUser ?
         (
-          <ProfileButton user={sessionUser} />
+          <div className='logged-in'>
+            <Link>Start a new group</Link>
+            <ProfileButton user={sessionUser} />
+          </div>
         ) : (
           <div>
             <OpenModalButton

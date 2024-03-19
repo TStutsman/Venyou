@@ -44,10 +44,12 @@ function Home() {
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
             </div>
-            <OpenModalButton
-              buttonText="Join Venyou"
-              modalComponent={<SignupFormModal />}
-            />
+            {
+                !sessionUser && <OpenModalButton
+                buttonText="Join Venyou"
+                modalComponent={<SignupFormModal />}
+              />
+            }
         </section>
        </div>
     );
