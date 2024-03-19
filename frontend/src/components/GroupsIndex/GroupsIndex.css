@@ -1,0 +1,38 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.body-container {
+    width: 50%;
+    margin-top: 60px;
+}
+
+.list-header {
+    border-bottom-color: #d9d9d9;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+h5 {
+    font-size: 14px;
+    font-weight: normal;
+    color: #a09d9d;
+}
+
+a {
+    font-size: 24px;
+    text-decoration: none;
+    color: #00798a;
+    margin-right: 10px;
+}
+
+a.active {
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #008fa3;
+}

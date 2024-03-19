@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import OpenModalButton from '../OpenModalButton';
@@ -9,37 +9,28 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
-  const sessionLinks = sessionUser ?
-    (
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
-    ) : (
-      <>
-        <li>
-          <OpenModalButton
-            buttonText="Log In"
-            modalComponent={<LoginFormModal />}
-          />
-          {/* <NavLink to="/login">Log In</NavLink> */}
-        </li>
-        <li>
-          <OpenModalButton
-            buttonText="Sign Up"
-            modalComponent={<SignupFormModal />}
-          />
-          {/* <NavLink to="/signup">Sign Up</NavLink> */}
-        </li>
-      </>
-    );
-
   return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      {isLoaded && sessionLinks}
-    </ul>
+    <nav>
+      <Link className='logo' to="/">Venyou</Link>
+      { isLoaded && (sessionUser ?
+        (
+          <ProfileButton user={sessionUser} />
+        ) : (
+          <div>
+            <OpenModalButton
+              buttonText="Log In"
+              modalComponent={<LoginFormModal />}
+            />
+            {/* <Navlink to="/login">Log In</Navlink> */}
+            <OpenModalButton
+              buttonText="Sign Up"
+              modalComponent={<SignupFormModal />}
+            />
+            {/* <Navlink to="/signup">Sign Up</Navlink> */}
+          </div>
+        )
+      )}
+    </nav>
   );
 }
 

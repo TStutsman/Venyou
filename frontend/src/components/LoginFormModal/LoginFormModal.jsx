@@ -8,18 +8,18 @@ function LoginFormModal() {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState({});
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
+    setError({});
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
+        if (data && data.message) {
+          setError(data);
         }
       });
   };
@@ -46,7 +46,7 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.credential && <p>{errors.credential}</p>}
+        {error.message && <p>{error.message}</p>}
         <button type="submit">Log In</button>
       </form>
     </>

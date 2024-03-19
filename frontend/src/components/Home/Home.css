@@ -1,0 +1,94 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero {
+    width: 80%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero h1 {
+    font-family: 'BeVietnamPro';
+    font-weight: 900;
+    font-size: 40px;
+}
+
+.hero p {
+    font-family: 'BeVietnamPro';
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 90px;
+}
+
+.title {
+    width: 350px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.title > * {
+    margin: 0;
+}
+
+.links-wrapper {
+    display: flex;
+
+    width: 750px;
+}
+
+.link-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link-img {
+    height: 150px;
+}
+
+.link-box > a {
+    text-decoration: none;
+    color: #00798a;
+}
+
+.link-box > a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #008fa3;
+}
+
+a.disabled {
+    color: #afadad;
+}
+
+a.disabled:hover {
+    text-decoration: none;
+    cursor: default;
+    color: #afadad;
+}
+
+.link-box > p {
+    text-align: center;
+    font-size: 14px;
+}
+
+.join-venyou {
+    background-color: #00798a;
+    color: #fff;
+    border-radius: 8px;
+}
+
+.join-venyou:hover {
+    background-color: #008fa3;
+}
