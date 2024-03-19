@@ -15,8 +15,7 @@ function DynamicImage({ url, type }) {
             imgRef.current.onerror = () => resolve(false);
         });
         isImage().then(val => setShowImage(val));
-        console.log(url)
-    }, [imgRef])
+    }, [imgRef, url])
 
     return (
         <div className={`${type}-image`}>

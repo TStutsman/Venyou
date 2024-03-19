@@ -25,6 +25,36 @@ const groupVenueEvents = [
     ]
   },
   {
+    name: 'Evening Tennis on the Water',
+    address: '123 Disney Lane',
+    events: [
+      {
+        name: "Tennis Group Monthly Meeting",
+        description: "We're getting together again! Join us at the courts!",
+        type: "In Person",
+        startDate: "2024-03-27 17:44:32.455 +00:00",
+        endDate: literal('CURRENT_TIMESTAMP'),
+        capacity: 20,
+        price: 0
+      }
+    ]
+  },
+  {
+    name: 'Evening Tennis on the Water',
+    address: '123 Disney Lane',
+    events: [
+      {
+        name: "Tennis Group Monthly Meeting",
+        description: "We're getting together again! Join us at the courts!",
+        type: "In Person",
+        startDate: "2024-04-27 17:44:32.455 +00:00",
+        endDate: literal('CURRENT_TIMESTAMP'),
+        capacity: 20,
+        price: 0
+      }
+    ]
+  },
+  {
     name: 'Wake Boarding Classes',
     address: '345 Wave Point',
     events: [

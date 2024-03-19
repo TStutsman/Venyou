@@ -10,6 +10,7 @@ function GroupShow() {
     const dispatch = useDispatch();
     const { groupId }= useParams();
     const group = useSelector(selectGroups)[groupId];
+    // const sessionUser = useSelector(state => state.session.user);
 
     useEffect(() => {
         dispatch(getGroupById(groupId));
@@ -21,9 +22,11 @@ function GroupShow() {
     const url = GroupImages ? GroupImages[0].url : undefined;
 
     let upcomingEvents, pastEvents;
+    let numEvents = '';
     if(events) {
         upcomingEvents = events.filter(event => new Date(event.startDate) > new Date(Date.now()));
         pastEvents = events.filter(event => new Date(event.startDate) < new Date(Date.now()));
+        numEvents = events.length + ' event' + (events.length === 1 ? '' : 's');
     }
 
     const onClick = () => {
@@ -44,7 +47,7 @@ function GroupShow() {
                     <div>
                         <h2>{name}</h2>
                         <p className='location'>{ city }, { state }</p>
-                        <p className='details'>## events &middot; { group.private ? 'Private' : 'Public' }</p>
+                        <p className='details'>{ numEvents } &middot; { group.private ? 'Private' : 'Public' }</p>
                         <p className='details'>Organized by { organizer?.firstName } { organizer?.lastName }</p>
                     </div>
                     <button onClick={onClick} className='hero-button'>Join this group</button>
@@ -57,12 +60,18 @@ function GroupShow() {
                     <h2>What we&apos;re about</h2>
                     <p className='description'>{ about }</p>
                     {
+                        (!events || !events.length) &&
+                        <h2>No Upcoming Events</h2>
+                    }
+                    {
                         upcomingEvents && upcomingEvents.length > 0 &&
                         <>
                             <h2>Upcoming Events ({upcomingEvents.length})</h2>
                             {
                                 upcomingEvents.map(event => (
-                                    <div> &lt;Event Card&gt; </div>
+                                    <div key={event.id} className='event-card'>
+                                        <EventItem event={event}/>
+                                    </div>
                                 ))
                             }
                         </>
@@ -73,7 +82,9 @@ function GroupShow() {
                             <h2>Past Events ({pastEvents.length})</h2>
                             {
                                 pastEvents.map(event => (
-                                    <EventItem event={event}/>
+                                    <div key={event.id} className='event-card'>
+                                        <EventItem event={event}/>
+                                    </div>
                                 ))
                             }
                         </>

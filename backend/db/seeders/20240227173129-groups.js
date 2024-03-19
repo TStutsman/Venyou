@@ -59,8 +59,6 @@ module.exports = {
         await Group.create({ ...group, organizerId: user.id }, { validate: true });
       }
     }
-
-    // await Group.bulkCreate(groups, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {

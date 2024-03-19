@@ -9,6 +9,7 @@ import ListIndex from './components/ListIndex';
 import GroupShow from './components/GroupShow';
 import * as sessionActions from './store/session';
 import { Modal } from './context/Modal';
+import EventShow from './components/EventShow/EventShow';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: '/events',
         element: <ListIndex type={'event'} />
+      },
+      {
+        path: '/events/:eventId',
+        element: <EventShow />
       }
       // {
       //   path: 'login',

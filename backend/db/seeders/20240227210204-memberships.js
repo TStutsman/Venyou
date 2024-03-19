@@ -45,8 +45,6 @@ module.exports = {
 
       await Membership.create({ status, userId: user.id, groupId: group.id }, { validate: true });
     }
-
-    // Membership.bulkCreate(memberships, { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
