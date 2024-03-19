@@ -1,0 +1,17 @@
+.no-image, .hero-image > img {
+    height: 365px;
+    width: 630px;
+}
+
+.no-image {
+    background-color: rgb(205, 205, 205);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-image > h2 {
+    margin: 0;
+    color: rgb(150, 150, 150);
+    font-weight: normal;
+}

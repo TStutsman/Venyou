@@ -6,8 +6,49 @@
 
 .hero {
     width: 80%;
-    margin-top: 40px;
-    padding: 20px;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.hero > * {
+    height: 380px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb > a {
+    font-size: 14px;
+}
+
+.hero-image {
+    height: 400px;
+}
+
+.hero-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding-left: 20px;
+}
+
+.hero-button {
+    height: 50px;
+    width: 200px;
+
+    font-size: 14px;
+
+    background-color: #00798a;
+    color: #fff;
+
+    border-radius: 8px;
+}
+
+.hero-button:hover {
+    background-color: #008fa3;
 }
 
 .group-details-wrapper {
