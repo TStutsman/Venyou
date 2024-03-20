@@ -47,7 +47,7 @@ function ProfileButton({ user }) {
           <p>{ user.email }</p>
         </div>
         <div className='dropdown-section divider'>
-          <Link>Your events</Link>
+          <Link to='/events'>Your events</Link>
           <Link to='/groups'>Your groups</Link>
         </div>
         <div className='dropdown-section'>

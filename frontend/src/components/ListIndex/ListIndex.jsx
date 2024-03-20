@@ -14,6 +14,10 @@ function ListIndex({ type }) {
     const items = useSelector(groupsIndex ? selectGroupsArr : selectEventsArr);
 
     useEffect(() => {
+        window.scrollTo(0,0);
+    }, []);
+
+    useEffect(() => {
         dispatch(getAllItems());
     }, [dispatch, getAllItems])
 

@@ -14,15 +14,6 @@
     height: 380px;
 }
 
-.breadcrumb {
-    display: flex;
-    align-items: center;
-}
-
-.breadcrumb > a {
-    font-size: 14px;
-}
-
 .hero-image {
     height: 400px;
 }

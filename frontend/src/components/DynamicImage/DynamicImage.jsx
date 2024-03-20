@@ -18,7 +18,7 @@ function DynamicImage({ url, type }) {
     }, [imgRef, url])
 
     return (
-        <div className={`${type}-image`}>
+        <div className={`${type}-image${showImage ? ' hide-overflow' : ''}`}>
             { showImage
                 ? <img src={ url } alt='Image' ref={imgRef} />
                 : <div className="no-image">

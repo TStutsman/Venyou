@@ -1,10 +1,11 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './GroupShow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEventsForGroupById, getGroupById, selectGroups } from '../../store/groups';
 import { useEffect } from 'react';
 import DynamicImage from '../DynamicImage';
 import EventItem from '../EventItem';
+import Breadcrumb from '../Breadcrumb';
 
 function GroupShow() {
     const dispatch = useDispatch();
@@ -37,10 +38,7 @@ function GroupShow() {
         <div className='group-show'>
             <div className='hero'>
                 <div className='hero-left'>
-                    <div className='breadcrumb'>
-                        <i className='fa fa-xs fa-angle-left' />
-                        <NavLink to='/groups'>Groups</NavLink>
-                    </div>
+                    <Breadcrumb to='/groups'>Groups</Breadcrumb>
                     <DynamicImage url={ url } type={'hero'}/>
                 </div>
                 <div className='hero-details'>

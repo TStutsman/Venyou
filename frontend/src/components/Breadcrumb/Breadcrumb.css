@@ -1,0 +1,8 @@
+.breadcrumb {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb > a {
+    font-size: 14px;
+}

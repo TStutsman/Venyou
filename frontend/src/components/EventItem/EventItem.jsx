@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import DynamicImage from "../DynamicImage";
 import './EventItem.css';
+import { formatDate } from "../../utils/timeUtils";
 
 function EventItem({ event }) {
     const navigate = useNavigate();
@@ -9,17 +10,14 @@ function EventItem({ event }) {
         navigate(`/events/${eventId}`)
     }
 
-    const startDate = new Date(event.startDate);
-    const [mm, dd, yyyy] = startDate.toLocaleDateString('en-US').split('/').map(e => e.length < 2 ? '0' + e : e);
-    const [time, ampm] = startDate.toLocaleTimeString('en-US').split(' ');
-    const [hr, min, sec] = time.split(':');
+    const [ startDay, startTime ] = formatDate(event.startDate);
 
     return (
         <div className="event-item" onClick={() => onClick(event.id)}>
             <div className="event-item-top">
                 <DynamicImage url={event.previewImage} type={'item'}/>
                 <div className="content">
-                    <p className='date-time'>{ `${yyyy}-${mm}-${dd}` } &middot; { `${hr}:${min} ${ampm}` }</p>
+                    <p className='date-time'>{ startDay } &middot; { startTime }</p>
                     <h3>{ event.name }</h3>
                     <p className='location'>{ event.Group.city }, { event.Group.state }</p>
                 </div>

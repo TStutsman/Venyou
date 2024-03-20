@@ -32,7 +32,7 @@ function Home() {
                 </div>
                 <div className='link-box'>
                     <img className='link-img' src={tempSrc} alt="Ticket" />
-                    <Link>Find an event</Link>
+                    <Link to='/events'>Find an event</Link>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
                 <div className='link-box'>
