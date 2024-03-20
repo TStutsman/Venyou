@@ -10,17 +10,17 @@ if (process.env.NODE_ENV === 'production') {
 const groupImages = [
   {
     name: 'Evening Tennis on the Water',
-    url: 'fake url',
+    url: 'https://venyou-image-bucket.s3.us-east-2.amazonaws.com/tennis-img.jpeg',
     preview: true
   },
   {
     name: 'Wake Boarding Classes',
-    url: 'fake url2',
-    preview: false
+    url: 'https://venyou-image-bucket.s3.us-east-2.amazonaws.com/Wakeboarding.webp',
+    preview: true
   },
   {
     name: 'Watercolor Wednesdays',
-    url: 'fake url3',
+    url: 'fake url',
     preview: false
   }
 ];
