@@ -14,7 +14,7 @@ function EventShow() {
 
     useEffect(() => {
         dispatch(getEventById(eventId));
-    }, [eventId])
+    }, [eventId, dispatch])
 
     if(!event) return null;
     const { name, previewImage, description, type, price, startDate, endDate, Group:group, Venue:venue } = event;

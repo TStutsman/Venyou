@@ -1,6 +1,10 @@
 import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
 
+const headers = {
+    'Content-Type': 'application/json'
+}
+
 const ADD_GROUPS = 'groups/addGroups';
 const ADD_EVENTS_TO_GROUP = 'groups/addEventsToGroup';
 
@@ -44,6 +48,37 @@ export const getEventsForGroupById = groupId => async dispatch => {
         const { Events:events } = await response.json();
         dispatch(addEventsToGroup(+groupId, events));
         return events;
+    } catch (e) {
+        return e;
+    }
+}
+
+export const saveGroup = group => async dispatch => {
+    try {
+        const response = await csrfFetch('/api/groups', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(group)
+        });
+        const newGroup = await response.json();
+        dispatch(addGroups([newGroup]));
+        return newGroup;
+    } catch (e) {
+        return e;
+    }
+}
+
+export const saveGroupImage = (groupId, image) => async () => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(image)
+        });
+        const newImage = await response.json();
+        // Reload the whole group to get the updated list of images
+        // dispatch(getGroupById(groupId));
+        return newImage;
     } catch (e) {
         return e;
     }

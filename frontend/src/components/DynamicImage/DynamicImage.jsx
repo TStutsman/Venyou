@@ -8,7 +8,7 @@ function DynamicImage({ url, type }) {
 
     useEffect(() => {
         if(imgRef === null) return;
-        if(url === null) return setShowImage(false);
+        if(!url) return setShowImage(false);
 
         const isImage = () => new Promise((resolve) => {
             imgRef.current.onload = () => resolve(true);

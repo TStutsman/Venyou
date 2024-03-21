@@ -35,22 +35,14 @@ button {
 }
 
 .log-in {
+  border-radius: 0;
   background-color: #fff;
   color: #212121;
 }
 
 .log-in:hover {
   color: #00798a;
-}
-
-.sign-up {
-  background-color: #00798a;
-  color: #fff;
-  border-radius: 8px;
-}
-
-.sign-up:hover {
-  background-color: #008fa3;
+  background-color: #fff;
 }
 
 .logged-in {

@@ -20,7 +20,7 @@ function GroupShow() {
 
     if(!group) return null;
     const { GroupImages, name, city, state, Organizer:organizer , about, Events:events } = group;
-    const url = GroupImages ? GroupImages[0].url : undefined;
+    const url = GroupImages ? GroupImages[0]?.url : undefined;
 
     let upcomingEvents, pastEvents;
     let numEvents = '';

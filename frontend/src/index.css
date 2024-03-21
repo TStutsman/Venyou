@@ -7,6 +7,17 @@ body {
     margin: 0;
 }
 
+/* Default button styles */
+button {
+    background-color: #00798a;
+    color: #fff;
+    border-radius: 8px;
+}
+
+button:hover {
+    background-color: #008fa3;
+}
+
 @font-face {
     font-family: 'Barrio';
     src: url('/fonts/Barrio-Regular.ttf') format('truetype');

@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 // import LoginFormPage from './components/LoginFormPage';
 // import SignupFormPage from './components/SignupFormPage';
-import Navigation from './components/Navigation/Navigation';
+import CreateGroup from './components/CreateGroup';
+import EventShow from './components/EventShow';
+import GroupShow from './components/GroupShow';
 import Home from './components/Home';
 import ListIndex from './components/ListIndex';
-import GroupShow from './components/GroupShow';
-import * as sessionActions from './store/session';
+import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
-import EventShow from './components/EventShow/EventShow';
+import * as sessionActions from './store/session';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/groups/new',
-        element: <h1>Create new group</h1>
+        element: <CreateGroup />
       },
       {
         path: '/groups/:groupId',
