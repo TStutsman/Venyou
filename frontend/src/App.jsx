@@ -4,6 +4,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 // import LoginFormPage from './components/LoginFormPage';
 // import SignupFormPage from './components/SignupFormPage';
 import CreateGroup from './components/CreateGroup';
+import CreateEvent from './components/CreateEvent';
 import EventShow from './components/EventShow';
 import GroupShow from './components/GroupShow';
 import Home from './components/Home';
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/events/:eventId',
         element: <EventShow />
+      },
+      {
+        path: '/groups/:groupId/events/new',
+        element: <CreateEvent />
       }
       // {
       //   path: 'login',

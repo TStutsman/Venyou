@@ -10,6 +10,7 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({});
   const { closeModal } = useModal();
+  const credentialMsg = 'The provided credentials were invalid.';
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,14 +20,20 @@ function LoginFormModal() {
       .catch(async (res) => {
         const data = await res.json();
         if (data && data.message) {
-          setError(data);
+          setError(data.message === 'Invalid credentials' ? { message: credentialMsg } : data);
         }
       });
   };
 
+  const demoClick = () => {
+    return dispatch(sessionActions.login({ credential: 'user1@user.io', password: 'password2' }))
+      .then(closeModal);
+  };
+
   return (
-    <>
+    <div className='login-modal'>
       <h1>Log In</h1>
+      {error.message && <p className='error'>{error.message}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Username or Email
@@ -46,10 +53,10 @@ function LoginFormModal() {
             required
           />
         </label>
-        {error.message && <p>{error.message}</p>}
         <button type="submit">Log In</button>
       </form>
-    </>
+      <button className='demo' onClick={demoClick}>Log in as Demo User</button>
+    </div>
   );
 }
 

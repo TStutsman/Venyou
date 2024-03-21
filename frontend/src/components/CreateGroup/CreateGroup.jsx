@@ -18,6 +18,10 @@ function CreateGroup() {
     const [ submitted, setSubmitted ] = useState(false);
 
     useEffect(() => {
+        window.scrollTo(0,0);
+    }, []);
+
+    useEffect(() => {
 
         if(!submitted) {
             if(about.length && about.length < 50) setErrors({about: "Description must be at least 50 characters"});
