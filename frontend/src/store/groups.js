@@ -5,12 +5,18 @@ const headers = {
     'Content-Type': 'application/json'
 }
 
-const ADD_GROUPS = 'groups/addGroups';
+const LOAD_GROUPS = 'groups/loadGroups';
+const REMOVE_GROUP = 'groups/removeGroup';
 const ADD_EVENTS_TO_GROUP = 'groups/addEventsToGroup';
 
-const addGroups = groups => ({
-    type: ADD_GROUPS,
+const loadGroups = groups => ({
+    type: LOAD_GROUPS,
     groups
+});
+
+const removeGroup = groupId => ({
+    type: REMOVE_GROUP,
+    groupId
 });
 
 const addEventsToGroup = (groupId, events) => ({
@@ -24,7 +30,7 @@ export const getAllGroups = () => async dispatch => {
 
     if(response.ok) {
         const groups = await response.json();
-        dispatch(addGroups(groups));
+        dispatch(loadGroups(groups));
     } else {
         // return errors
         return await response.json();
@@ -35,7 +41,7 @@ export const getGroupById = groupId => async dispatch => {
     try {
         const response = await csrfFetch(`/api/groups/${groupId}`);
         const group = await response.json();
-        dispatch(addGroups([group]));
+        dispatch(loadGroups([group]));
         return group;
     } catch (e) {
         return e;
@@ -61,7 +67,7 @@ export const saveGroup = group => async dispatch => {
             body: JSON.stringify(group)
         });
         const newGroup = await response.json();
-        dispatch(addGroups([newGroup]));
+        dispatch(loadGroups([newGroup]));
         return newGroup;
     } catch (e) {
         return e;
@@ -84,6 +90,18 @@ export const saveGroupImage = (groupId, image) => async () => {
     }
 }
 
+export const deleteGroup = (groupId) => async dispatch => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}`, {
+            method: 'DELETE'
+        });
+        dispatch(removeGroup(+groupId));
+        return response;
+    } catch (e) {
+        return e;
+    }
+}
+
 export const selectGroups = state => state.groups;
 
 export const selectGroupsArr = createSelector(selectGroups, groups => {
@@ -94,9 +112,15 @@ const initialState = {};
 
 function groupsReducer(state = initialState, action) {
     switch(action.type) {
-        case ADD_GROUPS: {
+        case LOAD_GROUPS: {
             const newState = {...state};
             action.groups.forEach(group =>  newState[group.id] = group);
+            return newState;
+        }
+        case REMOVE_GROUP: {
+            if(state[action.groupId] === undefined) return state;
+            const newState = {...state};
+            delete newState[action.groupId];
             return newState;
         }
         case ADD_EVENTS_TO_GROUP: {

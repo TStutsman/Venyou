@@ -1,20 +1,24 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './CreateEvent.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGroupById, selectGroups } from '../../store/groups';
+import { saveEvent, saveEventImage } from '../../store/events';
 
 function CreateEvent() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [isPrivate, setIsPrivate] = useState("");
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState("");
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
     const [url, setUrl] = useState("");
-    const [about, setAbout] = useState("");
+    const [description, setDescription] = useState("");
+    const [errors, setErrors] = useState({});
+    const [submitted, setSubmitted] = useState(false);
 
     const { groupId } = useParams();
     const group = useSelector(selectGroups)[groupId];
@@ -23,10 +27,79 @@ function CreateEvent() {
         dispatch(getGroupById(groupId));
     }, [groupId, dispatch]);
 
+    useEffect(() => {
+
+        if(!submitted) {
+            if(description.length && description.length < 50) setErrors({description: "Description must be at least 50 characters"});
+            else setErrors({});
+            return;
+        }
+
+        const validationErrors = {};
+        if(!name) validationErrors.name = "Name is required";
+        if(!type) validationErrors.type = "Event type is required";
+        if(!isPrivate) validationErrors.private = "Visibility is required";
+        if(!price.toString()) validationErrors.price = "Price is required"
+        if(!start) validationErrors.startDate = "Event start is required";
+        if(!end) validationErrors.endDate = "Event end is required";
+        
+        if(!url) validationErrors.url = "Image URL is required";
+        else if(!(url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg'))) {
+            validationErrors.url = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+
+        if(description.length < 50) validationErrors.description = "Description must be at least 50 characters";
+        setErrors(validationErrors);
+    }, [name, type, isPrivate, price, start, end, url, description, submitted])
+
     if(!group) return null;
 
-    const onSubmit = (e) => {
+    async function onSubmit(e) {
         e.preventDefault();
+        setSubmitted(true);
+        if(Object.keys(errors).length > 1) return;
+
+        const event = {
+            name, 
+            type, 
+            private: isPrivate,
+            price,
+            startDate: start,
+            endDate: end,
+            url,
+            description,
+            capacity: 10,
+            venueId: 2
+        }
+        console.log('Event', event);
+        
+        const image = {
+            url,
+            preview: true
+        }
+
+
+        const newEvent = await dispatch(saveEvent(groupId, event));
+
+        if(!newEvent.id) {
+            const { message, errors } = await newEvent.json();
+            console.log('Error Response', message, errors);
+            return;
+        }
+
+        console.log('New event', newEvent);
+
+        const newImage = await dispatch(saveEventImage(newEvent.id, image));
+        
+        if(!newImage.id) {
+            const { errors } = await newImage.json();
+            console.log('Error Response', errors);
+            return;
+        }
+        
+        console.log('Event Image', newImage);
+
+        navigate(`/events/${newEvent.id}`);
     }
 
     return (
@@ -43,6 +116,7 @@ function CreateEvent() {
                             placeholder="Event Name"
                         />
                     </label>
+                    {errors.name && <p className='error'>{errors.name}</p>}
                 </div>
 
                 <div className="form-section">
@@ -58,6 +132,7 @@ function CreateEvent() {
                             <option value="Online">Online</option>
                         </select>
                     </label>
+                    {errors.type && <p className='error'>{errors.type}</p>}
 
                     <label>
                         Is this event private or public?
@@ -71,6 +146,7 @@ function CreateEvent() {
                             <option value="true">Private</option>
                         </select>
                     </label>
+                    {errors.private && <p className='error'>{errors.private}</p>}
 
                     <label>
                         What is the price for your event?
@@ -87,28 +163,31 @@ function CreateEvent() {
                             />
                         </div>
                     </label>
+                    {errors.price && <p className='error'>{errors.price}</p>}
                 </div>
 
                 <div className="form-section">
                     <label>
                         When does your event start?
                         <input 
-                            type="text" 
+                            type="datetime-local" 
                             value={start}
                             onChange={e => setStart(e.target.value)}
                             placeholder="MM/DD/YYYY HH:mm AM"
                         />
                     </label>
+                    {errors.startDate && <p className='error'>{errors.startDate}</p>}
 
                     <label>
                         When does your event end?
                         <input 
-                            type="text" 
+                            type="datetime-local" 
                             value={end}
                             onChange={e => setEnd(e.target.value)}
                             placeholder="MM/DD/YYYY HH:mm PM"
                         />
                     </label>
+                    {errors.endDate && <p className='error'>{errors.endDate}</p>}
                 </div>
 
                 <div className="form-section">
@@ -121,16 +200,18 @@ function CreateEvent() {
                             placeholder="Image URL"
                         />
                     </label>
+                    {errors.url && <p className='error'>{errors.url}</p>}
                 </div>
 
                 <label>
                     Please describe your event:
                     <textarea
-                        value={about}
-                        onChange={e => setAbout(e.target.value)}
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
                         placeholder="Please include at least 30 characters"
                     />
                 </label>
+                {errors.description && <p className='error'>{errors.description}</p>}
                 <button type='submit'>Create event</button>
             </form>
         </div>

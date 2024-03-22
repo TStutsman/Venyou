@@ -14,10 +14,10 @@ function EventShow() {
 
     useEffect(() => {
         dispatch(getEventById(eventId));
-    }, [eventId, dispatch])
+    }, [eventId, dispatch]);
 
-    if(!event) return null;
-    const { name, previewImage, description, type, price, startDate, endDate, Group:group, Venue:venue } = event;
+    if(!event || !event.id) return null;
+    const { name, EventImages:images , description, type, price, startDate, endDate, Group:group, Venue:venue } = event;
     const [ startDay, startTime ] = formatDate(startDate);
     const [ endDay, endTime ] = formatDate(endDate);
  
@@ -30,13 +30,13 @@ function EventShow() {
             </div>
             <div className="event-details-wrapper">
                 <div className="event-details">
-                    <DynamicImage url={ previewImage } type='hero' />
+                    <DynamicImage url={ images?.[0].url } type='hero' />
                     <div className="details-cards">
                         <div className="group-info-card">
-                            <DynamicImage url={ previewImage } type='icon'/>
+                            <DynamicImage url={ images?.[0].url } type='icon'/>
                             <div className="top-info">
-                                <h5>{ group.name }</h5>
-                                <p className="details">{ group.private ? 'Private' : 'Public' }</p>
+                                <h5>{ group?.name }</h5>
+                                <p className="details">{ group?.private ? 'Private' : 'Public' }</p>
                             </div>
                         </div>
                         <div className="event-info-card">
@@ -69,7 +69,7 @@ function EventShow() {
                                 <div className="icon-wrapper">
                                     <i className="fa-2x fa-solid fa-map-pin"/>
                                 </div>
-                                <p>{ type === 'In Person' ? venue.address : 'Online' }</p>
+                                <p>{ type === 'In Person' ? venue?.address : 'Online' }</p>
                             </div>
                         </div>
                     </div>

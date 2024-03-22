@@ -90,3 +90,11 @@ textarea:hover {
     width: 350px;
     height: 50px;
 }
+
+.create-event-page p.error {
+    margin-top: -35px;
+    margin-bottom: 30px;
+
+    font-size: 14px;
+    color: red;
+}

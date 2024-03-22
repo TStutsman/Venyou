@@ -42,7 +42,7 @@ function CreateGroup() {
     async function onSubmit(e) {
         e.preventDefault();
         setSubmitted(true);
-        if(Object.keys(errors).length < 1) return;
+        if(Object.keys(errors).length > 1) return;
 
         const [city, state] = location.split(', ');
 

@@ -26,7 +26,7 @@ function LoginFormModal() {
   };
 
   const demoClick = () => {
-    return dispatch(sessionActions.login({ credential: 'user1@user.io', password: 'password2' }))
+    return dispatch(sessionActions.login({ credential: 'demo@user.io', password: 'password' }))
       .then(closeModal);
   };
 

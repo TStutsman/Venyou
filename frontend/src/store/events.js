@@ -1,6 +1,10 @@
 import { csrfFetch } from './csrf';
 import { createSelector } from 'reselect';
 
+const headers = {
+    'Content-Type': 'application/json'
+}
+
 const ADD_EVENTS = 'events/addEvents';
 
 const addEvents = events => ({
@@ -9,25 +13,56 @@ const addEvents = events => ({
 });
 
 export const getAllEvents = () => async dispatch => {
-    const response = await csrfFetch('/api/events');
-
-    if(response.ok) {
+    try {
+        const response = await csrfFetch('/api/events');
         const { Events: events } = await response.json();
         dispatch(addEvents(events));
-    } else {
+        return events;
+    } catch (e) {
         // return errors
-        return await response.json();
+        return e;
     }
 }
 
 export const getEventById = eventId => async dispatch => {
-    const response = await csrfFetch(`/api/events/${eventId}`);
-
-    if(response.ok) {
+    try {
+        const response = await csrfFetch(`/api/events/${eventId}`);
         const event = await response.json();
         dispatch(addEvents([event]));
-    } else {
-        return await response.json();
+        return event
+    } catch (e) {
+        return e;
+    }
+}
+
+export const saveEvent = (groupId, event) => async dispatch => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}/events`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(event)
+        });
+        const newEvent = await response.json();
+        dispatch(addEvents([newEvent]))
+        return newEvent;
+    } catch (e) {
+        return e;
+    }
+}
+
+export const saveEventImage = (eventId, image) => async () => {
+    try {
+        const response = await csrfFetch(`/api/events/${eventId}/images`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(image)
+        });
+        const newImage = await response.json();
+        // Reload the whole group to get the updated list of images
+        // dispatch(getGroupById(groupId));
+        return newImage;
+    } catch (e) {
+        return e;
     }
 }
 

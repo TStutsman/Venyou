@@ -1,17 +1,18 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './GroupShow.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEventsForGroupById, getGroupById, selectGroups } from '../../store/groups';
+import { getEventsForGroupById, getGroupById, selectGroups, deleteGroup } from '../../store/groups';
 import { useEffect } from 'react';
 import DynamicImage from '../DynamicImage';
 import EventItem from '../EventItem';
 import Breadcrumb from '../Breadcrumb';
 
 function GroupShow() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { groupId }= useParams();
     const group = useSelector(selectGroups)[groupId];
-    // const sessionUser = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user);
 
     useEffect(() => {
         dispatch(getGroupById(groupId));
@@ -34,6 +35,29 @@ function GroupShow() {
         alert('Feature coming soon');
     }
 
+    const createEvent = (e) => {
+        navigate(`/groups/${groupId}/events/new`);
+    }
+
+    const updateGroup = (e) => {
+        
+    }
+
+    const deleteGroupClick = async (e) => {
+        const response = await dispatch(deleteGroup(groupId));
+
+        if(!response.ok) {
+            console.log(response);
+            // const { message } = response.json();
+            // console.log('Error', message);
+            return;
+        }
+
+        console.log('Successfully deleted');
+
+        navigate('/groups');
+    }
+
     return (
         <div className='group-show'>
             <div className='hero'>
@@ -48,7 +72,15 @@ function GroupShow() {
                         <p className='details'>{ numEvents } &middot; { group.private ? 'Private' : 'Public' }</p>
                         <p className='details'>Organized by { organizer?.firstName } { organizer?.lastName }</p>
                     </div>
-                    <button onClick={onClick} className='hero-button'>Join this group</button>
+                    {
+                        sessionUser?.id === organizer?.id 
+                        ? <div className='organizer-buttons'>
+                            <button className='create-event' onClick={createEvent}>Create Event</button>
+                            <button className='update-group' onClick={updateGroup}>Update</button>
+                            <button className='delete-group' onClick={deleteGroupClick}>Delete</button>
+                            </div>
+                        : <button onClick={onClick} className='hero-button'>Join this group</button>
+                    }
                 </div>
             </div>
             <div className='group-details-wrapper'>

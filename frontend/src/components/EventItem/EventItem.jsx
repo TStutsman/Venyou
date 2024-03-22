@@ -19,7 +19,7 @@ function EventItem({ event }) {
                 <div className="content">
                     <p className='date-time'>{ startDay } &middot; { startTime }</p>
                     <h3>{ event.name }</h3>
-                    <p className='location'>{ event.Group.city }, { event.Group.state }</p>
+                    <p className='location'>{ event.Group?.city }, { event.Group?.state }</p>
                 </div>
             </div>
             <p className='description'>{ event.description }</p>

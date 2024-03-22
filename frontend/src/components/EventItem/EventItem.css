@@ -3,6 +3,8 @@
     border-top-style: solid;
     border-top-width: 1px;
 
+    width: 100%;
+
     cursor: pointer;
 }
 
@@ -34,6 +36,9 @@
 }
 
 .event-item .description {
+    overflow-x: scroll;
+    width: 100%;
+
     margin: 0;
     padding-top: 10px;
     padding-bottom: 10px;

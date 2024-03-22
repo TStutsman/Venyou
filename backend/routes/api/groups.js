@@ -369,7 +369,8 @@ router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, nex
     // const isCohost = groupJson.Memberships.some(member => member.userId === id && member.status === 'co-host');
     const role = getRole(group, id);
 
-    console.log('role: ', role);
+    console.log('-----role: ', role);
+    console.log('=====organizerId: ', group.organizerId);
 
     if(role !== 'organizer' && role !== 'co-host') return next(forbidden);
     
