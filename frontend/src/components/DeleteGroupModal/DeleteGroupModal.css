@@ -1,0 +1,40 @@
+.delete-group-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 40px;
+}
+
+.delete-group-modal > h2 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.delete-group-modal > p {
+    margin-top: 0;
+
+    font-size: 14px;
+}
+
+.delete-group-modal button {
+    background-color: #da3434;
+
+    font-weight: 500;
+
+    width: 300px;
+    height: 50px;
+}
+
+.delete-group-modal button:hover {
+    background-color: #df4545;
+}
+
+.delete-group-modal button:last-child {
+    margin-top: 10px;
+    background-color: #b6b6b6;
+}
+
+.delete-group-modal button:last-child:hover {
+    background-color: #c0c0c0;
+}

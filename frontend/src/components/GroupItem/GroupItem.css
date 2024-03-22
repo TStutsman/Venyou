@@ -1,0 +1,35 @@
+.group-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+
+    min-height: 180px;
+
+    border-top-color: #d9d9d9;
+    border-top-style: solid;
+    border-top-width: 1px;
+
+    cursor: pointer;
+}
+
+.group-item h3 {
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.group-item .content {
+    margin-left: 10px;
+}
+
+.content {
+    font-size: 14px;
+}
+
+.location {
+    color: #a6a6a6;
+    margin-top: 5px;
+}
+
+.details {
+    color: #a6a6a6;
+}

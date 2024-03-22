@@ -1,0 +1,100 @@
+.create-event-page {
+    width: 50%;
+    margin: 0 auto;
+    padding-bottom: 90px;
+}
+
+.create-event-page h1 {
+    margin-bottom: 60px;
+}
+
+.create-event-page .form-section {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 30px;
+}
+
+.create-event-page label {
+    font-weight: 500;
+}
+
+.create-event-page input,
+.create-event-page select, 
+textarea {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 40px;
+
+    padding: 10px;
+
+    border-color: #d9d9d9;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    transition: border-color 0.3s;
+}
+
+.create-event-page textarea {
+    height: 100px;
+}
+
+.create-event-page input:hover,
+.create-event-page select:hover,
+textarea:hover {
+    border-color: #212121;
+}
+
+.create-event-page input:focus, textarea:focus {
+    outline: none;
+    border-color: #212121;
+}
+
+.create-event-page select:focus {
+    outline: none;
+}
+
+.create-event-page label, 
+.create-event-page input, 
+.create-event-page select,
+.create-event-page textarea {
+    box-sizing: border-box;
+    width: 350px;
+}
+
+#price-input-container {
+    display: flex;
+}
+
+#price-input-dollar {
+    background-color: #d9d9d9;
+    border-radius: 8px 0 0 8px;
+    height: 39.5px;
+    width: 40px;
+    margin-top: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#event-price {
+    text-align: right;
+    border-radius: 0 8px 8px 0;
+    width: 310px;
+}
+
+.create-event-page button {
+    width: 350px;
+    height: 50px;
+}
+
+.create-event-page p.error {
+    margin-top: -35px;
+    margin-bottom: 30px;
+
+    font-size: 14px;
+    color: red;
+}

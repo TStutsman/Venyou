@@ -11,6 +11,9 @@ const getRole = (queryResult, userId) => {
     if(queryResult instanceof EventImage) group = resultObj.Event.Group;
     else if(!(queryResult instanceof Group)) group = resultObj.Group;
     else group = resultObj;
+    
+    const isOrganizer = group.organizerId === userId;
+    if(isOrganizer) return 'organizer';
 
     let member;
     if(group.Users) {
@@ -21,9 +24,6 @@ const getRole = (queryResult, userId) => {
     
     if(member) return member.status;
     
-    const isOrganizer = group.organizerId === userId;
-    if(isOrganizer) return 'organizer';
-
     return 'stranger';
 }
 

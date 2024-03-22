@@ -1,11 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 // import LoginFormPage from './components/LoginFormPage';
 // import SignupFormPage from './components/SignupFormPage';
-import Navigation from './components/Navigation/Navigation-bonus';
-import * as sessionActions from './store/session';
+import CreateGroup from './components/CreateGroup';
+import CreateEvent from './components/CreateEvent';
+import EventShow from './components/EventShow';
+import GroupShow from './components/GroupShow';
+import Home from './components/Home';
+import ListIndex from './components/ListIndex';
+import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
+import * as sessionActions from './store/session';
+import UpdateGroup from './components/UpdateGroup';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -32,8 +39,36 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <Home />
       },
+      {
+        path: '/groups',
+        element: <ListIndex type={'group'} />
+      },
+      {
+        path: '/groups/new',
+        element: <CreateGroup />
+      },
+      {
+        path: '/groups/:groupId',
+        element: <GroupShow />
+      },
+      {
+        path: '/events',
+        element: <ListIndex type={'event'} />
+      },
+      {
+        path: '/events/:eventId',
+        element: <EventShow />
+      },
+      {
+        path: '/groups/:groupId/events/new',
+        element: <CreateEvent />
+      },
+      {
+        path: '/groups/:groupId/edit',
+        element: <UpdateGroup />
+      }
       // {
       //   path: 'login',
       //   element: <LoginFormPage />

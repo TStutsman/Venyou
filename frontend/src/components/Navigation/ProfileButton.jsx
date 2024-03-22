@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
+  const dropdownRef = useRef();
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
@@ -16,7 +18,7 @@ function ProfileButton({ user }) {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (ulRef.current && !ulRef.current.contains(e.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -29,23 +31,34 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    navigate('/');
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const dropdownClass = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const caretDirection = showMenu ? 'up' : 'down'
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        <li>{user.username}</li>
-        <li>{user.firstName} {user.lastName}</li>
-        <li>{user.email}</li>
-        <li>
-          <button onClick={logout}>Log Out</button>
-        </li>
-      </ul>
+      <div className='icon-button' onClick={toggleMenu}>
+        <i className="fa-3x fas fa-user-circle" />
+        <i className={`fas fa-angle-${caretDirection} light-grey`}></i>
+      </div>
+      <div className={dropdownClass} ref={dropdownRef}>
+        <div className='dropdown-section divider'>
+          <p>Hello, { user.firstName }</p>
+          <p>{ user.email }</p>
+        </div>
+        <div className='dropdown-section divider'>
+          <Link to='/events' onClick={() => setShowMenu(false)}>Your events</Link>
+          <Link to='/groups' onClick={() => setShowMenu(false)}>Your groups</Link>
+        </div>
+        <div className='dropdown-section'>
+          <Link>View profile</Link>
+          <Link>Settings</Link>
+          <Link>Help</Link>
+          <Link onClick={logout}>Log out</Link>
+        </div>
+      </div>
     </>
   );
 }

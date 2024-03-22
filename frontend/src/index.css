@@ -1,1 +1,54 @@
 /* TODO: Add sitewide styles */
+* {
+    font-family: 'BeVietnamPro';
+}
+
+body {
+    margin: 0;
+}
+
+/* Default button styles */
+button {
+    background-color: #00798a;
+    color: #fff;
+    border-radius: 8px;
+}
+
+button:hover {
+    background-color: #008fa3;
+}
+
+@font-face {
+    font-family: 'Barrio';
+    src: url('/fonts/Barrio-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'BeVietnamPro';
+    src: url('/fonts/BeVietnamPro-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'BeVietnamPro';
+    src: url('/fonts/BeVietnamPro-Medium.ttf') format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'BeVietnamPro';
+    src: url('/fonts/BeVietnamPro-Light.ttf') format('truetype');
+    font-weight: lighter;
+}
+
+@font-face {
+    font-family: 'BeVietnamPro';
+    src: url('/fonts/BeVietnamPro-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'BeVietnamPro';
+    src: url('/fonts/BeVietnamPro-Black.ttf') format('truetype');
+    font-weight: 900;
+}

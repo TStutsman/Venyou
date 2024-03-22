@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
         include: [
             {
                 model: User,
-                attributes: [],
+                attributes: ['id'],
                 through: {
                     model: Membership,
                     attributes: []
@@ -28,22 +28,31 @@ router.get('/', async (req, res) => {
                 where: {
                     preview: true
                 }
+            },
+            {
+                model: Event,
+                attributes: ['id']
             }
         ],
         attributes: {
             include: [
-                [fn('COUNT', col('Users.id')), 'numMembers'],
                 [col('GroupImages.url'), 'previewImage']
             ]
         },
         group: ['Group.id', 'GroupImages.id']
     });
 
-    if(allGroups.length) allGroups.forEach(group => group.dataValues.numMembers = parseInt(group.dataValues.numMembers));
-
-    res.json({
-        Groups: allGroups
+    // removes the 'Users' and 'Events' keys and adds num keys for each
+    const groups = allGroups.map(each => {
+        const group = each.toJSON();
+        group.numMembers = group.Users.length;
+        group.numEvents = group.Events.length;
+        delete group.Users;
+        delete group.Events;
+        return group;
     });
+
+    res.json(groups);
 });
 
 // Get All Groups for current User
@@ -57,7 +66,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         include: [
             {
                 model: Membership,
-                attributes: []
+                attributes: ['userId']
             },
             {
                 model: GroupImage,
@@ -66,22 +75,31 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 where: {
                     preview: true
                 }
+            },
+            {
+                model: Event,
+                attributes: ['id']
             }
         ],
         attributes: {
             include: [
-                [fn('COUNT', col('Memberships.userId')), 'numMembers'],
                 [col('GroupImages.url'), 'previewImage']
             ]
         },
         group: ['Group.id', 'GroupImages.id']
     });
 
-    if(userGroups.length) userGroups.forEach(group => group.dataValues.numMembers = parseInt(group.dataValues.numMembers));
-
-    res.json({
-        Groups: userGroups
+    // removes the 'Users' and 'Events' keys and adds num keys for each
+    const groups = userGroups.map(each => {
+        const group = each.toJSON();
+        group.numMembers = group.Memberships.length;
+        group.numEvents = group.Events.length;
+        delete group.Memberships;
+        delete group.Events;
+        return group;
     });
+
+    res.json(groups);
 });
 
 // Get Details of Group from an id
@@ -318,7 +336,7 @@ router.get('/:groupId/events', async (req, res, next) => {
                 [fn('COUNT', col('Attendances.id')), 'numAttending'],
                 [col('EventImages.url'), 'previewImage']
             ],
-            exclude: ['description', 'price', 'capacity', 'createdAt', 'updatedAt']
+            exclude: ['price', 'capacity', 'createdAt', 'updatedAt']
         },
         group: ['Event.id', 'Group.id', 'Venue.id', 'EventImages.url']
     });
@@ -354,7 +372,8 @@ router.post('/:groupId/events', requireAuth, validateEvent, async (req, res, nex
     // const isCohost = groupJson.Memberships.some(member => member.userId === id && member.status === 'co-host');
     const role = getRole(group, id);
 
-    console.log('role: ', role);
+    console.log('-----role: ', role);
+    console.log('=====organizerId: ', group.organizerId);
 
     if(role !== 'organizer' && role !== 'co-host') return next(forbidden);
     

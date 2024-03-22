@@ -1,5 +1,130 @@
+nav {
+  position: sticky;
+  top: 0;
+
+  height: 40px;
+  padding: 10px 20px;
+
+  display: flex;
+  justify-content: space-between;
+
+  background-color: #fff;
+
+  border-bottom-color: #d9d9d9;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.logo {
+  font-family: 'Barrio';
+  font-size: 30px;
+  text-decoration: none;
+  color: #945cc2;
+}
+
+.logo:active {
+  color: #945cc2;
+}
+
+.logo:hover {
+  color: #945cc2;
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  height: 35px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.log-in {
+  border-radius: 0;
+  background-color: #fff;
+  color: #212121;
+}
+
+.log-in:hover {
+  color: #00798a;
+  background-color: #fff;
+}
+
+.logged-in {
+  display: flex;
+  align-items: center;
+}
+
+.logged-in > a {
+  font-size: 16px;
+  margin-right: 30px;
+}
+
+.logged-in > a:hover {
+  text-decoration: none;
+}
+
+.icon-button {
+  width: 70px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #999393;
+}
+
+.light-grey {
+  color: #8a8888;
+}
+
 .profile-dropdown {
   position: absolute;
+  top: 65px;
+  right: 20px;
+
+  padding: 10px 20px;
+  width: 160px;
+  background-color: #fff;
+
+  border-radius: 5px;
+  border-color: #d9d9d9;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.divider {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #d9d9d9;
+  margin-bottom: 5px;
+}
+
+.dropdown-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-section > * {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 8px;
+
+  font-family: 'BeVietnamPro';
+  font-weight: lighter;
+  font-size: 14px;
+}
+
+.dropdown-section > p {
+  cursor: default;
+}
+
+.dropdown-section > a {
+  text-decoration: none;
+  color: #212121;
+}
+.dropdown-section > a:hover {
+  color: #00798a;
+  text-decoration: none;
 }
 
 .hidden {

@@ -1,0 +1,107 @@
+.create-group-page {
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 90px;
+}
+
+.create-group-page h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #00798a;
+}
+
+.create-group-page h2 {
+    font-weight: 500;
+    margin: 0;
+}
+
+.create-group-page input, .create-group-page select {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 0;
+
+    box-sizing: border-box;
+    width: 350px;
+
+    padding: 10px;
+
+    border-color: #d9d9d9;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    transition: border-color 0.3s;
+}
+
+.create-group-page input:hover, .create-group-page select:hover {
+    border-color: #212121;
+}
+
+.create-group-page input:focus {
+    outline: none;
+    border-color: #212121;
+}
+
+.create-group-page select:focus {
+    outline: none;
+}
+
+.create-group-page textarea {
+    margin-bottom: 0;
+    box-sizing: border-box;
+    width: 350px;
+    font-size: 14px;
+}
+
+.create-group-page p, .create-group-page li {
+    font-size: 14px;
+}
+
+.create-group-page p.error {
+    margin-top: 5px;
+    color: red;
+}
+
+.create-group-page ol {
+    padding-inline-start: 15px;
+}
+
+.form-section {
+    border-bottom-color: #9b9b9b;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+
+    padding-bottom: 35px;
+    padding-top: 30px;
+}
+
+.form-section:first-child {
+    padding-bottom: 10px;
+}
+
+.final-steps p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.select-group {
+    padding-bottom: 20px;
+}
+
+.create-group-page button {
+    margin-top: 20px;
+    width: 350px;
+    height: 50px;
+
+    font-weight: 500;
+}
+
+.create-group-page button:disabled {
+    background-color: #a6a6a6;  
+}
+
+.create-group-page button:disabled:hover {
+    background-color: #a6a6a6;
+}
