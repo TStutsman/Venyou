@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
                 [col('GroupImages.url'), 'previewImage']
             ]
         },
-        group: ['Group.id', 'GroupImages.id', 'Users.id']
+        group: ['Group.id', 'GroupImages.id', 'Users.id', 'Events.id']
     });
 
     // removes the 'Users' and 'Events' keys and adds num keys for each
