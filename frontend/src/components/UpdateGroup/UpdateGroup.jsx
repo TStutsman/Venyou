@@ -44,7 +44,7 @@ function UpdateGroup() {
         if(sessionUser === undefined || group === undefined) return;
         if(sessionUser === null) navigate('/');
         if(sessionUser.id !== group.organizerId) navigate('/');
-    }, [sessionUser, group])
+    }, [sessionUser, group, navigate])
 
     useEffect(() => {
         const validationErrors = {};

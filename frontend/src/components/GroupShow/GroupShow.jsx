@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEventsForGroupById, getGroupById, selectGroups} from '../../store/groups';
 import { useEffect } from 'react';
 import DynamicImage from '../DynamicImage';
-import EventItem from '../EventItem';
 import Breadcrumb from '../Breadcrumb';
 import DeleteGroupModal from '../DeleteGroupModal';
 import OpenModalButton from '../OpenModalButton';

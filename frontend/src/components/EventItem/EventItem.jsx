@@ -3,7 +3,7 @@ import DynamicImage from "../DynamicImage";
 import './EventItem.css';
 import { formatDate } from "../../utils/timeUtils";
 
-function EventItem({ event, onClick }) {
+function EventItem({ event }) {
     const navigate = useNavigate();
 
     const handleClick = eventId => {
