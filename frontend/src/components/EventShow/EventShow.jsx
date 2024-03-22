@@ -79,6 +79,7 @@ function EventShow() {
                                 <div className="icon-wrapper">
                                     <i className="fa-2x fa-solid fa-dollar-sign"/>
                                 </div>
+                                { console.log(price) }
                                 <p>{ price ? price === 0 ? 'FREE' : Number(price).toFixed(2) : '' }</p>
                             </div>
                             <div className="async-details">
