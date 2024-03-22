@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './UpdateGroup.css';
-import { updateGroup, selectGroups } from '../../store/groups';
+import { updateGroup, selectGroups, getGroupById } from '../../store/groups';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function UpdateGroup() {
@@ -10,19 +10,41 @@ function UpdateGroup() {
     const dispatch = useDispatch();
     
     const { groupId } = useParams();
+    const sessionUser = useSelector(state => state.session.user);
     const group = useSelector(selectGroups)[groupId];
 
-    const [ location, setLocation ] = useState((group?.city + ', ' + group?.state) || "");
-    const [ name, setName ] = useState(group?.name || "");
-    const [ about, setAbout] = useState(group?.about || "");
-    const [ type, setType ] = useState(group?.type || "");
-    const [ isPrivate, setIsPrivate ] = useState(group.private.toString() || "");
+    const [ location, setLocation ] = useState("");
+    const [ name, setName ] = useState("");
+    const [ about, setAbout] = useState("");
+    const [ type, setType ] = useState("");
+    const [ isPrivate, setIsPrivate ] = useState("");
     // const [ imageUrl, setImageUrl ] = useState(group?.GroupImages?.[0]?.url || "");
     const [ errors, setErrors ] = useState({});
 
     useEffect(() => {
         window.scrollTo(0,0);
     }, []);
+    
+    useEffect(() => {
+        dispatch(getGroupById(groupId));
+    }, [groupId, dispatch])
+
+    // When the group is recieved from the store, update the fields
+    useEffect(() => {
+        if(!group) return;
+        setLocation(group.city + ', ' + group?.state);
+        setName(group.name);
+        setAbout(group.about);
+        setType(group.type);
+        setIsPrivate(group.private.toString());
+    }, [group])
+
+    // Navigates the user away from the page if they are logged-out or not the organizer
+    useEffect(() => {
+        if(sessionUser === undefined || group === undefined) return;
+        if(sessionUser === null) navigate('/');
+        if(sessionUser.id !== group.organizerId) navigate('/');
+    }, [sessionUser, group])
 
     useEffect(() => {
         const validationErrors = {};
@@ -133,7 +155,7 @@ function UpdateGroup() {
                     <input type="text" placeholder='Image Url' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
                     {errors.imageUrl && <p className='error'>{errors.imageUrl}</p>} */}
                 </div>
-                <button disabled={!!Object.keys(errors).length}>Update group</button>
+                <button disabled={!!Object.keys(errors).length}>Update Group</button>
             </form>
         </div>
     )

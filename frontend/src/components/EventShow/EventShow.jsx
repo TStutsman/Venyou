@@ -4,7 +4,7 @@ import DynamicImage from "../DynamicImage";
 import { useDispatch, useSelector } from "react-redux";
 import { getEventById, selectEvents } from '../../store/events';
 import './EventShow.css';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatDate } from "../../utils/timeUtils";
 import OpenModalButton from "../OpenModalButton";
 import DeleteEventModal from "../DeleteEventModal";
@@ -16,9 +16,19 @@ function EventShow() {
     const event = useSelector(selectEvents)[eventId];
     const sessionUser = useSelector(state => state.session.user);
 
+    const [showDeleteButton, setShowDeleteButton] = useState(false);
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+    }, []);
+
     useEffect(() => {
         dispatch(getEventById(eventId));
     }, [eventId, dispatch]);
+
+    useEffect(() => {
+        if(sessionUser && event && event.Group && event.Group.Organizer && sessionUser.id === event.Group.Organizer.id) setShowDeleteButton(true);
+    }, [sessionUser, event])
 
     if(!event || !event.id) return null;
     const { name, EventImages:images , description, type, price, startDate, endDate, Group:group, Venue:venue } = event;
@@ -77,7 +87,7 @@ function EventShow() {
                                 </div>
                                 <p>{ type === 'In Person' ? venue?.address : 'Online' }</p>
                             </div>
-                            { sessionUser.id === host?.id &&
+                            { showDeleteButton &&
                                 <OpenModalButton
                                     buttonText="Delete Event"
                                     modalComponent={<DeleteEventModal eventId={eventId} groupId={group.id} />}

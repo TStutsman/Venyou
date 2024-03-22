@@ -24,6 +24,10 @@ function CreateEvent() {
     const group = useSelector(selectGroups)[groupId];
 
     useEffect(() => {
+        window.scrollTo(0,0);
+    }, []);
+
+    useEffect(() => {
         dispatch(getGroupById(groupId));
     }, [groupId, dispatch]);
 
@@ -48,7 +52,7 @@ function CreateEvent() {
             validationErrors.url = "Image URL must end in .png, .jpg, or .jpeg";
         }
 
-        if(description.length < 50) validationErrors.description = "Description must be at least 50 characters";
+        if(description.length < 30) validationErrors.description = "Description needs 30 or more characters";
         setErrors(validationErrors);
     }, [name, type, isPrivate, price, start, end, url, description, submitted])
 
@@ -104,7 +108,7 @@ function CreateEvent() {
 
     return (
         <div className="create-event-page">
-            <h1>Create an event for {group.name}</h1>
+            <h1>Create a new event for {group.name}</h1>
             <form onSubmit={onSubmit}>
                 <div className="form-section">
                     <label>
@@ -212,7 +216,7 @@ function CreateEvent() {
                     />
                 </label>
                 {errors.description && <p className='error'>{errors.description}</p>}
-                <button type='submit'>Create event</button>
+                <button type='submit'>Create Event</button>
             </form>
         </div>
     )

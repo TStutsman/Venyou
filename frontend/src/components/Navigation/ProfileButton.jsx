@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
 function ProfileButton({ user }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const dropdownRef = useRef();
@@ -30,6 +31,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    navigate('/');
   };
 
   const dropdownClass = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -47,8 +49,8 @@ function ProfileButton({ user }) {
           <p>{ user.email }</p>
         </div>
         <div className='dropdown-section divider'>
-          <Link to='/events'>Your events</Link>
-          <Link to='/groups'>Your groups</Link>
+          <Link to='/events' onClick={() => setShowMenu(false)}>Your events</Link>
+          <Link to='/groups' onClick={() => setShowMenu(false)}>Your groups</Link>
         </div>
         <div className='dropdown-section'>
           <Link>View profile</Link>

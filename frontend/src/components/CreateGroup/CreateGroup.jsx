@@ -138,7 +138,7 @@ function CreateGroup() {
                     <input type="text" placeholder='Image Url' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
                     {errors.imageUrl && <p className='error'>{errors.imageUrl}</p>}
                 </div>
-                <button disabled={!!Object.keys(errors).length}>Create group</button>
+                <button disabled={!!Object.keys(errors).length}>Create Group</button>
             </form>
         </div>
     )

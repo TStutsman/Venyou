@@ -65,6 +65,10 @@
     font-weight: 500;
 }
 
+.login-modal button:disabled {
+    background-color: #a6a6a6;
+}
+
 button.demo {
     background-color: #fff;
     color: #00798a;

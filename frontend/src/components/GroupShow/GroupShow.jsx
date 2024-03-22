@@ -7,7 +7,8 @@ import DynamicImage from '../DynamicImage';
 import EventItem from '../EventItem';
 import Breadcrumb from '../Breadcrumb';
 import DeleteGroupModal from '../DeleteGroupModal';
-import OpenModalButton from '../OpenModalButton'
+import OpenModalButton from '../OpenModalButton';
+import EventCard from '../EventCard';
 
 function GroupShow() {
     const navigate = useNavigate();
@@ -15,6 +16,10 @@ function GroupShow() {
     const { groupId }= useParams();
     const group = useSelector(selectGroups)[groupId];
     const sessionUser = useSelector(state => state.session.user);
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+    }, []);
 
     useEffect(() => {
         dispatch(getGroupById(groupId));
@@ -60,7 +65,7 @@ function GroupShow() {
                         <p className='details'>Organized by { organizer?.firstName } { organizer?.lastName }</p>
                     </div>
                     {
-                        sessionUser?.id === organizer?.id 
+                        sessionUser && sessionUser?.id === organizer?.id 
                         ? <div className='organizer-buttons'>
                             <button className='create-event' onClick={createEvent}>Create Event</button>
                             <button className='update-group' onClick={updateGroup}>Update</button>
@@ -69,7 +74,7 @@ function GroupShow() {
                                 modalComponent={<DeleteGroupModal groupId={groupId} />}
                             />
                           </div>
-                        : <button onClick={onClick} className='hero-button'>Join this group</button>
+                        : sessionUser ? <button onClick={onClick} className='hero-button'>Join this group</button> : null
                     }
                 </div>
             </div>
@@ -89,9 +94,7 @@ function GroupShow() {
                             <h2>Upcoming Events ({upcomingEvents.length})</h2>
                             {
                                 upcomingEvents.map(event => (
-                                    <div key={event.id} className='event-card'>
-                                        <EventItem event={event}/>
-                                    </div>
+                                    <EventCard key={event.id} event={event} />
                                 ))
                             }
                         </>
@@ -102,9 +105,7 @@ function GroupShow() {
                             <h2>Past Events ({pastEvents.length})</h2>
                             {
                                 pastEvents.map(event => (
-                                    <div key={event.id} className='event-card'>
-                                        <EventItem event={event}/>
-                                    </div>
+                                    <EventCard key={event.id} event={event} />
                                 ))
                             }
                         </>

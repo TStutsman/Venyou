@@ -3,23 +3,23 @@ import DynamicImage from "../DynamicImage";
 import './EventItem.css';
 import { formatDate } from "../../utils/timeUtils";
 
-function EventItem({ event }) {
+function EventItem({ event, onClick }) {
     const navigate = useNavigate();
 
-    const onClick = eventId => {
+    const handleClick = eventId => {
         navigate(`/events/${eventId}`)
     }
 
     const [ startDay, startTime ] = formatDate(event.startDate);
 
     return (
-        <div className="event-item" onClick={() => onClick(event.id)}>
+        <div className="event-item" onClick={() => handleClick(event.id)}>
             <div className="event-item-top">
                 <DynamicImage url={event.previewImage} type={'item'}/>
                 <div className="content">
                     <p className='date-time'>{ startDay } &middot; { startTime }</p>
                     <h3>{ event.name }</h3>
-                    <p className='location'>{ event.Group?.city }, { event.Group?.state }</p>
+                    <p className='location'>{ event.type === 'Online' ?  'Online' : event.Group?.city + ', ' + event.Group?.state }</p>
                 </div>
             </div>
             <p className='description'>{ event.description }</p>
