@@ -90,6 +90,21 @@ export const saveGroupImage = (groupId, image) => async () => {
     }
 }
 
+export const updateGroup = (groupId, group) => async dispatch => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}`, {
+            method: 'PUT',
+            headers,
+            body: JSON.stringify(group)
+        });
+        const newGroup = await response.json();
+        dispatch(loadGroups([newGroup]));
+        return newGroup;
+    } catch (e) {
+        return e;
+    }
+}
+
 export const deleteGroup = (groupId) => async dispatch => {
     try {
         const response = await csrfFetch(`/api/groups/${groupId}`, {

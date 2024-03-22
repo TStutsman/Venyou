@@ -1,48 +1,42 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import './CreateGroup.css';
-import { saveGroup, saveGroupImage } from '../../store/groups';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import './UpdateGroup.css';
+import { updateGroup, selectGroups } from '../../store/groups';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function CreateGroup() {
+function UpdateGroup() {
     // https://venyou-image-bucket.s3.us-east-2.amazonaws.com/potato.jpeg
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    
+    const { groupId } = useParams();
+    const group = useSelector(selectGroups)[groupId];
 
-    const [ location, setLocation ] = useState("");
-    const [ name, setName ] = useState("");
-    const [ about, setAbout] = useState("");
-    const [ type, setType ] = useState("");
-    const [ isPrivate, setIsPrivate ] = useState("");
-    const [ imageUrl, setImageUrl ] = useState("");
+    const [ location, setLocation ] = useState((group?.city + ', ' + group?.state) || "");
+    const [ name, setName ] = useState(group?.name || "");
+    const [ about, setAbout] = useState(group?.about || "");
+    const [ type, setType ] = useState(group?.type || "");
+    const [ isPrivate, setIsPrivate ] = useState(group.private.toString() || "");
+    // const [ imageUrl, setImageUrl ] = useState(group?.GroupImages?.[0]?.url || "");
     const [ errors, setErrors ] = useState({});
-    const [ submitted, setSubmitted ] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0,0);
     }, []);
 
     useEffect(() => {
-
-        if(!submitted) {
-            if(about.length && about.length < 50) setErrors({about: "Description must be at least 50 characters"});
-            else setErrors({});
-            return;
-        }
-
         const validationErrors = {};
         if(!location) validationErrors.location = "Location is required";
         if(!name) validationErrors.name = "Name is required";
         if(about.length < 50) validationErrors.about = "Description must be at least 50 characters";
         if(!type) validationErrors.type = "Group type is required";
         if(!isPrivate) validationErrors.private = "Group privacy is required"
-        if(!imageUrl) validationErrors.imageUrl = "Group image is required"
+        // if(!imageUrl) validationErrors.imageUrl = "Group image is required"
         setErrors(validationErrors);
-    }, [location, name, about, type, isPrivate, imageUrl, submitted])
+    }, [location, name, about, type, isPrivate]) // imageUrl,
 
     async function onSubmit(e) {
         e.preventDefault();
-        setSubmitted(true);
         if(Object.keys(errors).length > 1) return;
 
         const [city, state] = location.split(', ');
@@ -52,13 +46,13 @@ function CreateGroup() {
         }
         // console.log('Group', group);
         
-        const image = {
-            url: imageUrl,
-            preview: true
-        }
+        // const image = {
+        //     url: imageUrl,
+        //     preview: true
+        // }
 
 
-        const newGroup = await dispatch(saveGroup(group));
+        const newGroup = await dispatch(updateGroup(groupId, group));
 
         if(!newGroup.id) {
             const { errors } = await newGroup.json();
@@ -68,13 +62,14 @@ function CreateGroup() {
 
         // console.log('New Group', newGroup);
 
-        const newImage = await dispatch(saveGroupImage(newGroup.id, image));
+        // TODO: REQUIRES NEW ENDPOINT IN THE BACKEND
+        // const newImage = await dispatch(updateGroupImage(newGroup.id, image));
         
-        if(!newImage.id) {
-            const { errors } = await newImage.json();
-            console.log('Error Response', errors);
-            return;
-        }
+        // if(!newImage.id) {
+        //     const { errors } = await newImage.json();
+        //     console.log('Error Response', errors);
+        //     return;
+        // }
         
         // console.log('Group Image', newImage);
 
@@ -85,8 +80,8 @@ function CreateGroup() {
         <div className='create-group-page'>
             <form onSubmit={onSubmit}>
                 <div className='form-section'>
-                    <h3>START A NEW GROUP</h3>
-                    <h2>We&apos;ll walk you through a few steps to build your local community</h2>
+                    <h3>UPDATE YOUR GROUP</h3>
+                    <h2>We&apos;ll walk you through a few steps to update your group</h2>
                 </div>
                 <div className='form-section'>
                     <h2>First, set your group&apos;s location.</h2>
@@ -134,14 +129,14 @@ function CreateGroup() {
                         {errors.private && <p className='error'>{errors.private}</p>}
                     </div>
 
-                    <p>Please add an image url for your group below:</p>
+                    {/* <p>Please add an image url for your group below:</p>
                     <input type="text" placeholder='Image Url' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)}/>
-                    {errors.imageUrl && <p className='error'>{errors.imageUrl}</p>}
+                    {errors.imageUrl && <p className='error'>{errors.imageUrl}</p>} */}
                 </div>
-                <button disabled={!!Object.keys(errors).length}>Create group</button>
+                <button disabled={!!Object.keys(errors).length}>Update group</button>
             </form>
         </div>
     )
 }
 
-export default CreateGroup;
+export default UpdateGroup;

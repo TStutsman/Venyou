@@ -12,6 +12,7 @@ import ListIndex from './components/ListIndex';
 import Navigation from './components/Navigation';
 import { Modal } from './context/Modal';
 import * as sessionActions from './store/session';
+import UpdateGroup from './components/UpdateGroup';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: '/groups/:groupId/events/new',
         element: <CreateEvent />
+      },
+      {
+        path: '/groups/:groupId/edit',
+        element: <UpdateGroup />
       }
       // {
       //   path: 'login',

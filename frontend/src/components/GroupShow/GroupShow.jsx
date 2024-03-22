@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import DynamicImage from '../DynamicImage';
 import EventItem from '../EventItem';
 import Breadcrumb from '../Breadcrumb';
+import DeleteGroupModal from '../DeleteGroupModal';
+import OpenModalButton from '../OpenModalButton'
 
 function GroupShow() {
     const navigate = useNavigate();
@@ -40,22 +42,7 @@ function GroupShow() {
     }
 
     const updateGroup = (e) => {
-        
-    }
-
-    const deleteGroupClick = async (e) => {
-        const response = await dispatch(deleteGroup(groupId));
-
-        if(!response.ok) {
-            console.log(response);
-            // const { message } = response.json();
-            // console.log('Error', message);
-            return;
-        }
-
-        console.log('Successfully deleted');
-
-        navigate('/groups');
+        navigate(`/groups/${groupId}/edit`);
     }
 
     return (
@@ -77,8 +64,11 @@ function GroupShow() {
                         ? <div className='organizer-buttons'>
                             <button className='create-event' onClick={createEvent}>Create Event</button>
                             <button className='update-group' onClick={updateGroup}>Update</button>
-                            <button className='delete-group' onClick={deleteGroupClick}>Delete</button>
-                            </div>
+                            <OpenModalButton
+                                buttonText="Delete Group"
+                                modalComponent={<DeleteGroupModal groupId={groupId} />}
+                            />
+                          </div>
                         : <button onClick={onClick} className='hero-button'>Join this group</button>
                     }
                 </div>
