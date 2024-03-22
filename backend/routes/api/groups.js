@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
                 [col('GroupImages.url'), 'previewImage']
             ]
         },
-        group: ['Group.id', 'GroupImages.id']
+        group: ['Group.id', 'GroupImages.id', 'User.id']
     });
 
     // removes the 'Users' and 'Events' keys and adds num keys for each
@@ -86,7 +86,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 [col('GroupImages.url'), 'previewImage']
             ]
         },
-        group: ['Group.id', 'GroupImages.id']
+        group: ['Group.id', 'GroupImages.id', 'Memberships.id']
     });
 
     // removes the 'Users' and 'Events' keys and adds num keys for each
