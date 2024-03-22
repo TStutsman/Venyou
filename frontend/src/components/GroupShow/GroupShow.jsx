@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import './GroupShow.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEventsForGroupById, getGroupById, selectGroups, deleteGroup } from '../../store/groups';
+import { getEventsForGroupById, getGroupById, selectGroups} from '../../store/groups';
 import { useEffect } from 'react';
 import DynamicImage from '../DynamicImage';
 import EventItem from '../EventItem';
@@ -37,11 +37,11 @@ function GroupShow() {
         alert('Feature coming soon');
     }
 
-    const createEvent = (e) => {
+    const createEvent = () => {
         navigate(`/groups/${groupId}/events/new`);
     }
 
-    const updateGroup = (e) => {
+    const updateGroup = () => {
         navigate(`/groups/${groupId}/edit`);
     }
 

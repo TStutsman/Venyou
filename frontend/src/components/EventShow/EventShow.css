@@ -33,7 +33,7 @@
 
 .details-cards {
     margin-left: 20px;
-    width: 80%;
+    width: 40%;
 }
 
 .details-cards > * {
@@ -67,6 +67,7 @@
 }
 
 .event-info-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     padding-left: 30px;
@@ -121,4 +122,41 @@
 .event-description > * {
     margin-top: 5px;
     margin-bottom: 10px;
+}
+
+.event-description p {
+    overflow-y: scroll;
+    min-height: 35px;
+}
+
+.delete-event {
+    width: fit-content;
+    position: absolute;
+    bottom: 30px;
+    right: 5%;
+
+    color: #fff;
+}
+
+@media screen and (max-width: 1100px) {
+
+    /* .event-info-card, .group-info-card {
+        padding-left: 20px;
+    } */
+
+    .event-time > *, .event-info-card * {
+        font-size: 14px;
+    }
+
+    .icon-wrapper {
+        width: 18px;
+    }
+
+    .fa-2x {
+        font-size: 18px;
+    }
+
+    .delete-event {
+        font-size: 12px;
+    }
 }

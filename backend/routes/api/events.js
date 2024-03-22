@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { fn, col, Op } = require('sequelize');
-const { Event, Group, User, Venue, Attendance, Membership, EventImage } = require('../../db/models');
+const { Event, Group, User, Venue, Attendance, Membership, EventImage, GroupImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const { validateEvent, validateAttendance, validatePagination } = require('../../utils/validation');
 const { getRole } = require('../../utils/perms');
@@ -122,7 +122,22 @@ router.get('/:eventId', async (req, res, next) => {
         include: [
             {
                 model: Group,
-                attributes: ['id', 'name', 'city', 'state']
+                attributes: ['id', 'name', 'city', 'state', 'private'],
+                include: [
+                    {
+                        model: User,
+                        as: 'Organizer',
+                        attributes: ['id', 'firstName', 'lastName']
+                    },
+                    {
+                        model: GroupImage,
+                        attributes: ['url'],
+                        required: false,
+                        where: {
+                            preview: true
+                        }
+                    }
+                ]
             },
             {
                 model: Venue,

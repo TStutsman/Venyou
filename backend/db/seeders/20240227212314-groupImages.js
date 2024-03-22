@@ -20,8 +20,8 @@ const groupImages = [
   },
   {
     name: 'Watercolor Wednesdays',
-    url: 'fake url',
-    preview: false
+    url: 'https://venyou-image-bucket.s3.us-east-2.amazonaws.com/watercolor.jpg',
+    preview: true
   }
 ];
 

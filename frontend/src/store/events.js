@@ -6,10 +6,16 @@ const headers = {
 }
 
 const ADD_EVENTS = 'events/addEvents';
+const REMOVE_EVENT = 'events/removeEvent';
 
 const addEvents = events => ({
     type: ADD_EVENTS,
     events
+});
+
+const removeEvent = eventId => ({
+    type: REMOVE_EVENT,
+    eventId
 });
 
 export const getAllEvents = () => async dispatch => {
@@ -66,6 +72,18 @@ export const saveEventImage = (eventId, image) => async () => {
     }
 }
 
+export const deleteEvent = eventId => async dispatch => {
+    try {
+        const response = await csrfFetch(`/api/events/${eventId}`, {
+            method: 'DELETE'
+        });
+        dispatch(removeEvent(+eventId));
+        return response;
+    } catch (e) {
+        return e;
+    }
+}
+
 export const selectEvents = state => state.events;
 
 export const selectEventsArr = createSelector(selectEvents, events => {
@@ -79,6 +97,12 @@ function eventsReducer(state = initialState, action) {
         case ADD_EVENTS: {
             const newState = {...state};
             action.events.forEach(event => newState[event.id] = event);
+            return newState;
+        }
+        case REMOVE_EVENT: {
+            if(state[action.eventId] === undefined) return state;
+            const newState = {...state};
+            delete newState[action.eventId];
             return newState;
         }
         default:

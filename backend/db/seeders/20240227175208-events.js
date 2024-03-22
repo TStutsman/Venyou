@@ -29,7 +29,7 @@ const groupVenueEvents = [
     address: '123 Disney Lane',
     events: [
       {
-        name: "Tennis Group Monthly Meeting",
+        name: "Tennis Group March Meeting",
         description: "We're getting together again! Join us at the courts!",
         type: "In Person",
         startDate: "2024-03-27 17:44:32.455 +00:00",
@@ -44,7 +44,7 @@ const groupVenueEvents = [
     address: '123 Disney Lane',
     events: [
       {
-        name: "Tennis Group Monthly Meeting",
+        name: "Tennis Group April Meeting",
         description: "We're getting together again! Join us at the courts!",
         type: "In Person",
         startDate: "2024-04-27 17:44:32.455 +00:00",
