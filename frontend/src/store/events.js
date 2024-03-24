@@ -86,8 +86,23 @@ export const deleteEvent = eventId => async dispatch => {
 
 export const selectEvents = state => state.events;
 
+function sortDates(date1, date2) {
+    const a = new Date(date1).getTime();
+    const b = new Date(date2).getTime();
+    const now = Date.now();
+
+    // if a is past and b is upcoming, put b first
+    if(a < now && b > now) return 1;
+    // vice versa above case
+    if(a > now && b < now) return -1;
+    // if both are past events sort backwards chronologically
+    if(a < now) return b - a;
+    // if both are upcoming events sort chronologically
+    return a - b;
+}
+
 export const selectEventsArr = createSelector(selectEvents, events => {
-    return Object.values(events);
+    return Object.values(events).sort((a,b) => sortDates(a.startDate, b.startDate));
 });
 
 const initialState = {};
