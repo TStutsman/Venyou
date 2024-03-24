@@ -43,7 +43,7 @@ function CreateGroup() {
         if(submitted) {
             validateInputs();
         }
-    }, [location, name, about, type, isPrivate, imageUrl, submitted])
+    }, [location, name, about, type, isPrivate, imageUrl, validateInputs, submitted])
 
     async function onSubmit(e) {
         e.preventDefault();

@@ -86,8 +86,8 @@ function CreateEvent() {
         const newEvent = await dispatch(saveEvent(groupId, event));
 
         if(!newEvent.id) {
-            const { message, errors } = await newEvent.json();
-            // console.log('Error Response', message, errors);
+            const { errors } = await newEvent.json();
+            // console.log('Error Response', errors);
             setErrors(errors);
             return;
         }
