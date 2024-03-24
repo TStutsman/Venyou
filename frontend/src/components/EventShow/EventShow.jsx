@@ -16,7 +16,7 @@ function EventShow() {
     const event = useSelector(selectEvents)[eventId];
     const sessionUser = useSelector(state => state.session.user);
 
-    const [showDeleteButton, setShowDeleteButton] = useState(false);
+    const [showHostButtons, setShowHostButtons] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0,0);
@@ -27,7 +27,7 @@ function EventShow() {
     }, [eventId, dispatch]);
 
     useEffect(() => {
-        if(sessionUser && event && event.Group && event.Group.Organizer && sessionUser.id === event.Group.Organizer.id) setShowDeleteButton(true);
+        if(sessionUser && event && event.Group && event.Group.Organizer && sessionUser.id === event.Group.Organizer.id) setShowHostButtons(true);
     }, [sessionUser, event])
 
     if(!event || !event.id) return null;
@@ -80,7 +80,7 @@ function EventShow() {
                                     <i className="fa-2x fa-solid fa-dollar-sign"/>
                                 </div>
                                 
-                                <p>{ price ? Number(price) === 0 ? 'FREE' : Number(price).toFixed(2) : '' }</p>
+                                <p>{ price !== undefined ? Number(price) === 0 ? 'FREE' : Number(price).toFixed(2) : '' }</p>
                             </div>
                             <div className="async-details">
                                 <div className="icon-wrapper">
@@ -88,11 +88,14 @@ function EventShow() {
                                 </div>
                                 <p>{ type === 'In Person' ? venue?.address : 'Online' }</p>
                             </div>
-                            { showDeleteButton &&
-                                <OpenModalButton
-                                    buttonText="Delete Event"
-                                    modalComponent={<DeleteEventModal eventId={eventId} groupId={group.id} />}
-                                />
+                            { showHostButtons &&
+                                <div className="organizer-buttons">
+                                    <button onClick={() => alert('Feature coming soon...')}>Update Event</button>
+                                    <OpenModalButton
+                                        buttonText="Delete Event"
+                                        modalComponent={<DeleteEventModal eventId={eventId} groupId={group.id} />}
+                                    />
+                                </div>
                             }
                         </div>
                     </div>
