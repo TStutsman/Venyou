@@ -78,7 +78,10 @@ function UpdateGroup() {
 
         if(!newGroup.id) {
             const { errors } = await newGroup.json();
-            console.log('Error Response', errors);
+            if(errors.city) errors.location = errors.city;
+            if(errors.state) errors.location = errors.location ? errors.location + " " + errors.state : errors.state;
+            setErrors(errors);
+            console.log('Error updating group', errors);
             return;
         }
 

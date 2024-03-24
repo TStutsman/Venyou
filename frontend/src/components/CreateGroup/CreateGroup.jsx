@@ -69,9 +69,9 @@ function CreateGroup() {
 
         if(!newGroup.id) {
             const { errors } = await newGroup.json();
-            // console.log('Error Response', errors);
             if(errors.city) errors.location = errors.city;
             if(errors.state) errors.location = errors.location ? errors.location + " " + errors.state : errors.state;
+            console.log('Error saving group', errors);
             setErrors(errors);
             return;
         }

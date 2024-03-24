@@ -87,7 +87,7 @@ function CreateEvent() {
 
         if(!newEvent.id) {
             const { errors } = await newEvent.json();
-            // console.log('Error Response', errors);
+            console.log('Error saving event', errors);
             setErrors(errors);
             return;
         }
@@ -96,11 +96,12 @@ function CreateEvent() {
 
         const newImage = await dispatch(saveEventImage(newEvent.id, image));
         
+        // ====== ==== == TODO: if image fails to save don't create group! == ==== ======
         if(!newImage.id) {
             const { errors } = await newImage.json();
-            // console.log('Error Response', errors);
-            setErrors(errors);
-            return;
+            console.log('Image failed to save', errors);
+            // setErrors(errors);
+            // return;
         }
         
         // console.log('Event Image', newImage);
