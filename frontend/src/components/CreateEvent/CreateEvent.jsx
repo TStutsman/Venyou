@@ -75,7 +75,7 @@ function CreateEvent() {
             capacity: 10,
             venueId: 2
         }
-        console.log('Event', event);
+        // console.log('Event', event);
         
         const image = {
             url,
@@ -87,21 +87,23 @@ function CreateEvent() {
 
         if(!newEvent.id) {
             const { message, errors } = await newEvent.json();
-            console.log('Error Response', message, errors);
+            // console.log('Error Response', message, errors);
+            setErrors(errors);
             return;
         }
 
-        console.log('New event', newEvent);
+        // console.log('New event', newEvent);
 
         const newImage = await dispatch(saveEventImage(newEvent.id, image));
         
         if(!newImage.id) {
             const { errors } = await newImage.json();
-            console.log('Error Response', errors);
+            // console.log('Error Response', errors);
+            setErrors(errors);
             return;
         }
         
-        console.log('Event Image', newImage);
+        // console.log('Event Image', newImage);
 
         navigate(`/events/${newEvent.id}`);
     }

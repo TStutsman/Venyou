@@ -22,14 +22,8 @@ function CreateGroup() {
         window.scrollTo(0,0);
     }, []);
 
-    useEffect(() => {
-
-        if(!submitted) {
-            if(about.length && about.length < 50) setErrors({about: "Description must be at least 50 characters"});
-            else setErrors({});
-            return;
-        }
-
+    // sets errors and returns if there are any errors
+    function validateInputs() {
         const validationErrors = {};
         if(!location) validationErrors.location = "Location is required";
         if(!name) validationErrors.name = "Name is required";
@@ -38,12 +32,25 @@ function CreateGroup() {
         if(!isPrivate) validationErrors.private = "Group privacy is required"
         if(!imageUrl) validationErrors.imageUrl = "Group image is required"
         setErrors(validationErrors);
+        return !Object.keys(validationErrors).length;
+    }
+
+    // when an input is changed, validates all inputs if the submit button has been clicked
+    useEffect(() => {
+        if(about.length && about.length < 50) setErrors({about: "Description must be at least 50 characters"});
+        else setErrors({});
+
+        if(submitted) {
+            validateInputs();
+        }
     }, [location, name, about, type, isPrivate, imageUrl, submitted])
 
     async function onSubmit(e) {
         e.preventDefault();
-        setSubmitted(true);
-        if(Object.keys(errors).length > 1) return;
+        if(!validateInputs()) {
+            setSubmitted(true);
+            return;
+        }
 
         const [city, state] = location.split(', ');
 
@@ -62,7 +69,10 @@ function CreateGroup() {
 
         if(!newGroup.id) {
             const { errors } = await newGroup.json();
-            console.log('Error Response', errors);
+            // console.log('Error Response', errors);
+            if(errors.city) errors.location = errors.city;
+            if(errors.state) errors.location = errors.location ? errors.location + " " + errors.state : errors.state;
+            setErrors(errors);
             return;
         }
 
@@ -72,7 +82,8 @@ function CreateGroup() {
         
         if(!newImage.id) {
             const { errors } = await newImage.json();
-            console.log('Error Response', errors);
+            // console.log('Error Response', errors);
+            setErrors(errors);
             return;
         }
         
