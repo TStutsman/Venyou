@@ -31,6 +31,26 @@ function CreateEvent() {
         dispatch(getGroupById(groupId));
     }, [groupId, dispatch]);
 
+    function validateInputs() {
+        const validationErrors = {};
+        if(!name) validationErrors.name = "Name is required";
+        if(!type) validationErrors.type = "Event type is required";
+        if(!isPrivate) validationErrors.private = "Visibility is required";
+        if(!price.toString()) validationErrors.price = "Price is required"
+        if(!start) validationErrors.startDate = "Event start is required";
+        if(!end) validationErrors.endDate = "Event end is required";
+        
+        if(!url) validationErrors.url = "Image URL is required";
+        else if(!(url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg'))) {
+            validationErrors.url = "Image URL must end in .png, .jpg, or .jpeg";
+        }
+
+        if(description.length < 30) validationErrors.description = "Description needs 30 or more characters";
+        setErrors(validationErrors);
+
+        return !Object.keys(validationErrors).length;
+    }
+
     useEffect(() => {
 
         if(!submitted) {
@@ -60,8 +80,10 @@ function CreateEvent() {
 
     async function onSubmit(e) {
         e.preventDefault();
-        setSubmitted(true);
-        if(Object.keys(errors).length > 1) return;
+        if(!validateInputs()) {
+            setSubmitted(true);
+            return;
+        }
 
         const event = {
             name, 
@@ -86,8 +108,8 @@ function CreateEvent() {
         const newEvent = await dispatch(saveEvent(groupId, event));
 
         if(!newEvent.id) {
-            const { message, errors } = await newEvent.json();
-            // console.log('Error Response', message, errors);
+            const { errors } = await newEvent.json();
+            console.log('Error saving event', errors);
             setErrors(errors);
             return;
         }
@@ -96,11 +118,12 @@ function CreateEvent() {
 
         const newImage = await dispatch(saveEventImage(newEvent.id, image));
         
+        // ====== ==== == TODO: if image fails to save don't create group! == ==== ======
         if(!newImage.id) {
             const { errors } = await newImage.json();
-            // console.log('Error Response', errors);
-            setErrors(errors);
-            return;
+            console.log('Image failed to save', errors);
+            // setErrors(errors);
+            // return;
         }
         
         // console.log('Event Image', newImage);

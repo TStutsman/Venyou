@@ -35,7 +35,7 @@ const validateGroup = [
     .withMessage('Private must be a boolean'),
     check('city').exists({ checkFalsy: true })
     .withMessage('City is required'),
-    check('state').exists({ checkFalsy: true })
+    check('state').exists({ checkFalsy: true }).isLength({ min: 2 })
     .withMessage('State is required'),
     handleValidationErrors
 ];

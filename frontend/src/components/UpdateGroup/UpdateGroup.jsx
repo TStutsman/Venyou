@@ -49,7 +49,9 @@ function UpdateGroup() {
     useEffect(() => {
         const validationErrors = {};
         if(!location) validationErrors.location = "Location is required";
+        else if(!location.includes(', ') || location.split(', ')[1].length < 2) validationErrors.location = "State is required";
         if(!name) validationErrors.name = "Name is required";
+        else if(name.length > 60) validationErrors.name = "Name must be 60 characters or less"
         if(about.length < 50) validationErrors.about = "Description must be at least 50 characters";
         if(!type) validationErrors.type = "Group type is required";
         if(!isPrivate) validationErrors.private = "Group privacy is required"
@@ -78,7 +80,10 @@ function UpdateGroup() {
 
         if(!newGroup.id) {
             const { errors } = await newGroup.json();
-            console.log('Error Response', errors);
+            if(errors.city) errors.location = errors.city;
+            if(errors.state) errors.location = errors.location ? errors.location + " " + errors.state : errors.state;
+            setErrors(errors);
+            console.log('Error updating group', errors);
             return;
         }
 

@@ -26,22 +26,51 @@ function CreateGroup() {
     function validateInputs() {
         const validationErrors = {};
         if(!location) validationErrors.location = "Location is required";
+        else if(!location.includes(', ') || location.split(', ')[1].length < 2) validationErrors.location = "State is required";
+
         if(!name) validationErrors.name = "Name is required";
+        else if(name.length > 60) validationErrors.name = "Name must be 60 characters or less"
+
         if(about.length < 50) validationErrors.about = "Description must be at least 50 characters";
         if(!type) validationErrors.type = "Group type is required";
         if(!isPrivate) validationErrors.private = "Group privacy is required"
         if(!imageUrl) validationErrors.imageUrl = "Group image is required"
+
         setErrors(validationErrors);
         return !Object.keys(validationErrors).length;
     }
 
     // when an input is changed, validates all inputs if the submit button has been clicked
     useEffect(() => {
-        if(about.length && about.length < 50) setErrors({about: "Description must be at least 50 characters"});
-        else setErrors({});
+        if(!submitted) {
+            if(about.length && about.length < 50) setErrors({about: "Description must be at least 50 characters"});
+            else setErrors({});
+        }
 
-        if(submitted) {
-            validateInputs();
+        else {
+            const validationErrors = {};
+
+            if(!location) validationErrors.location = "Location is required";
+            else if(!location.includes(', ') || location.split(', ')[1].length < 2) validationErrors.location = "State is required";
+            // else delete validationErrors.location;
+
+            if(!name) validationErrors.name = "Name is required";
+            else if(name.length > 60) validationErrors.name = "Name must be 60 characters or less"
+            // else delete validationErrors.name;
+
+            if(about.length < 50) validationErrors.about = "Description must be at least 50 characters";
+            // else delete validationErrors.about;
+
+            if(!type) validationErrors.type = "Group type is required";
+            // else delete validationErrors.type;
+
+            if(!isPrivate) validationErrors.private = "Group privacy is required"
+            // else delete validationErrors.private;
+
+            if(!imageUrl) validationErrors.imageUrl = "Group image is required"
+            // else delete validationErrors.imageUrl;
+
+            setErrors(validationErrors);
         }
     }, [location, name, about, type, isPrivate, imageUrl, submitted])
 
@@ -69,9 +98,9 @@ function CreateGroup() {
 
         if(!newGroup.id) {
             const { errors } = await newGroup.json();
-            // console.log('Error Response', errors);
             if(errors.city) errors.location = errors.city;
             if(errors.state) errors.location = errors.location ? errors.location + " " + errors.state : errors.state;
+            console.log('Error saving group', errors);
             setErrors(errors);
             return;
         }
