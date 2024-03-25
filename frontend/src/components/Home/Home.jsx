@@ -28,12 +28,12 @@ function Home() {
                 <div className='link-box'>
                     <img className='link-img' src={tempSrc} alt="High Five" />
                     <Link to='/groups'>See all groups</Link>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Check out all the groups, and find one that fits your passion</p>
                 </div>
                 <div className='link-box'>
                     <img className='link-img' src={tempSrc} alt="Ticket" />
                     <Link to='/events'>Find an event</Link>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>See upcoming and past events to find some you are interested in</p>
                 </div>
                 <div className='link-box'>
                     <img className='link-img' src={tempSrc} alt="Group" />
@@ -41,7 +41,7 @@ function Home() {
                         ?   <Link to='/groups/new'>Start a new group</Link>
                         :   <Link className='disabled'>Start a new group</Link>
                     }
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Start a group of your own, where you can host your own events</p>
                 </div>
             </div>
             {

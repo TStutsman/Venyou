@@ -53,9 +53,9 @@ function ProfileButton({ user }) {
           <Link to='/groups' onClick={() => setShowMenu(false)}>Your groups</Link>
         </div>
         <div className='dropdown-section'>
-          <Link>View profile</Link>
-          <Link>Settings</Link>
-          <Link>Help</Link>
+          <Link onClick={() => alert('Feature coming soon...')}>View profile</Link>
+          <Link onClick={() => alert('Feature coming soon...')}>Settings</Link>
+          <Link onClick={() => alert('Feature coming soon...')}>Help</Link>
           <Link onClick={logout}>Log out</Link>
         </div>
       </div>

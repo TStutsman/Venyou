@@ -71,11 +71,11 @@
 
 button.demo {
     background-color: #fff;
-    color: #00798a;
+    color: #945cc2;
     text-decoration: underline;
 }
 
 button.demo:hover {
     background-color: #fff;
-    color: #008fa3;
+    color: #a16bcc;
 }

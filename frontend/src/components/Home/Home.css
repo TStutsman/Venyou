@@ -4,6 +4,10 @@
     align-items: center;
 }
 
+.home-container img {
+    filter: brightness(0) invert(42%) sepia(10%) saturate(3051%) hue-rotate(230deg) brightness(100%) contrast(88%);
+}
+
 .hero {
     width: 70%;
 
@@ -18,8 +22,8 @@
 }
 
 .hero h1 {
-    font-family: 'BeVietnamPro';
-    font-weight: 900;
+    font-family: 'Barrio';
+    font-weight: 400;
     font-size: 40px;
 }
 
@@ -46,16 +50,22 @@ section {
     margin: 0;
 }
 
+.title > h2 {
+    font-family: 'Barrio';
+    font-weight: 400;
+}
+
 .links-wrapper {
     display: flex;
-
-    width: 750px;
+    justify-content: space-between;
+    width: 850px;
 }
 
 .link-box {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 250px;
 }
 
 .link-img {
@@ -64,13 +74,13 @@ section {
 
 .link-box > a {
     text-decoration: none;
-    color: #00798a;
+    color: #945cc2;
 }
 
 .link-box > a:hover {
     text-decoration: underline;
     cursor: pointer;
-    color: #008fa3;
+    color: #a16bcc
 }
 
 a.disabled {
@@ -90,7 +100,7 @@ a.disabled:hover {
 }
 
 .join-venyou {
-    background-color: #00798a;
+    background-color: #945cc2;
     color: #fff;
     border-radius: 8px;
 
@@ -100,5 +110,5 @@ a.disabled:hover {
 }
 
 .join-venyou:hover {
-    background-color: #008fa3;
+    background-color: #a16bcc;
 }

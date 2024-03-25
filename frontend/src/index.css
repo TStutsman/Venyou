@@ -9,13 +9,13 @@ body {
 
 /* Default button styles */
 button {
-    background-color: #00798a;
+    background-color: #945cc2;
     color: #fff;
     border-radius: 8px;
 }
 
 button:hover {
-    background-color: #008fa3;
+    background-color: #a16bcc;
 }
 
 @font-face {

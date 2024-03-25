@@ -40,14 +40,14 @@
 
     font-size: 14px;
 
-    background-color: #00798a;
+    background-color: #945cc2;
     color: #fff;
 
     border-radius: 8px;
 }
 
 .hero-button:hover {
-    background-color: #008fa3;
+    background-color: #a16bcc;
 }
 
 .group-details-wrapper {

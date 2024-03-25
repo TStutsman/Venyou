@@ -45,7 +45,7 @@ button {
 }
 
 .log-in:hover {
-  color: #00798a;
+  color: #945cc2;
   background-color: #fff;
 }
 
@@ -123,7 +123,7 @@ button {
   color: #212121;
 }
 .dropdown-section > a:hover {
-  color: #00798a;
+  color: #945cc2;
   text-decoration: none;
 }
 
