@@ -31,7 +31,7 @@ function EventShow() {
     }, [sessionUser, event])
 
     if(!event || !event.id) return null;
-    const { name, EventImages:images , description, type, price, startDate, endDate, Group:group, Venue:venue } = event;
+    const { name, EventImages:images , description, type, price, startDate, endDate, Group:group } = event;
     const host = group?.Organizer;
     const groupImage = group?.GroupImages?.[0]?.url;
     const [ startDay, startTime ] = formatDate(startDate);
@@ -86,7 +86,7 @@ function EventShow() {
                                 <div className="icon-wrapper">
                                     <i className="fa-2x fa-solid fa-map-pin"/>
                                 </div>
-                                <p>{ type === 'In Person' ? venue?.address : 'Online' }</p>
+                                <p>{ type === 'In Person' ? 'In Person' : 'Online' }</p>
                             </div>
                             { showHostButtons &&
                                 <div className="organizer-buttons">
