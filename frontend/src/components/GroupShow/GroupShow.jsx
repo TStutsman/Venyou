@@ -21,8 +21,8 @@ function GroupShow() {
     }, []);
 
     useEffect(() => {
-        dispatch(getGroupById(groupId));
-        dispatch(getEventsForGroupById(groupId));
+        dispatch(getGroupById(groupId))
+        .then(() => dispatch(getEventsForGroupById(groupId)));
     }, [dispatch, groupId]);
 
     if(!group) return null;
